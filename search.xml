@@ -1,0 +1,1152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>2020-01-27</title>
+    <url>/2020/01/27/2020-01-27/</url>
+    <content><![CDATA[<pre><code>can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+can we reload 2020?
+庚子年一开始就是一杆坏球。
+多希望每天睁眼都还是躺在大学的寝室里面，
+每天和那群朋友上下课，
+每天kobe一直都在湖人打球。
+可现实呢?
+病毒在这个春节到处传播，
+有点丧尸片的味道。
+熟悉的朋友最后一张合照都没有找着。
+这个感觉和之前失去亲人有什么差别呢。
+今天永远的24号又被上帝选走了。
+真是让人难过。</code></pre>]]></content>
+  </entry>
+  <entry>
+    <title>laydate &amp; hiberbate   10/10/2017 PM</title>
+    <url>/2019/12/01/2017-09-24-daily-notes/</url>
+    <content><![CDATA[<p>** laydate时间控件绑定回调事件 **         </p>
+<pre><code>onclick=&quot;laydate({istime: true, format: &apos;YYYY-MM-DD hh:mm:ss&apos;,choose:checkData})&quot;
+
+function checkData(){
+}</code></pre><p>** hibernate 结果转化为List<Map> **</p>
+<pre><code>query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP).list</code></pre>]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>export 9/23/2017 PM</title>
+    <url>/2019/12/01/2017-09-23-daily-notes/</url>
+    <content><![CDATA[<p>** data export in Excel type **         </p>
+<blockquote>
+<p>use POI to export datas of type is List&lt;String,Object&gt;:</p>
+</blockquote>
+<p>  refer to <a href="http://blog.csdn.net/caishancai/article/details/51913711" target="_blank" rel="noopener"><del>this blog</del></a></p>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>timeStamp 9/6/2017 AM</title>
+    <url>/2019/12/01/2017-09-06-daily-notes/</url>
+    <content><![CDATA[<p>** js将秒化成天时分秒 **         </p>
+<pre><code>  function timeStamp( second_time ){  
+
+    var time = parseInt(second_time) + &quot;秒&quot;;  
+    if( parseInt(second_time )&gt; 60){  
+
+    var second = parseInt(second_time) % 60;  
+    var min = parseInt(second_time / 60);  
+    time = min + &quot;分&quot; + second + &quot;秒&quot;;  
+
+    if( min &gt; 60 ){  
+        min = parseInt(second_time / 60) % 60;  
+        var hour = parseInt( parseInt(second_time / 60) /60 );  
+        time = hour + &quot;小时&quot; + min + &quot;分&quot; + second + &quot;秒&quot;;  
+
+        if( hour &gt; 24 ){  
+            hour = parseInt( parseInt(second_time / 60) /60 ) % 24;  
+            var day = parseInt( parseInt( parseInt(second_time / 60) /60 ) / 24 );  
+            time = day + &quot;天&quot; + hour + &quot;小时&quot; + min + &quot;分&quot; + second + &quot;秒&quot;;  
+        }  
+    }   
+}   
+return time;          
+}</code></pre>]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>log 8/31/2017 PM</title>
+    <url>/2019/12/01/2017-08-31-daily-notes/</url>
+    <content><![CDATA[<p>** double类型转换成String多一个.0 **         </p>
+<pre><code> DecimalFormat decimalFormat = new DecimalFormat(&quot;###################.###########&quot;);  
+String str = String.valueOf(decimalFormat.format(number));</code></pre>]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ERROR 8/30/2017 PM</title>
+    <url>/2019/12/01/2017-08-30-daily-notes/</url>
+    <content><![CDATA[<p>** echarts toolbox乱码 **         </p>
+<blockquote>
+<p>以下方式不起作用：</p>
+</blockquote>
+<pre><code>&lt;script src=&quot;echarts.js&quot; charset=&quot;UTF-8&quot;&gt;&lt;/script&gt;</code></pre><p> 原因：当时加入echarts.min.js时，是从浏览器直接全选复制，改变了文件编码，导致toolbox乱码。</p>
+<p>** 进入页面触发select的onchange事件 **     </p>
+<blockquote>
+<p>加载完页面执行一次</p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js中判断数据是否为json格式</title>
+    <url>/2019/12/01/2017-08-29-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li>** js中判断数据是否为json格式 **         </li>
+</ol>
+<p><strong>判断json字符串</strong></p>
+<pre><code>function isJSON(str) {
+    if (typeof str == &apos;string&apos;) {
+        try {
+            var obj=JSON.parse(str);
+            if(str.indexOf(&apos;{&apos;)&gt;-1){
+                return true;
+            }else{
+                return false;
+            }
+
+        } catch(e) {
+            console.log(e);
+            return false;
+        }
+    }
+     return false;
+}</code></pre><p><strong>判断obj</strong></p>
+<pre><code>function isJson(obj){  
+    var isjson = typeof(obj) == &quot;object&quot; &amp;&amp; Object.prototype.toString.call(obj).toLowerCase() == &quot;[object object]&quot; &amp;&amp; !obj.length;   
+    return isjson;  
+}</code></pre>]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>jqGrid记录翻页选中</title>
+    <url>/2019/12/01/2017-08-28-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p>** jqgrid记录翻页选中**         </p>
+<p>设置multiselect=”true”只能记录当前页面选中的选项。</p>
+</li>
+</ol>
+<p>  解决：需要使用onSelectRow()和loadComplrte()两个方法。 </p>
+<pre><code>&lt;script&gt;
+function onSelectRow(rowId, status, e) {
+    if(status){
+        //记录所有选中的选项
+        keepSelectRecord();
+    }else{
+        //删除取消勾选的选项
+        delUnselectRecord(rowId);
+    }
+}
+
+function loadComplete(){//勾选当前页选中行
+    setSelectStatus();
+}
+function keepSelectRecord(){
+    /* 获取此前选中值   */
+    var $nt = $(&quot;#now_selected&quot;).val();
+/*     if($nt != &quot;&quot; &amp;&amp; $nt != null){
+        var $sw = $nt + &quot;,&quot; + rowId;
+        $(&quot;#now_selected&quot;).val($sw);    
+    }else{
+        $(&quot;#now_selected&quot;).val(rowId);
+    }  */
+    var rowId = $(&quot;#userTable&quot;).jqGrid(&quot;getGridParam&quot;,&quot;selrow&quot;); 
+    var question = $(&quot;#userTable&quot;).jqGrid(&quot;getRowData&quot;,rowId);
+    var questionId = question[&quot;id&quot;];
+    var value = &quot;&quot;;
+    var arr = $nt.split(&quot;,&quot;);
+    if(!contains(arr,questionId)){
+        if($nt != &quot;&quot; &amp;&amp; $nt != null){
+            value = $nt + &quot;,&quot; + questionId;
+        }else{
+            value = questionId;
+        }
+        $(&quot;#now_selected&quot;).val(value);    
+    }
+}
+function delUnselectRecord(rowId){
+/*     var $nt = $(&quot;#now_selected&quot;).val();
+    var $sl = $nt.split(&quot;,&quot;);
+    removeUnselectID($sl,rowId);
+    $(&quot;#now_selected&quot;).val($sl.join(&quot;,&quot;)); */
+    var question = $(&quot;#userTable&quot;).jqGrid(&quot;getRowData&quot;, rowId);
+    var questionId = question[&quot;id&quot;];
+    var selectedValue = $(&quot;#now_selected&quot;).val();
+    var str = selectedValue.split(&quot;,&quot;);
+    var selectedValueLast = &quot;&quot;;
+    for (var i = 0; i &lt; str.length; i++) {
+        if (questionId != str[i]) {
+            selectedValueLast = selectedValueLast + str[i] + &quot;,&quot;;
+        }
+    }
+    selectedValueLast = selectedValueLast.substring(0, selectedValueLast.length - 1);
+    /* 将选中的值设置在页面中 */
+    $(&quot;#now_selected&quot;).val(selectedValueLast);
+    console.log($(&quot;#now_selected&quot;).val());
+}
+//删除未选中的行ID
+/* function removeUnselectID(arr,val){
+    for(var i=0; i&lt;arr.length; i++) {
+        if(arr[i] == val) {
+          arr.splice(i, 1);
+          break;
+        }
+      }
+} */
+//判断数组是否包含元素
+function contains(arr,obj){
+    var i = arr.length;
+    while(i--){
+        if(arr[i] === obj){
+            return true;
+        }
+    }
+    return false;
+}
+function setSelectStatus(){
+     var selectedValue = $(&quot;#now_selected&quot;).val();
+        /* 选中项是否为空 */
+        if (selectedValue != null &amp;&amp; selectedValue != &quot;&quot;) {
+            var ids = $(&quot;#userTable&quot;).jqGrid(&quot;getDataIDs&quot;);//获取所有行号
+            var str = selectedValue.split(&quot;,&quot;);
+            for (var i = 0; i &lt; ids.length; i++) {
+                var question = $(&quot;#userTable&quot;).jqGrid(&quot;getRowData&quot;, ids[i]);
+                var questionId = question[&quot;id&quot;];
+                for (var j = 0; j &lt; str.length; j++) {
+                    if (questionId == str[j]) {
+                        //相等时当前项选中
+                         /* $(&quot;#userTable&quot;).setSelection(i*1+1,true);  */
+                         $(&quot;#userTable&quot;).jqGrid(&apos;setSelection&apos;, str[j], true); 
+                    }
+                }
+            }
+        }
+}
+&lt;/script&gt;</code></pre><p> /* $(“#userTable”).setSelection(i*1+1,true);  */此方法无效</p>
+<p><a href="https://stackoverflow.com/questions/23948447/jqgrid-setselection-true-not-work" target="_blank" rel="noopener">jqGrid setselection true not work</a></p>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>java定时任务</title>
+    <url>/2019/12/01/2017-08-25-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><strong>java定时任务</strong>         </li>
+</ol>
+<p>场景：向App推送消息需要延迟将消息数据插入数据库，不然消息列表显示未推送的消息</p>
+<ul>
+<li><a href="http://wiki.jikexueyuan.com/project/java-enhancement/java-add1.html" target="_blank" rel="noopener"><del>详解java定时任务–(在指定时间执行定时任务)</del></a></li>
+</ul>
+<ul>
+<li>查询消息列表时候时间小于当前时间…     </li>
+</ul>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>validate自定义验证</title>
+    <url>/2019/12/01/2017-08-24-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>validate自定义验证</strong>         </p>
+<pre><code>$.validator.addMethod(
+ &quot;timeNotNull&quot;, //验证方法名称
+ function(value, element, param) {//验证规则
+     if($(&quot;#unlimited&quot;).is(&apos;:checked&apos;)){
+         return true;
+     }
+     if($(&quot;#begin_time&quot;).val() != &apos;&apos;){
+         return true;
+     }
+     return false;
+ },
+ &apos;不能为空&apos;//验证提示信息
+ );
+ $.validator.addMethod(
+         &quot;userNotNull&quot;, //验证方法名称
+         function(value, element, param) {//验证规则
+             if($(&quot;#unlimited2&quot;).is(&apos;:checked&apos;)){
+                 return true;
+             }
+             if($(&quot;#company&quot;).val() != null ){
+                 return true;
+             }
+             return false;
+         },
+         &apos;不能为空&apos;//验证提示信息
+ );</code></pre></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>$.unique</title>
+    <url>/2019/12/01/2017-08-21-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>在js中去掉数组中重复ID</strong>         </p>
+<blockquote>
+<p><a href="http://www.360doc.com/content/14/1021/21/18139076_418778901.shtml" target="_blank" rel="noopener">$.unique()用法</a></p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>clearInputFile</title>
+    <url>/2019/12/01/2017-08-23-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>在js中去掉清空input file选择的文件</strong>         </p>
+<pre><code>  &lt;form class=&quot;form-search&quot; enctype=&quot;multipart/form-data&quot; id=&quot;importForm&quot; method=&quot;post&quot;&gt;
+    &lt;ul class=&quot;editorbox&quot;&gt;
+        &lt;li&gt;&lt;input type=&quot;file&quot; name=&quot;importFile&quot; id=&quot;uploadFile&quot;/&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a id=&quot;downLoad&quot; onclick=&quot;downloadExcel();&quot;&gt;点击下载模版&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/form&gt;
+//第一种方法
+     var obj = document.getElementById(&apos;uploadFile&apos;) ; 
+     obj.select(); 
+       document.selection.clear();
+//第二种方法
+    var obj = document.getElementById(&apos;uploadFile&apos;) ; 
+    obj.outerHTML=obj.outerHTML; </code></pre></li>
+</ol>
+<blockquote>
+<p><a href="http://www.cnblogs.com/theWayToAce/p/5591221.html" target="_blank" rel="noopener"><strong>can’t use $(‘uploadFile’)</strong></a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js + echartsInit+jqgridInit</title>
+    <url>/2019/12/01/2017-08-18-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>在js中操作json</strong>         </p>
+<pre><code>var jsonData = $(&quot;#editForm&quot;).formToJson();
+//checkBox的值
+var val=&quot;&quot;;
+var obj=$(&apos;input[name=&quot;answer&quot;]&apos;);
+for(k in obj){
+    if(obj[k].checked)
+        val=val+(obj[k].value)+&quot;,&quot;;
+}
+val=val.substring(0,val.length-1);
+jsonData.val = val;</code></pre></li>
+<li><p><strong>选项回填checkBox</strong></p>
+<pre><code>var rowData = $(&quot;#userTable&quot;).jqGrid(&quot;getRowDataById&quot;, rowId);
+$.FormUtils.fillFormData(&quot;#editForm&quot;, rowData);//填充表单
+var temp = $(&quot;#editAnswer&quot;).val();
+var $temp = temp.split(&quot;,&quot;);
+for(var i=0;i&lt;$temp.length;i++){
+    if($temp[i] == &quot;A&quot;){
+        $(&apos;input:checkbox&apos;).eq(0).attr(&apos;checked&apos;, &apos;true&apos;);
+    }else if($temp[i] == &quot;B&quot;){
+        $(&apos;input:checkBox&apos;).eq(1).attr(&apos;checked&apos;, &apos;true&apos;);
+    }else if($temp[i] == &quot;C&quot;){
+        $(&apos;input:checkBox&apos;).eq(2).attr(&apos;checked&apos;, &apos;true&apos;);
+    }else if($temp[i] == &quot;D&quot;){
+        $(&apos;input:checkBox&apos;).eq(3).attr(&apos;checked&apos;, &apos;true&apos;);
+    }
+}</code></pre></li>
+<li><p><strong>初始化jqgrid</strong></p>
+<pre><code>$.ajax({
+ url:App.ctx+&quot;/admin/statistics/initList&quot;,
+ type:&quot;post&quot;,
+ success:function(data){
+     var cols = [];
+     var model = [];
+     var $cols_ = [];
+     var $model_ = [];
+     var $cols = [];
+     var $model = [];
+     $.each(data[0],function(key,value){
+         if(key == &quot;时间段&quot;){
+             $cols.push(key);
+             $model.push({
+                 name:key,
+                 index:key,
+                 width:220,
+                 align:&apos;left&apos;
+             }); 
+         }else if(key == &quot;问题总数&quot;){
+              $cols.push(key);
+              $model.push({
+                 name:key,
+                 index:key,
+                 width:150
+             }); 
+         }else{
+              $cols_.push(key);
+              $model_.push({
+                 name:key,
+                 index:key,
+                 width:150
+             }); 
+         }
+     });
+     cols = $cols.concat($cols_);
+     model = $model.concat($model_);
+     initPage(data,cols,model);
+ }
+});
+ function initPage(data,cols,model){
+     $(&quot;#businessTable&quot;).jqGrid({   
+            datatype:&quot;json&quot;,
+            colNames: cols,
+            colModel: model, 
+            pager: &quot;#pager2&quot;,
+            rowNum: 10,
+            rowList: [10, 20, 30],
+            sortname: &quot;id&quot;,
+            sortorder: &quot;desc&quot;,
+            viewrecords: true,
+            gridview: true,
+            autoencode: true,
+            height:&quot;auto&quot;,
+            caption: &quot;业务问题统计&quot;,
+            autoWidth:&quot;true&quot;
+        });  
+            for (var i = 0; i &lt;1; i++) {   
+         $(&quot;#businessTable&quot;).jqGrid(&apos;addRowData&apos;, i + 1, data[i]);  
+        }   
+ }</code></pre></li>
+<li><p><strong>初始化echarts</strong></p>
+<pre><code>$.ajax({
+     url:App.ctx+&quot;/admin/statistics/initEcharts&quot;,
+     type:&quot;post&quot;,
+     success:function(data){
+         var temp = [];
+         var datas = [];
+         for(var i=0;i&lt;data.length;i++){
+             temp.push(data[i].name);
+         }
+         initEcharts(temp,data); 
+     }
+
+ });
+ function initEcharts(temp,data){
+    // 基于准备好的dom，初始化echarts实例
+     var myChart = echarts.init(document.getElementById(&apos;echart&apos;));
+     // 指定图表的配置项和数据
+     var option = {
+             title : {
+                    text: &apos;业务问题数量统计&apos;,
+                    subtext: &apos;专业类型&apos;,
+                    x:&apos;center&apos;
+                },
+                tooltip : {
+                    trigger: &apos;item&apos;,
+                    formatter: &quot;{a} &lt;br/&gt;{b} : {c} ({d}%)&quot;
+                },
+                legend: {
+                    orient: &apos;vertical&apos;,
+                    left: &apos;left&apos;,
+                    data: temp
+                },
+                series : [
+                    {
+                        name: &apos;专业类型&apos;,
+                        type: &apos;pie&apos;,
+                        radius : &apos;55%&apos;,
+                        center: [&apos;50%&apos;, &apos;60%&apos;],
+                        data:data,
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: &apos;rgba(0, 0, 0, 0.5)&apos;
+                            }
+                        }
+                    }
+                ]
+     };
+
+     // 使用刚指定的配置项和数据显示图表。
+     myChart.setOption(option);</code></pre></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>swagger + springmvc</title>
+    <url>/2019/12/01/2017-08-17-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>No operations defined in spec!</strong>         </p>
+<blockquote>
+<p>use <a href="https://github.com/swagger-api/swagger-ui/tree/v2.2.10" target="_blank" rel="noopener">swagger v2</a></p>
+</blockquote>
+</li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>time &amp;&amp; select2初始化</title>
+    <url>/2019/12/01/2017-08-16-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>开始时间和用时得到结束时间：</strong></p>
+<pre><code>//计算结束时间 
+if (exam.getBegin_time() != null) {
+    Date date = exam.getBegin_time();
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(date);
+    if (exam.getDuration() != null) {
+        cal.add(Calendar.MINUTE, exam.getDuration());
+        date = cal.getTime();
+        exam.setEnd_time(date);
+    }
+}</code></pre></li>
+</ol>
+<ol>
+<li><p><strong>select2控件初始化填入数据</strong></p>
+<pre><code>$(&quot;#company&quot;).select2({
+placeholder:&quot;选择公司&quot;,
+initSelection:function (element , callback) {
+    $(&quot;#company&quot;).empty();
+    $(&quot;#department&quot;).empty();
+    $(&quot;#userids&quot;).empty();
+    var id = $(&quot;#companyID&quot;).val().split(&quot;,&quot;);
+    var text = $(&quot;#companyName&quot;).val().split(&quot;,&quot;);
+    if(!id){ 
+        callback([]);
+           return ;
+    }
+    var temp = [];
+    var obj;
+    for(var i = 0;i&lt;id.length;i++){
+        obj = new Object();
+        obj.id = id[i];
+        obj.text = text[i];
+        temp.push(obj);
+    }
+    callback(temp);
+} ,
+ajax:{
+    url: App.ctx + &quot;/admin/testPaper/companyListSelectJson&quot;,
+    type: &quot;post&quot;,
+    data: function(params) {
+        return {
+            page: 1,
+            rows: 20,
+            username: params.term
+            }
+     },
+    processResults: function (data, params) {
+         params.page = params.page || 1;
+            var dataList = $.map(data, function (obj) {
+                obj.id = obj[&quot;id&quot;];
+                obj.text = obj[&quot;name&quot;];
+                return obj;
+         });
+         return {
+            results: dataList,
+            pagination: {
+                more: (params.pageStart * 10) &lt; data[&quot;totalCount&quot;]
+             }
+         };
+    }
+}
+})           </code></pre></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>FileHelper工具类</title>
+    <url>/2019/12/01/2017-08-15-daily-notes/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>下载服务器文件工具类：</strong></p>
+<pre><code>      public static void downloadFile(HttpServletRequest request,HttpServletResponse response,StringBuilder uri)   throws IOException {  
+      //获取服务其上的文件名称  
+      StringBuffer filename = new StringBuffer();  
+      filename.append(request.getSession().getServletContext().getRealPath(&quot;/&quot;));  
+      filename.append(&quot;download/&quot;);
+      filename.append(uri);  
+      File file = new File(filename.toString());  
+
+      StringBuffer sb = new StringBuffer();  
+      sb.append(&quot;attachment;  filename=&quot;).append(uri.substring(uri.lastIndexOf(&quot;//&quot;)+1));  
+      response.setHeader(&quot;Expires&quot;, &quot;0&quot;);  
+      response.setHeader(&quot;Cache-Control&quot;,&quot;must-revalidate, post-check=0, pre-check=0&quot;);  
+      response.setHeader(&quot;Pragma&quot;, &quot;public&quot;);  
+      response.setContentType(&quot;application/x-msdownload;charset=UTF-8&quot;);  
+      FileInputStream inputStream = null;
+      OutputStream outputStream = null;
+      try{
+          response.setHeader(&quot;Content-Disposition&quot;, new String( sb.toString().getBytes(), &quot;ISO8859-1&quot;));  
+
+          //将此文件流写入到response输出流中  
+          inputStream = new FileInputStream(file);  
+          outputStream = response.getOutputStream();   
+          byte[] buffer = new byte[1024];  
+          int i = -1;  
+          while ((i = inputStream.read(buffer)) != -1) {  
+              outputStream.write(buffer, 0, i);  
+          }  
+          outputStream.flush();  
+          outputStream.close();
+          inputStream.close();  
+      }catch(IOException e){
+          e.printStackTrace();
+          throw e; 
+      }finally{
+          if(outputStream!=null){
+              outputStream.flush();  
+              outputStream.close();
+          }
+          if(inputStream!=null){
+              inputStream.close();  
+          }                     
+      }     
+}  </code></pre></li>
+<li><p><strong>完整</strong></p>
+<pre><code>public final class FileHelper {
+
+public FileHelper() {
+}
+
+private static ConfigManager cfg = ConfigManager.getInstance();
+
+/**
+ * 获取web app的用户文件根目录
+ * 
+ * @return String
+ * @throws BaseAppException
+ */
+public static String getCreateFileRootDir() throws BaseAppException {
+    String path = cfg.getPropertyAsString(&quot;FILE_LOG_CFG&quot;,
+            &quot;SaveFileRootPath&quot;);
+    return path;
+}
+
+/**
+ * 设置文件每个sheet页最大记录数
+ * 
+ * @return String
+ * @throws BaseAppException
+ */
+public static int getCreateFileSheetPageSize() throws BaseAppException {
+    int sheetPageSize = Integer.parseInt(ConfigManager.getInstance()
+            .getPropertyAsString(&quot;FILE_LOG_CFG&quot;, &quot;SheetPageSize&quot;));
+    return sheetPageSize;
+}
+
+/**
+ * 获取web app的用户文件根目录
+ * 
+ * @return String
+ * @throws BaseAppException
+ */
+public static String getUploadFileRoot() throws BaseAppException {
+    String path = cfg.getPropertyAsString(&quot;FILE_UPLOAD_CFG&quot;,
+            &quot;SaveFileRootPath&quot;);
+    return path;
+}
+
+/**
+ * 设置系统上传文件大小
+ * 
+ * @return String
+ * @throws BaseAppException
+ */
+public static int getUploadFileLimitSize() throws BaseAppException {
+    int fileLimitSize = Integer.parseInt(cfg.getPropertyAsString(
+            &quot;FILE_UPLOAD_CFG&quot;, &quot;FileLimitSize&quot;));
+    return fileLimitSize;
+}
+
+/**
+ * 设置系统上传文件的内容记录数大小
+ * 
+ * @return String
+ * @throws BaseAppException
+ */
+public static int getUploadFileRecLimitSize() throws BaseAppException {
+    try {
+        int fileRecLimitSize = Integer.parseInt(cfg.getPropertyAsString(
+                &quot;FILE_UPLOAD_CFG&quot;, &quot;RecordLimitSize&quot;));
+        return fileRecLimitSize;
+    } catch (NumberFormatException ex) {
+        throw ExceptionHandler.publish(ErrorCode.ERROR_CONFIG_PARAM_VALUE,
+                ex);
+    }
+
+}
+
+public static boolean move(String srcFile, String srcWithFolder,
+        String destPath) {
+    // Destination directory
+    File dir = new File(destPath);
+    dir.deleteOnExit();
+    dir.mkdir();
+
+    if (!move(srcWithFolder, destPath))
+        return false;
+
+    // Move file to new directory
+    File file = new File(srcFile);
+    for (File f : file.listFiles()) {
+        if (f.isFile()) {
+            if (!move(f, destPath))
+                return false;
+        }
+    }
+    return true;
+}
+
+public static boolean moveFiles(String srcFile,String destPath) {
+    // Destination directory
+    File dir = new File(destPath);
+    dir.deleteOnExit();
+    dir.mkdir();
+
+    // Move file to new directory
+    File file = new File(srcFile);
+    for (File f : file.listFiles()) {
+        if (f.isFile()) {
+            if (!move(f, destPath))
+                return false;
+        }
+    }
+    return true;
+}
+
+public static boolean move(File srcFile, String destPath) {
+    // Destination directory
+    File dir = new File(destPath);
+    File newFile = new File(dir, srcFile.getName());
+    if (newFile.exists()) {
+        //System.out.println(&quot;file=&quot; + newFile.getAbsolutePath() + &quot; exist.now delete &quot;);
+        newFile.delete();
+    }
+    // Move file to new directory
+    boolean success = srcFile.renameTo(newFile);
+    //System.out.println(&quot;sucess:&quot; + success);
+    return success;
+}
+
+public static boolean move(String srcFile, String destPath) {
+    // File (or directory) to be moved
+    File file = new File(srcFile);
+
+    // Destination directory
+    File dir = new File(destPath);
+
+    // if file exist delete
+    File newFile = new File(dir, file.getName());
+    if (newFile.exists() &amp;&amp; newFile.isDirectory())
+        delFolder(newFile.getAbsolutePath());
+
+    // Move file to new directory
+    boolean success = file.renameTo(newFile);
+
+    return success;
+}
+
+public static void copy(String oldPath, String newPath) throws Exception {
+    int bytesum = 0;
+    int byteread = 0;
+    File oldfile = new File(oldPath);
+    if (oldfile.exists()) {
+        InputStream inStream = new FileInputStream(oldPath);
+        FileOutputStream fs = new FileOutputStream(newPath);
+        byte[] buffer = new byte[1444];
+        int length;
+        while ((byteread = inStream.read(buffer)) != -1) {
+            bytesum += byteread;
+            // System.out.println(bytesum);
+            fs.write(buffer, 0, byteread);
+        }
+        inStream.close();
+    }
+}
+
+/**
+ * 拷贝文件
+ * 
+ * @param oldfile
+ * @param newPath
+ * @throws Exception
+ */
+public static void copy(File oldfile, String newPath) throws Exception {
+    int bytesum = 0;
+    int byteread = 0;
+    // File oldfile = new File(oldPath);
+    FileOutputStream fs = null;
+    InputStream inStream = null;
+    try {
+        if (oldfile.exists()) {
+            inStream = new FileInputStream(oldfile);
+            fs = new FileOutputStream(newPath);
+            byte[] buffer = new byte[1444];
+            while ((byteread = inStream.read(buffer)) != -1) {
+                bytesum += byteread;
+                fs.write(buffer, 0, byteread);
+            }
+        }
+    } finally {
+        if (inStream != null) {
+            inStream.close();
+        }
+        if (fs != null) {
+            fs.close();
+        }
+    }
+}
+
+/**
+ * 删除文件夹
+ * @param folderPath 文件夹完整绝对路径
+ */
+public static void delFolder(String folderPath) {
+    try {
+        delAllFile(folderPath); // 删除完里面所有内容
+        String filePath = folderPath;
+        filePath = filePath.toString();
+        java.io.File myFilePath = new java.io.File(filePath);
+        myFilePath.delete(); // 删除空文件夹
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+/**
+ * 删除指定文件夹下所有文件
+ * @param path 文件夹完整绝对路径
+ */
+public static boolean delAllFile(String path) {
+    boolean flag = false;
+    File file = new File(path);
+    if (!file.exists()) {
+        return flag;
+    }
+    if (!file.isDirectory()) {
+        return flag;
+    }
+    String[] tempList = file.list();
+    File temp = null;
+    for (int i = 0; i &lt; tempList.length; i++) {
+        if (path.endsWith(File.separator)) {
+            temp = new File(path + tempList[i]);
+        } else {
+            temp = new File(path + File.separator + tempList[i]);
+        }
+        if (temp.isFile()) {
+            temp.delete();
+        }
+        if (temp.isDirectory()) {
+            delAllFile(path + &quot;/&quot; + tempList[i]);// 先删除文件夹里面的文件
+            delFolder(path + &quot;/&quot; + tempList[i]);// 再删除空文件夹
+            flag = true;
+        }
+    }
+    return flag;
+}
+
+/** 
+ * 将指定文件夹打包成zip 
+ * @param folder 
+ * @throws IOException  
+ */  
+public static void zipFile(String folder) throws IOException {  
+    File zipFile = new File(folder + &quot;.zip&quot;);  
+    if (zipFile.exists()) {  
+        zipFile.delete();  
+    } 
+    ZipOutputStream zipout = null;
+    FileInputStream fileInputStream = null;
+    BufferedInputStream origin = null;//刚增加
+    try{
+        zipout = new ZipOutputStream(new FileOutputStream(zipFile));  
+        File dir = new File(folder);  
+        File[] fs = dir.listFiles();  
+        byte[] buf = null;  
+        if(fs!=null){  
+            for (File f : fs) {  
+                zipout.putNextEntry(new ZipEntry(f.getName()));  
+                fileInputStream = new FileInputStream(f);  
+                buf = new byte[2048];  
+                origin = new BufferedInputStream(fileInputStream,2048);  
+                int len;  
+                while ((len = origin.read(buf,0,2048))!=-1) {  
+                    zipout.write(buf,0,len);  
+                }  
+            }
+                zipout.flush();  
+                origin.close(); //刚增加
+                fileInputStream.close();
+            zipout.close(); 
+        }  
+    }
+    catch(IOException e){
+        e.printStackTrace();
+        throw e; 
+    }finally{
+        if(zipout!=null){
+            zipout.flush();  
+            zipout.close(); 
+        }
+        if(origin!=null){ //刚增加
+            origin.close(); 
+        }    
+        if(fileInputStream!=null){
+            fileInputStream.close();  
+        }
+    }
+
+}  
+｝</code></pre></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>poi操作</title>
+    <url>/2019/12/01/2017-08-14-notes-js/</url>
+    <content><![CDATA[<ol>
+<li><p><strong>粗线错误：</strong></p>
+<pre><code>` [Deprecation] Synchronous XMLHttpRequest on the main thread is         deprecated because of its detrimental effects to the end user&apos;s     experience`</code></pre></li>
+</ol>
+<p><strong>解决：</strong><br>在页面中的ajax中加上async: true，即使ajax默认的async是true</p>
+<ol>
+<li><p><strong>ajax+validate</strong></p>
+<pre><code>`$(&quot;#formID&quot;).validate({
+onsubmit : true,// 是否在提交是验证
+onfocusout : false,// 是否在获取焦点时验证
+onkeyup : false,// 是否在敲击键盘时验证
+errorClass : &quot;invalid&quot;,//错误信息样式
+rules: {　　　　//规则
+    ...
+},
+messages:{　　　　//验证错误信息
+    ...
+},
+errorPlacement : function(error,element){
+    error.appendTo(element.parent());//修改错误信息位置
+},
+submitHandler: function(form) { //通过之后回调 
+    //进行ajax传值
+},
+invalidHandler: function(form, validator) {
+    return false;
+}</code></pre><p> });<br> function submitPaper(){</p>
+<pre><code>$(&quot;#formID&quot;).submit();</code></pre><p> }</p>
+<p> 参考地址：<a href="http://blog.csdn.net/aaa1117a8w5s6d/article/details/17281683" target="_blank" rel="noopener">link</a>`</p>
+</li>
+<li><p><strong>poi</strong></p>
+<pre><code>//获取WorkBook
+private Workbook getWorkbook(MultipartFile  file){
+try {
+    //判断Excel版本
+    if (file.getOriginalFilename().endsWith(&quot;xls&quot;)) {
+         //根据指定的文件输入流导入Excel从而产生Workbook对象
+        return new HSSFWorkbook(file.getInputStream());
+        } else if (file.getOriginalFilename().endsWith(&quot;xlsx&quot;)) {
+        return new XSSFWorkbook(file.getInputStream());
+        }
+}catch(IOException e){
+}
+return null;
+}
+//取读Excel时判断单元格格式
+public static Object getcellValue(HSSFCell cell){
+
+String cellValue = &quot;&quot;;
+if (cell == null)
+return cellValue;
+SimpleDateFormat sdf = new SimpleDateFormat();
+  int type = cell.getCellType();
+  switch(type)
+{
+case 3: 
+return &quot;&quot;;
+
+case 4: 
+return (Boolean)cell.getBooleanCellValue();
+
+case 5: 
+return &quot;#ERR&quot; + cell.getErrorCellValue();
+
+case 2: 
+return cell.getCellFormula();
+
+case 0: 
+if(HSSFDateUtil.isCellDateFormatted(cell))
+{
+
+return sdf.format(cell.getDateCellValue());
+} else
+{
+return (Double)cell.getNumericCellValue();
+}
+
+case 1: 
+return cell.getRichStringCellValue().getString();
+}
+return &quot;Unknown Cell Type: &quot; + cell.getCellType();
+
+ }
+
+//循环获取
+try {
+//获取workbook
+Workbook workbook=getWorkbook(file);
+//获取Excel文档中的表单(即sheet)参数表示第几个sheet
+Sheet sht0=workbook.getSheetAt(0);
+for (Row r : sht0) {
+    if(r.getRowNum()&lt;1){
+        continue;
+        ...
+    file.getInputStream().close();
+} catch (IOException e) {
+    e.printStackTrace();
+}</code></pre></li>
+</ol>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>centos</title>
+    <url>/2019/12/01/2017-08-11-centos-markdown/</url>
+    <content><![CDATA[<ul>
+<li><p>在virtualBox上安装了centos7，终端的ifconfig命令没有    inet addr,只有inet这样xshell无法连接系统，需要把虚拟机的网路连接方式改为桥接网卡，就会给系统分配一个ip,成功连接.</p>
+</li>
+<li><p><a href="http://www.appinn.com/markdown/" target="_blank" rel="noopener">markdown</a></p>
+</li>
+<li><p><a href="https://en.wikipedia.org/wiki/Markdown#Example" target="_blank" rel="noopener">markdown wiki</a></p>
+</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java反模式</title>
+    <url>/2019/12/01/2017-08-10-optimize/</url>
+    <content><![CDATA[<ul>
+<li>看到一篇<a href="http://macrochen.iteye.com/blog/1393502/" target="_blank" rel="noopener" title="OPTIMIZE">blog</a></li>
+<li>Need Code refactoring.</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>optimize</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Structure Notes</title>
+    <url>/2019/12/01/2017-08-09-structure-notes/</url>
+    <content><![CDATA[<p>[<img src="/media/files/2017/08/09/notes.png" alt="notes">]</p>
+<ul>
+<li>太懒了贴个照片</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>notes</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>join 9/28/2017 AM</title>
+    <url>/2019/12/01/2017-09-25-daily-notes/</url>
+    <content><![CDATA[<p>** nomal join **         </p>
+<pre><code>//        String[] arr = questions.split(&quot;,&quot;, -1);
+//        for (String s : arr) {
+//            op += &quot;&apos;&quot; + s + &quot;&apos;,&quot;;
+//        }
+//        if(op.length() &gt; 0){
+//            op = op.substring(0, op.length()-1);
+//        }</code></pre><p>** shorter **</p>
+<pre><code>String op = String.join(&quot;,&quot;, Arrays.stream(exam.getQuestions().split(&quot;,&quot;, -1)).map(s -&gt; &quot;&apos;&quot; + s + &quot;&apos;&quot;).collect(Collectors.toList()));</code></pre><p>** joiner **</p>
+<pre><code>//ArrayToString
+String str = Joiner.on(&quot;,&quot;).join(res); </code></pre>]]></content>
+      <tags>
+        <tag>notes</tag>
+        <tag>daily</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2017</title>
+    <url>/2019/12/01/2017-08-08-begin/</url>
+    <content><![CDATA[<ul>
+<li>6月毕了业，很多事想做还没做</li>
+<li>有些后悔</li>
+<li>要是</li>
+<li>能早些毕业就好了</li>
+</ul>
+]]></content>
+  </entry>
+</search>
