@@ -99,13 +99,14 @@
 
 
 
-<meta name="description" content="世上所有的相遇都是久别重逢">
-<meta property="og:type" content="website">
-<meta property="og:title" content="TANAGELEE">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2020&#x2F;01&#x2F;index.html">
+<meta name="description" content="类加载过程中成员变量的初始化顺序：初始化顺序可简记为：父静态-&amp;gt;子静态-&amp;gt;父实例变量-&amp;gt;父构造–&amp;gt;子实例变量-&amp;gt;子构造 类加载器BootStrapClassLoader：启动类加载器该ClassLoader由jvm在启动时创建，负责加载 $JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;rt.jar包下的核心类。由于启动类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java类加载过程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;06&#x2F;15&#x2F;2020-06-015-daily-notes&#x2F;index.html">
 <meta property="og:site_name" content="TANAGELEE">
-<meta property="og:description" content="世上所有的相遇都是久别重逢">
+<meta property="og:description" content="类加载过程中成员变量的初始化顺序：初始化顺序可简记为：父静态-&amp;gt;子静态-&amp;gt;父实例变量-&amp;gt;父构造–&amp;gt;子实例变量-&amp;gt;子构造 类加载器BootStrapClassLoader：启动类加载器该ClassLoader由jvm在启动时创建，负责加载 $JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;rt.jar包下的核心类。由于启动类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类">
 <meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2020-09-07T16:20:47.768Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -136,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2020/01/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/06/15/2020-06-015-daily-notes/"/>
 
 
 
 
 
-  <title>歸檔 | TANAGELEE</title>
+  <title>Java类加载过程 | TANAGELEE</title>
   
 
 
@@ -165,7 +166,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -303,74 +304,160 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共計 24 篇文章。 繼續努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2020">2020</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/15/2020-06-015-daily-notes/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TANAGELEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANAGELEE">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2020/01/27/2020-01-27/" itemprop="url">
-              
-                <span itemprop="name">2020-01-27</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Java类加载过程</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2020-01-27T23:40:28+08:00"
-              content="2020-01-27" >
-          01-27
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-06-15T20:30:00+08:00">
+                2020-06-15
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h5 id="类加载过程中成员变量的初始化顺序："><a href="#类加载过程中成员变量的初始化顺序：" class="headerlink" title="类加载过程中成员变量的初始化顺序："></a>类加载过程中成员变量的初始化顺序：</h5><p>初始化顺序可简记为：父静态-&gt;子静态-&gt;父实例变量-&gt;父构造–&gt;子实例变量-&gt;子构造</p>
+<h5 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h5><h6 id="BootStrapClassLoader：启动类加载器"><a href="#BootStrapClassLoader：启动类加载器" class="headerlink" title="BootStrapClassLoader：启动类加载器"></a>BootStrapClassLoader：启动类加载器</h6><p>该ClassLoader由jvm在启动时创建，负责加载 $JAVA_HOME/jre/lib/rt.jar包下的核心类。由于启动类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类加载器的对象实例，所以不能直接使用BootStrapClassLoader类。</p>
+<h6 id="ExtClassLoader：扩展类加载器"><a href="#ExtClassLoader：扩展类加载器" class="headerlink" title="ExtClassLoader：扩展类加载器"></a>ExtClassLoader：扩展类加载器</h6><p>该ClassLoader是在sun.misc.Launcher里作为一个内部类ExtClassLoader定义的（即 sun.misc.Launcher$ExtClassLoader），负责加载 $JAVA_HOME/jre/lib/ext/*.jar包下的扩展类。</p>
+<h6 id="AppClassLoader：应用类加载器"><a href="#AppClassLoader：应用类加载器" class="headerlink" title="AppClassLoader：应用类加载器"></a>AppClassLoader：应用类加载器</h6><p>该ClassLoader同样是在sun.misc.Launcher里作为一个内部类AppClassLoader定义的，AppClassLoader会加载java环境变量CLASSPATH所指定路径下的类，而CLASSPATH所指定的路径可以通过System.getProperty(“java.class.path”)获取。</p>
+<h6 id="CustomClassLoader：自定义类加载器"><a href="#CustomClassLoader：自定义类加载器" class="headerlink" title="CustomClassLoader：自定义类加载器"></a>CustomClassLoader：自定义类加载器</h6><p>该ClassLoader是指我们自定义的ClassLoader，比如tomcat的StandardClassLoader属于这一类</p>
+<h5 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h5><p>双亲委派的原理：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委托给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中。<br>只有当父类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需要加载的类）时，子加载器才会尝试自己去加载。这种从下往上委托，再从上向下加载的过程叫作双亲委派机制</p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/01/27/2020-01-27/" rel="next" title="2020-01-27">
+                <i class="fa fa-chevron-left"></i> 2020-01-27
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/09/05/2020-09-07-daily-notes/" rel="prev" title="flink相关">
+                flink相关 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -378,6 +465,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -398,8 +489,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -464,6 +564,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#类加载过程中成员变量的初始化顺序："><span class="nav-number">1.</span> <span class="nav-text">类加载过程中成员变量的初始化顺序：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#类加载器"><span class="nav-number">2.</span> <span class="nav-text">类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#BootStrapClassLoader：启动类加载器"><span class="nav-number">2.1.</span> <span class="nav-text">BootStrapClassLoader：启动类加载器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ExtClassLoader：扩展类加载器"><span class="nav-number">2.2.</span> <span class="nav-text">ExtClassLoader：扩展类加载器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#AppClassLoader：应用类加载器"><span class="nav-number">2.3.</span> <span class="nav-text">AppClassLoader：应用类加载器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#CustomClassLoader：自定义类加载器"><span class="nav-number">2.4.</span> <span class="nav-text">CustomClassLoader：自定义类加载器</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#双亲委派机制"><span class="nav-number">3.</span> <span class="nav-text">双亲委派机制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -617,6 +733,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

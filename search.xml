@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>flink相关</title>
+    <url>/2020/09/05/2020-09-07-daily-notes/</url>
+    <content><![CDATA[<h5 id="三种部署模式："><a href="#三种部署模式：" class="headerlink" title="三种部署模式："></a>三种部署模式：</h5><p>standAlone 、yarn模式(yarn模式又分为yarn-session模式和yarn-cluster模式)</p>
+<h5 id="standAlone"><a href="#standAlone" class="headerlink" title="standAlone"></a>standAlone</h5><ul>
+<li>基于slot资源控制，实现内存隔离 </li>
+</ul>
+<h5 id="yarn-session模式-（可实现rest-api提交）："><a href="#yarn-session模式-（可实现rest-api提交）：" class="headerlink" title="yarn-session模式 （可实现rest api提交）："></a>yarn-session模式 （可实现rest api提交）：</h5><ul>
+<li><p>启动集群 -&gt; 启动任务</p>
+</li>
+<li><p>在yarn中初始化一个flink集群，开辟指定的资源，以后提交任务都向这里提交。这个flink集群会常驻在yarn集群中，除非手工停止。</p>
+</li>
+<li><p>内存隔离和cpu隔离 （依赖 linux内核的cgroup功能）</p>
+</li>
+</ul>
+<h5 id="yarn-cluster模式（没有rest-api提交）："><a href="#yarn-cluster模式（没有rest-api提交）：" class="headerlink" title="yarn-cluster模式（没有rest api提交）："></a>yarn-cluster模式（没有rest api提交）：</h5><ul>
+<li><p>一个任务一个集群</p>
+</li>
+<li><p>每次提交都会创建一个新的flink集群，任务之间互相独立，互不影响，方便管理。任务执行完成之后创建的集群也会消失。</p>
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Java类加载过程</title>
+    <url>/2020/06/15/2020-06-015-daily-notes/</url>
+    <content><![CDATA[<h5 id="类加载过程中成员变量的初始化顺序："><a href="#类加载过程中成员变量的初始化顺序：" class="headerlink" title="类加载过程中成员变量的初始化顺序："></a>类加载过程中成员变量的初始化顺序：</h5><p>初始化顺序可简记为：父静态-&gt;子静态-&gt;父实例变量-&gt;父构造–&gt;子实例变量-&gt;子构造</p>
+<h5 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h5><h6 id="BootStrapClassLoader：启动类加载器"><a href="#BootStrapClassLoader：启动类加载器" class="headerlink" title="BootStrapClassLoader：启动类加载器"></a>BootStrapClassLoader：启动类加载器</h6><p>该ClassLoader由jvm在启动时创建，负责加载 $JAVA_HOME/jre/lib/rt.jar包下的核心类。由于启动类加载器涉及到虚拟机本地实现细节，开发者无法直接获取到启动类加载器的对象实例，所以不能直接使用BootStrapClassLoader类。</p>
+<h6 id="ExtClassLoader：扩展类加载器"><a href="#ExtClassLoader：扩展类加载器" class="headerlink" title="ExtClassLoader：扩展类加载器"></a>ExtClassLoader：扩展类加载器</h6><p>该ClassLoader是在sun.misc.Launcher里作为一个内部类ExtClassLoader定义的（即 sun.misc.Launcher$ExtClassLoader），负责加载 $JAVA_HOME/jre/lib/ext/*.jar包下的扩展类。</p>
+<h6 id="AppClassLoader：应用类加载器"><a href="#AppClassLoader：应用类加载器" class="headerlink" title="AppClassLoader：应用类加载器"></a>AppClassLoader：应用类加载器</h6><p>该ClassLoader同样是在sun.misc.Launcher里作为一个内部类AppClassLoader定义的，AppClassLoader会加载java环境变量CLASSPATH所指定路径下的类，而CLASSPATH所指定的路径可以通过System.getProperty(“java.class.path”)获取。</p>
+<h6 id="CustomClassLoader：自定义类加载器"><a href="#CustomClassLoader：自定义类加载器" class="headerlink" title="CustomClassLoader：自定义类加载器"></a>CustomClassLoader：自定义类加载器</h6><p>该ClassLoader是指我们自定义的ClassLoader，比如tomcat的StandardClassLoader属于这一类</p>
+<h5 id="双亲委派机制"><a href="#双亲委派机制" class="headerlink" title="双亲委派机制"></a>双亲委派机制</h5><p>双亲委派的原理：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委托给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的启动类加载器中。<br>只有当父类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需要加载的类）时，子加载器才会尝试自己去加载。这种从下往上委托，再从上向下加载的过程叫作双亲委派机制</p>
+]]></content>
+  </entry>
+  <entry>
     <title>2020-01-27</title>
     <url>/2020/01/27/2020-01-27/</url>
     <content><![CDATA[<pre><code>can we reload 2020?
