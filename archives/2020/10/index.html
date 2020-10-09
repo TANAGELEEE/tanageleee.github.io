@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="notes,daily," />
+  <meta name="keywords" content="TANAGELEE, BLOG" />
 
 
 
@@ -99,15 +99,13 @@
 
 
 
-<meta name="description" content="在js中操作json          var jsonData &#x3D; $(&amp;quot;#editForm&amp;quot;).formToJson(); &#x2F;&#x2F;checkBox的值 var val&#x3D;&amp;quot;&amp;quot;; var obj&#x3D;$(&amp;apos;input[name&#x3D;&amp;quot;answer&amp;quot;]&amp;apos;); for(k in obj){     if(obj[k].checke">
-<meta name="keywords" content="notes,daily">
-<meta property="og:type" content="article">
-<meta property="og:title" content="js + echartsInit+jqgridInit">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;01&#x2F;2017-08-18-daily-notes&#x2F;index.html">
+<meta name="description" content="世上所有的相遇都是久别重逢">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TANAGELEE">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;archives&#x2F;2020&#x2F;10&#x2F;index.html">
 <meta property="og:site_name" content="TANAGELEE">
-<meta property="og:description" content="在js中操作json          var jsonData &#x3D; $(&amp;quot;#editForm&amp;quot;).formToJson(); &#x2F;&#x2F;checkBox的值 var val&#x3D;&amp;quot;&amp;quot;; var obj&#x3D;$(&amp;apos;input[name&#x3D;&amp;quot;answer&amp;quot;]&amp;apos;); for(k in obj){     if(obj[k].checke">
+<meta property="og:description" content="世上所有的相遇都是久别重逢">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-11-30T10:00:30.932Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -138,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/01/2017-08-18-daily-notes/"/>
+  <link rel="canonical" href="http://yoursite.com/archives/2020/10/"/>
 
 
 
 
 
-  <title>js + echartsInit+jqgridInit | TANAGELEE</title>
+  <title>歸檔 | TANAGELEE</title>
   
 
 
@@ -167,7 +165,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -305,306 +303,74 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+        
+          
+        
+        嗯..! 目前共計 25 篇文章。 繼續努力。
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2020">2020</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/01/2017-08-18-daily-notes/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="TANAGELEE">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="TANAGELEE">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">js + echartsInit+jqgridInit</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2020/10/09/2020-10-09-daily-notes/" itemprop="url">
               
-                <span class="post-meta-item-text">發表於</span>
+                <span itemprop="name">elasticsearch</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-12-01T01:04:19+08:00">
-                2019-12-01
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <ol>
-<li><p><strong>在js中操作json</strong>         </p>
-<pre><code>var jsonData = $(&quot;#editForm&quot;).formToJson();
-//checkBox的值
-var val=&quot;&quot;;
-var obj=$(&apos;input[name=&quot;answer&quot;]&apos;);
-for(k in obj){
-    if(obj[k].checked)
-        val=val+(obj[k].value)+&quot;,&quot;;
-}
-val=val.substring(0,val.length-1);
-jsonData.val = val;</code></pre></li>
-<li><p><strong>选项回填checkBox</strong></p>
-<pre><code>var rowData = $(&quot;#userTable&quot;).jqGrid(&quot;getRowDataById&quot;, rowId);
-$.FormUtils.fillFormData(&quot;#editForm&quot;, rowData);//填充表单
-var temp = $(&quot;#editAnswer&quot;).val();
-var $temp = temp.split(&quot;,&quot;);
-for(var i=0;i&lt;$temp.length;i++){
-    if($temp[i] == &quot;A&quot;){
-        $(&apos;input:checkbox&apos;).eq(0).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;B&quot;){
-        $(&apos;input:checkBox&apos;).eq(1).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;C&quot;){
-        $(&apos;input:checkBox&apos;).eq(2).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;D&quot;){
-        $(&apos;input:checkBox&apos;).eq(3).attr(&apos;checked&apos;, &apos;true&apos;);
-    }
-}</code></pre></li>
-<li><p><strong>初始化jqgrid</strong></p>
-<pre><code>$.ajax({
- url:App.ctx+&quot;/admin/statistics/initList&quot;,
- type:&quot;post&quot;,
- success:function(data){
-     var cols = [];
-     var model = [];
-     var $cols_ = [];
-     var $model_ = [];
-     var $cols = [];
-     var $model = [];
-     $.each(data[0],function(key,value){
-         if(key == &quot;时间段&quot;){
-             $cols.push(key);
-             $model.push({
-                 name:key,
-                 index:key,
-                 width:220,
-                 align:&apos;left&apos;
-             }); 
-         }else if(key == &quot;问题总数&quot;){
-              $cols.push(key);
-              $model.push({
-                 name:key,
-                 index:key,
-                 width:150
-             }); 
-         }else{
-              $cols_.push(key);
-              $model_.push({
-                 name:key,
-                 index:key,
-                 width:150
-             }); 
-         }
-     });
-     cols = $cols.concat($cols_);
-     model = $model.concat($model_);
-     initPage(data,cols,model);
- }
-});
- function initPage(data,cols,model){
-     $(&quot;#businessTable&quot;).jqGrid({   
-            datatype:&quot;json&quot;,
-            colNames: cols,
-            colModel: model, 
-            pager: &quot;#pager2&quot;,
-            rowNum: 10,
-            rowList: [10, 20, 30],
-            sortname: &quot;id&quot;,
-            sortorder: &quot;desc&quot;,
-            viewrecords: true,
-            gridview: true,
-            autoencode: true,
-            height:&quot;auto&quot;,
-            caption: &quot;业务问题统计&quot;,
-            autoWidth:&quot;true&quot;
-        });  
-            for (var i = 0; i &lt;1; i++) {   
-         $(&quot;#businessTable&quot;).jqGrid(&apos;addRowData&apos;, i + 1, data[i]);  
-        }   
- }</code></pre></li>
-<li><p><strong>初始化echarts</strong></p>
-<pre><code>$.ajax({
-     url:App.ctx+&quot;/admin/statistics/initEcharts&quot;,
-     type:&quot;post&quot;,
-     success:function(data){
-         var temp = [];
-         var datas = [];
-         for(var i=0;i&lt;data.length;i++){
-             temp.push(data[i].name);
-         }
-         initEcharts(temp,data); 
-     }
-
- });
- function initEcharts(temp,data){
-    // 基于准备好的dom，初始化echarts实例
-     var myChart = echarts.init(document.getElementById(&apos;echart&apos;));
-     // 指定图表的配置项和数据
-     var option = {
-             title : {
-                    text: &apos;业务问题数量统计&apos;,
-                    subtext: &apos;专业类型&apos;,
-                    x:&apos;center&apos;
-                },
-                tooltip : {
-                    trigger: &apos;item&apos;,
-                    formatter: &quot;{a} &lt;br/&gt;{b} : {c} ({d}%)&quot;
-                },
-                legend: {
-                    orient: &apos;vertical&apos;,
-                    left: &apos;left&apos;,
-                    data: temp
-                },
-                series : [
-                    {
-                        name: &apos;专业类型&apos;,
-                        type: &apos;pie&apos;,
-                        radius : &apos;55%&apos;,
-                        center: [&apos;50%&apos;, &apos;60%&apos;],
-                        data:data,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: &apos;rgba(0, 0, 0, 0.5)&apos;
-                            }
-                        }
-                    }
-                ]
-     };
-
-     // 使用刚指定的配置项和数据显示图表。
-     myChart.setOption(option);</code></pre></li>
-</ol>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-      <div>
-        <div>
-    
-        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
-    
-</div>
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2020-10-09T22:40:00+08:00"
+              content="2020-10-09" >
+          10-09
+        </time>
       </div>
-    
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/notes/" rel="tag"><i class="fa fa-tag"></i> notes</a>
-          
-            <a href="/tags/daily/" rel="tag"><i class="fa fa-tag"></i> daily</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/12/01/2017-08-17-daily-notes/" rel="next" title="swagger + springmvc">
-                <i class="fa fa-chevron-left"></i> swagger + springmvc
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/01/2017-08-23-daily-notes/" rel="prev" title="clearInputFile">
-                clearInputFile <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+
 
 
           </div>
@@ -612,10 +378,6 @@ for(var i=0;i&lt;$temp.length;i++){
 
 
           
-
-  
-
-
 
         </div>
         
@@ -855,10 +617,6 @@ for(var i=0;i&lt;$temp.length;i++){
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 

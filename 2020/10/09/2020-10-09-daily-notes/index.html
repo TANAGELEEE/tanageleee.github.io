@@ -88,7 +88,7 @@
 
 
 
-  <meta name="keywords" content="notes,daily," />
+  <meta name="keywords" content="TANAGELEE, BLOG" />
 
 
 
@@ -99,15 +99,14 @@
 
 
 
-<meta name="description" content="在js中操作json          var jsonData &#x3D; $(&amp;quot;#editForm&amp;quot;).formToJson(); &#x2F;&#x2F;checkBox的值 var val&#x3D;&amp;quot;&amp;quot;; var obj&#x3D;$(&amp;apos;input[name&#x3D;&amp;quot;answer&amp;quot;]&amp;apos;); for(k in obj){     if(obj[k].checke">
-<meta name="keywords" content="notes,daily">
+<meta name="description" content="一个字段同时支持精确匹配和模糊检索mapping设置：  1&amp;quot;properties&amp;quot;: &amp;#123;2    &amp;quot;name&amp;quot;: &amp;#123;3             &amp;quot;type&amp;quot;: &amp;quot;text&amp;quot;,4             &amp;quot;fields&amp;quot;: &amp;#123;5                 &amp;qu">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js + echartsInit+jqgridInit">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;01&#x2F;2017-08-18-daily-notes&#x2F;index.html">
+<meta property="og:title" content="elasticsearch">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;10&#x2F;09&#x2F;2020-10-09-daily-notes&#x2F;index.html">
 <meta property="og:site_name" content="TANAGELEE">
-<meta property="og:description" content="在js中操作json          var jsonData &#x3D; $(&amp;quot;#editForm&amp;quot;).formToJson(); &#x2F;&#x2F;checkBox的值 var val&#x3D;&amp;quot;&amp;quot;; var obj&#x3D;$(&amp;apos;input[name&#x3D;&amp;quot;answer&amp;quot;]&amp;apos;); for(k in obj){     if(obj[k].checke">
+<meta property="og:description" content="一个字段同时支持精确匹配和模糊检索mapping设置：  1&amp;quot;properties&amp;quot;: &amp;#123;2    &amp;quot;name&amp;quot;: &amp;#123;3             &amp;quot;type&amp;quot;: &amp;quot;text&amp;quot;,4             &amp;quot;fields&amp;quot;: &amp;#123;5                 &amp;qu">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-11-30T10:00:30.932Z">
+<meta property="og:updated_time" content="2020-10-09T15:10:59.217Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -138,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/12/01/2017-08-18-daily-notes/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/10/09/2020-10-09-daily-notes/"/>
 
 
 
 
 
-  <title>js + echartsInit+jqgridInit | TANAGELEE</title>
+  <title>elasticsearch | TANAGELEE</title>
   
 
 
@@ -319,7 +318,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/01/2017-08-18-daily-notes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/09/2020-10-09-daily-notes/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="TANAGELEE">
@@ -336,7 +335,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">js + echartsInit+jqgridInit</h1>
+          <h1 class="post-title" itemprop="name headline">elasticsearch</h1>
         
 
         <div class="post-meta">
@@ -348,8 +347,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-12-01T01:04:19+08:00">
-                2019-12-01
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2020-10-09T22:40:00+08:00">
+                2020-10-09
               </time>
             
 
@@ -386,150 +385,20 @@
       
 
       
-        <ol>
-<li><p><strong>在js中操作json</strong>         </p>
-<pre><code>var jsonData = $(&quot;#editForm&quot;).formToJson();
-//checkBox的值
-var val=&quot;&quot;;
-var obj=$(&apos;input[name=&quot;answer&quot;]&apos;);
-for(k in obj){
-    if(obj[k].checked)
-        val=val+(obj[k].value)+&quot;,&quot;;
-}
-val=val.substring(0,val.length-1);
-jsonData.val = val;</code></pre></li>
-<li><p><strong>选项回填checkBox</strong></p>
-<pre><code>var rowData = $(&quot;#userTable&quot;).jqGrid(&quot;getRowDataById&quot;, rowId);
-$.FormUtils.fillFormData(&quot;#editForm&quot;, rowData);//填充表单
-var temp = $(&quot;#editAnswer&quot;).val();
-var $temp = temp.split(&quot;,&quot;);
-for(var i=0;i&lt;$temp.length;i++){
-    if($temp[i] == &quot;A&quot;){
-        $(&apos;input:checkbox&apos;).eq(0).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;B&quot;){
-        $(&apos;input:checkBox&apos;).eq(1).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;C&quot;){
-        $(&apos;input:checkBox&apos;).eq(2).attr(&apos;checked&apos;, &apos;true&apos;);
-    }else if($temp[i] == &quot;D&quot;){
-        $(&apos;input:checkBox&apos;).eq(3).attr(&apos;checked&apos;, &apos;true&apos;);
-    }
-}</code></pre></li>
-<li><p><strong>初始化jqgrid</strong></p>
-<pre><code>$.ajax({
- url:App.ctx+&quot;/admin/statistics/initList&quot;,
- type:&quot;post&quot;,
- success:function(data){
-     var cols = [];
-     var model = [];
-     var $cols_ = [];
-     var $model_ = [];
-     var $cols = [];
-     var $model = [];
-     $.each(data[0],function(key,value){
-         if(key == &quot;时间段&quot;){
-             $cols.push(key);
-             $model.push({
-                 name:key,
-                 index:key,
-                 width:220,
-                 align:&apos;left&apos;
-             }); 
-         }else if(key == &quot;问题总数&quot;){
-              $cols.push(key);
-              $model.push({
-                 name:key,
-                 index:key,
-                 width:150
-             }); 
-         }else{
-              $cols_.push(key);
-              $model_.push({
-                 name:key,
-                 index:key,
-                 width:150
-             }); 
-         }
-     });
-     cols = $cols.concat($cols_);
-     model = $model.concat($model_);
-     initPage(data,cols,model);
- }
-});
- function initPage(data,cols,model){
-     $(&quot;#businessTable&quot;).jqGrid({   
-            datatype:&quot;json&quot;,
-            colNames: cols,
-            colModel: model, 
-            pager: &quot;#pager2&quot;,
-            rowNum: 10,
-            rowList: [10, 20, 30],
-            sortname: &quot;id&quot;,
-            sortorder: &quot;desc&quot;,
-            viewrecords: true,
-            gridview: true,
-            autoencode: true,
-            height:&quot;auto&quot;,
-            caption: &quot;业务问题统计&quot;,
-            autoWidth:&quot;true&quot;
-        });  
-            for (var i = 0; i &lt;1; i++) {   
-         $(&quot;#businessTable&quot;).jqGrid(&apos;addRowData&apos;, i + 1, data[i]);  
-        }   
- }</code></pre></li>
-<li><p><strong>初始化echarts</strong></p>
-<pre><code>$.ajax({
-     url:App.ctx+&quot;/admin/statistics/initEcharts&quot;,
-     type:&quot;post&quot;,
-     success:function(data){
-         var temp = [];
-         var datas = [];
-         for(var i=0;i&lt;data.length;i++){
-             temp.push(data[i].name);
-         }
-         initEcharts(temp,data); 
-     }
+        <ul>
+<li><h5 id="一个字段同时支持精确匹配和模糊检索mapping设置："><a href="#一个字段同时支持精确匹配和模糊检索mapping设置：" class="headerlink" title="一个字段同时支持精确匹配和模糊检索mapping设置："></a>一个字段同时支持精确匹配和模糊检索mapping设置：</h5></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&quot;properties&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    &quot;name&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">             &quot;type&quot;: &quot;text&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">             &quot;fields&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                 &quot;keyword&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">                     &quot;type&quot;: &quot;keyword&quot;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">                      &quot;ignore_above&quot;: 256</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">               &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">     &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr></table></figure>
 
- });
- function initEcharts(temp,data){
-    // 基于准备好的dom，初始化echarts实例
-     var myChart = echarts.init(document.getElementById(&apos;echart&apos;));
-     // 指定图表的配置项和数据
-     var option = {
-             title : {
-                    text: &apos;业务问题数量统计&apos;,
-                    subtext: &apos;专业类型&apos;,
-                    x:&apos;center&apos;
-                },
-                tooltip : {
-                    trigger: &apos;item&apos;,
-                    formatter: &quot;{a} &lt;br/&gt;{b} : {c} ({d}%)&quot;
-                },
-                legend: {
-                    orient: &apos;vertical&apos;,
-                    left: &apos;left&apos;,
-                    data: temp
-                },
-                series : [
-                    {
-                        name: &apos;专业类型&apos;,
-                        type: &apos;pie&apos;,
-                        radius : &apos;55%&apos;,
-                        center: [&apos;50%&apos;, &apos;60%&apos;],
-                        data:data,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: &apos;rgba(0, 0, 0, 0.5)&apos;
-                            }
-                        }
-                    }
-                ]
-     };
 
-     // 使用刚指定的配置项和数据显示图表。
-     myChart.setOption(option);</code></pre></li>
-</ol>
+
+<ul>
+<li><h5 id="match精确匹配"><a href="#match精确匹配" class="headerlink" title="match精确匹配"></a>match精确匹配</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> &quot;query&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&quot;match&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">		&quot;field.keyword&quot;: &quot;content&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+</li>
+<li><h5 id="match分词模糊检索"><a href="#match分词模糊检索" class="headerlink" title="match分词模糊检索"></a>match分词模糊检索</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line"> &quot;query&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">	&quot;match&quot;: &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">		&quot;field&quot;: &quot;content&quot;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
 
       
     </div>
@@ -555,14 +424,6 @@ for(var i=0;i&lt;$temp.length;i++){
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/notes/" rel="tag"><i class="fa fa-tag"></i> notes</a>
-          
-            <a href="/tags/daily/" rel="tag"><i class="fa fa-tag"></i> daily</a>
-          
-        </div>
-      
 
       
       
@@ -572,8 +433,8 @@ for(var i=0;i&lt;$temp.length;i++){
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/01/2017-08-17-daily-notes/" rel="next" title="swagger + springmvc">
-                <i class="fa fa-chevron-left"></i> swagger + springmvc
+              <a href="/2020/09/05/2020-09-07-daily-notes/" rel="next" title="flink相关">
+                <i class="fa fa-chevron-left"></i> flink相关
               </a>
             
           </div>
@@ -581,10 +442,6 @@ for(var i=0;i&lt;$temp.length;i++){
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/12/01/2017-08-23-daily-notes/" rel="prev" title="clearInputFile">
-                clearInputFile <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -636,8 +493,17 @@ for(var i=0;i&lt;$temp.length;i++){
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -702,6 +568,22 @@ for(var i=0;i&lt;$temp.length;i++){
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#一个字段同时支持精确匹配和模糊检索mapping设置："><span class="nav-number">1.</span> <span class="nav-text">一个字段同时支持精确匹配和模糊检索mapping设置：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#match精确匹配"><span class="nav-number">2.</span> <span class="nav-text">match精确匹配</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#match分词模糊检索"><span class="nav-number">3.</span> <span class="nav-text">match分词模糊检索</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>elasticsearch</title>
+    <url>/2020/10/09/2020-10-09-daily-notes/</url>
+    <content><![CDATA[<ul>
+<li><h5 id="一个字段同时支持精确匹配和模糊检索mapping设置："><a href="#一个字段同时支持精确匹配和模糊检索mapping设置：" class="headerlink" title="一个字段同时支持精确匹配和模糊检索mapping设置："></a>一个字段同时支持精确匹配和模糊检索mapping设置：</h5></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&quot;properties&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &quot;name&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">             &quot;type&quot;: &quot;text&quot;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">             &quot;fields&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 &quot;keyword&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">                     &quot;type&quot;: &quot;keyword&quot;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">                      &quot;ignore_above&quot;: 256</span></pre></td></tr><tr><td class="code"><pre><span class="line">                  &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">               &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">     &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><h5 id="match精确匹配"><a href="#match精确匹配" class="headerlink" title="match精确匹配"></a>match精确匹配</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> &quot;query&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&quot;match&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&quot;field.keyword&quot;: &quot;content&quot;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+</li>
+<li><h5 id="match分词模糊检索"><a href="#match分词模糊检索" class="headerlink" title="match分词模糊检索"></a>match分词模糊检索</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> &quot;query&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&quot;match&quot;: &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">		&quot;field&quot;: &quot;content&quot;</span></pre></td></tr><tr><td class="code"><pre><span class="line">	&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
     <title>flink相关</title>
     <url>/2020/09/05/2020-09-07-daily-notes/</url>
     <content><![CDATA[<h5 id="三种部署模式："><a href="#三种部署模式：" class="headerlink" title="三种部署模式："></a>三种部署模式：</h5><p>standAlone 、yarn模式(yarn模式又分为yarn-session模式和yarn-cluster模式)</p>
