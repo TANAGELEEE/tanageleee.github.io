@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("https://tanageleee.github.io/"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TANAGELEE, BLOG" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1.Hive create table1create [external] table [if not exists] [db_name.]table_name [partitioned by(col_name data_type)] [clustered by(col_name, col_name,...)][sorted by(col_name [asc|desc])] into n num_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hive学习笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2022&#x2F;03&#x2F;09&#x2F;Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="TANAGELEE">
+<meta property="og:description" content="1.Hive create table1create [external] table [if not exists] [db_name.]table_name [partitioned by(col_name data_type)] [clustered by(col_name, col_name,...)][sorted by(col_name [asc|desc])] into n num_">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2022-03-09T02:45:41.030Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/03/09/Hive学习笔记/"/>
+
+
+
+
+
+  <title>Hive学习笔记 | TANAGELEE</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+	<link rel="stylesheet" href="/dist/APlayer.min.css">
+	<div id="aplayer"></div>
+	<script type="text/javascript" src="/dist/APlayer.min.js"></script>
+	<script type="text/javascript" src="/dist/music.js"></script>
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANAGELEE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简历">
+          <a href="/myjob/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card"></i> <br />
+            
+            个人简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/09/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TANAGELEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANAGELEE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hive学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2022-03-09T10:18:56+08:00">
+                2022-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-Hive-create-table"><a href="#1-Hive-create-table" class="headerlink" title="1.Hive create table"></a>1.Hive create table</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">create [external] table [if not exists] [db_name.]table_name [partitioned by(col_name data_type)] [clustered by(col_name, col_name,...)][sorted by(col_name [asc|desc])] into n num_buckets BUCKETS]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">[row format row_format][stored as file_format]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">[location hdfs_path]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">[talproperties(property_name&#x3D;property_value, ...)]</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">[as select_statement]</span></pre></td></tr></table></figure>
+<h4 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">create [external] table temp(</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    name string comment &#39;value&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    salary float comment &#39;value&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">    subordinates array&lt;string&gt; comment &#39;value&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">    deductions map&lt;string, float&gt; comment &#39;value&#39;,</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">    address struct&lt;street:string, city:string, state:string, zip:int&gt; comment &#39;value&#39;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">    row format delimited fields terminated by &#39;\t&#39; lines</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">    terminated by &#39;\n&#39; stored as textfile;</span></pre></td></tr></table></figure>
+<h4 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h4><ol>
+<li>desc extended table_name;</li>
+<li>desc fomatted table_name;</li>
+<li>load data local inpath ‘/home/data’ overwrite into table table_name;</li>
+<li>show create table table_name;</li>
+<li>show tables;</li>
+<li>create table table_name2 like table_name; (只复制表结构)</li>
+<li>create table table_name3 as select name, addr from table_name4;</li>
+<li>add jar path; (copy jar 到hive lib目录)</li>
+</ol>
+<h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><ul>
+<li><p>table type : managed_table vs external_table</p>
+</li>
+<li><p>内部表: drop table table_name -&gt; 数据也会一起删除<br>外部表: 只删除元数据信息</p>
+</li>
+<li><p>select subordinates[1] from temp;</p>
+</li>
+<li><p>select deductions[“key”] from temp;</p>
+</li>
+<li><p>select address.city from temp;</p>
+</li>
+<li><p>select * from table_name  | limit x  不走mapreduce job</p>
+</li>
+<li><p>stored as textfile(hadoop fs -text)</p>
+</li>
+<li><p>stored as sequencefile</p>
+</li>
+<li><p>stored as rcfile (hive -service rcfilecat path)</p>
+</li>
+<li><p>stored as inputformat ‘class’ outformat ‘class’</p>
+</li>
+</ul>
+<h3 id="Hive使用SerDe"><a href="#Hive使用SerDe" class="headerlink" title="Hive使用SerDe"></a>Hive使用SerDe</h3><ul>
+<li>serializer和Deserializer</li>
+<li>自定义SerDe -&gt; 实现SerDe</li>
+<li>RegexSerDe  -&gt; hive自带</li>
+<li>row format serde ‘org.apache.hadoop.hive.serde2.RegexSerDe’ with serdeproperties(“input.regex” = “”)</li>
+</ul>
+<h3 id="Hive分区表"><a href="#Hive分区表" class="headerlink" title="Hive分区表"></a>Hive分区表</h3><ul>
+<li>分区表指创建表时指定partition的分区空间</li>
+<li>分区语法<br>partitioned by (key type, …)<br>partition infomation</li>
+<li>查看分区信息:show partitions table_name;</li>
+<li>增加分区<br>alter table table_name add if not exists partition(dt=’xxx’)</li>
+<li>删除分区<br>alter table table_name drop if exists partition(dt=’xxx’)</li>
+</ul>
+<h3 id="Hive分桶"><a href="#Hive分桶" class="headerlink" title="Hive分桶"></a>Hive分桶</h3><ul>
+<li>对于表或者分区 可以进一步组织成桶 细粒度更高</li>
+<li>Hive是针对某一列进行分桶</li>
+<li>对列值哈希 除以桶个数求余决定记录存放桶位置</li>
+<li>好处<br>获得更高的查询处理效率<br>是取样更高效</li>
+<li>分桶语法<br>clustered by (id) sorted by(name) into 4 buckets</li>
+<li>Set hive.enforce.bucketing=true; (默认分桶不开启)</li>
+</ul>
+<h3 id="Hive数据操作"><a href="#Hive数据操作" class="headerlink" title="Hive数据操作"></a>Hive数据操作</h3><ul>
+<li>Hive执行命令方式<br>cli、jdbc、 hwi、beeline</li>
+<li>cli shell<br>hive -help<br>hive –help<br>list, source</li>
+<li>hive –service rcfilecat //</li>
+<li>hive -e “hql”</li>
+<li>hive -f filename</li>
+<li>hive -i filename 初始化hive 在-f之前执行</li>
+<li>hive -S, –silent</li>
+<li>hive -v, –verbose</li>
+<li>list jar;</li>
+<li>source path;</li>
+</ul>
+<h3 id="Hive数据操作-变量"><a href="#Hive数据操作-变量" class="headerlink" title="Hive数据操作-变量"></a>Hive数据操作-变量</h3><ul>
+<li>set val = xxx;</li>
+<li>set val;</li>
+<li>select * from table_name where col = ${hiveconf:val};</li>
+<li>env;</li>
+</ul>
+<h3 id="Hive数据加载"><a href="#Hive数据加载" class="headerlink" title="Hive数据加载"></a>Hive数据加载</h3><ul>
+<li><p>加载本地数据<br>load data local inpath ‘localpath’ [overwrite] into table tablename</p>
+</li>
+<li><p>加载hdfs数据<br>load data inpath ‘hafspath’ [overwrite] into table tablename</p>
+</li>
+<li><p>使用hadoop命令拷贝数据到指定位置<br>hadoop fs -cp<br>hadoop fs -copyFromLocal originalpath targetpath (多次copy重命名)<br>dfs -copyFromLocal path targetpath (hive命令行)<br>hiveCli执行linux命令 !ls path</p>
+</li>
+<li><p>由查询语句加载数据<br>insert [overwrite|into] table tablename select col, … from tablename2 where where_expr;</p>
+<p>from tablename2<br>insert [overwrite|into] table tablename<br>select col, …<br>where where_expr;</p>
+<p>select col, …<br>from tablename2<br>where where_expr<br>insert overwrite table tablename;</p>
+<h3 id="Hive分区表数据加载"><a href="#Hive分区表数据加载" class="headerlink" title="Hive分区表数据加载"></a>Hive分区表数据加载</h3><ul>
+<li>内部分区表加载方式类似于内表</li>
+<li>外部分区表加载方式类似于外表</li>
+<li>加载数据指定目标表的同时 需要指定分区</li>
+</ul>
+<h3 id="Hive加载注意问题"><a href="#Hive加载注意问题" class="headerlink" title="Hive加载注意问题"></a>Hive加载注意问题</h3></li>
+<li><p>分隔符单字符</p>
+</li>
+<li><p>数据类型对应问题</p>
+</li>
+<li><p>select 查询插入数据和顺序有关 名称可不一致</p>
+</li>
+<li><p>hive在数据加载时不做检查 查询时检查</p>
+</li>
+<li><p>外部分区表需要添加分区才能看到数据</p>
+</li>
+<li><p>hive 字段null值 底层存储 \N</p>
+</li>
+</ul>
+<h3 id="Hive数据导出"><a href="#Hive数据导出" class="headerlink" title="Hive数据导出"></a>Hive数据导出</h3><ul>
+<li>hadoop命令方式<br>get<br>text</li>
+<li>insert…directory方式<br>insert overwrite [local] directory path [row format delimited fields terminated by ‘\t’] select col, … from tablename;</li>
+<li>shell命令管道<br>hive -f/e|sed/grep/awk &gt; file</li>
+<li>第三方工具 sqoop</li>
+</ul>
+<h3 id="Hive动态分区"><a href="#Hive动态分区" class="headerlink" title="Hive动态分区"></a>Hive动态分区</h3><ul>
+<li><p>不需要为不同的分区添加不同的插入语句</p>
+</li>
+<li><p>分区不确定 需要从数据中获取</p>
+</li>
+<li><p>set hive.exec.dynamic.partition=true 使用动态分区</p>
+</li>
+<li><p>set.exec.dynamic.partition.mode=nosntrick; 无限制模式</p>
+</li>
+<li><p>set hive.exec.max.dynamic.partitions.pernode=10000; 每个节点生成动态分区最大个数</p>
+</li>
+<li><p>set hive.exec.max.dynamic.partitions=10000; 生成动态分区的最大个数</p>
+</li>
+<li><p>set hive.exec.max.created.files=150000; 一个任务最多可以创建的文件数目</p>
+</li>
+<li><p>set dfs.datanode.max.xcievers=8192 限定一次最多打开的文件数</p>
+</li>
+<li><p>insert overwrite table tablename partition(value) select col as value from tablename2</p>
+</li>
+</ul>
+<h3 id="表属性操作"><a href="#表属性操作" class="headerlink" title="表属性操作"></a>表属性操作</h3><ul>
+<li>修改表名:alter table table_name rename to new_table_name;</li>
+<li>修改列名:alter table tablename change c1 c2 int comment ‘xxx’ after severity //或者使用’first’ 放在第一位</li>
+<li>alter table tablename add columns(cl string comment ‘xxx’, c2 long comment ‘yyyy’)</li>
+<li>alter table tablename set tblproperties(‘comment’=’xxxx’)</li>
+<li>修改字段分隔符(无分区表): alter table table_name set serdeproperties(‘field.delim’ = ‘\t’) //有分区的使用则已存在的分区不能应用新的分隔符</li>
+<li>修改字段分隔符(有分区表): alter table table_name partition(dt=’xxxx’) set serdeproperties(‘field.delim’ = ‘\t’)  </li>
+<li>修改location: alter table table_name [partition()] set location ‘path’</li>
+<li>alter table table_name set TBLPROPERTIES(‘EXTERNAL’ = ‘TRUE’) //内部表转外部表</li>
+<li>alter table table_name set TBLPROPERTIES(‘EXTERNAL’ = ‘FALSE’) //外部表转内部表</li>
+<li>alter tableproperties</li>
+<li>alter serde properties</li>
+<li>alter table/partirion file format</li>
+<li>alter table storage properties</li>
+<li>alter table rename partition</li>
+<li>alter table set location</li>
+</ul>
+<h3 id="Hive高级查询"><a href="#Hive高级查询" class="headerlink" title="Hive高级查询"></a>Hive高级查询</h3><ul>
+<li>group by 、order by 、join、distribute by、sort by、cluster by 、union all</li>
+<li>底层实现: mapreduce</li>
+<li>count计数 count(*) count(1) count(col)</li>
+<li>sum求和 返回bigint<br>sum(col) + cast(1 as bigint)</li>
+<li>avg求平均值 返回double</li>
+<li>distinct不同值个数 count(distinct col)</li>
+</ul>
+<h4 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h4><ul>
+<li>select col,… from table where condition order by col1, col2 [asc|desc]</li>
+<li>全局排序</li>
+<li>order by需要reduce 只有一个reduce 与配置无关<h4 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h4></li>
+<li>select col,… count(1), sel_expr(聚合操作) from table where condition group by col1,… [having]</li>
+<li>select 非聚合的列必须出现在group by中</li>
+<li>除了普通列就是聚合操作</li>
+<li>group by后面可以跟表达式 e.g. substr(col)</li>
+<li>mapred.reduce.tasks (设置reduce数量)</li>
+<li>输出文件数与reduce数相同</li>
+<li>网络负载过重 数据倾斜(优化参数hive.groupby.skewindata)</li>
+<li>set mapred.reduce.tasks=x (对于order by无效) group by: number of reduces:x</li>
+<li>set hive.groupby.skewindata = true;<br>group by: 按col列分组 把col列的内容作为key 其他列作为value 传到reduce 在reduce端执行聚合操作和having过滤<h4 id="join"><a href="#join" class="headerlink" title="join"></a>join</h4></li>
+<li>join等值连接</li>
+<li>left outer join 左外连接</li>
+<li>right outer join 右外连接</li>
+<li>left semi join 类似 exists</li>
+<li>mapjoin map端完成join操作 不需要reduce 基于内存做join 属于优化操作</li>
+<li>set hive.optimize.skewjoin = true;<h5 id="mapjoin"><a href="#mapjoin" class="headerlink" title="mapjoin"></a>mapjoin</h5></li>
+<li>mapjoin优缺点</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不消耗集群的reduce资源</td>
+<td>占用部分内存 表不能太大</td>
+</tr>
+<tr>
+<td>减少reduce操作 加快程序执行</td>
+<td>每个计算节点都会加载一次</td>
+</tr>
+<tr>
+<td>减低网络负载</td>
+<td>生成较多的小文件</td>
+</tr>
+</tbody></table>
+<ul>
+<li>hive根据sql选择使用common join 或者map join<br>set hive.auto.convert.join = true;<br>hive.mapjoin.smalltable.filesize默认值是25mb</li>
+<li>手动指定<br>select /<em>+mapjoin(n)</em>/ col,… from …</li>
+<li>使用场景<ol>
+<li>关联操作中有小表</li>
+<li>不等值的连接操作</li>
+</ol>
+</li>
+</ul>
+<h4 id="Hive分桶-1"><a href="#Hive分桶-1" class="headerlink" title="Hive分桶"></a>Hive分桶</h4><ul>
+<li>分桶的使用<br>select * from bucketed_user tablesample(bucket 1 out of 2 on id)</li>
+<li>bucket join<br>set hive.optimize.bucketmapjoin = true;<br>set hive.optimize.bucketmapjoin.sortedmerge = true;<br>set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveImputFormat;</li>
+</ul>
+<h4 id="distribute-by和sort-by"><a href="#distribute-by和sort-by" class="headerlink" title="distribute by和sort by"></a>distribute by和sort by</h4><ul>
+<li><p>distribute 分散数据<br>按照col列把数据分散到不同的reduce</p>
+</li>
+<li><p>sort 排序<br>按照col列把数据排序</p>
+</li>
+<li><p>distribute by与group by对比</p>
+<ol>
+<li>都是按key值划分数据</li>
+<li>都使用reduce操作</li>
+<li>distribute by单纯分散数据 group by把相同key数据聚集到一起 后续必须是聚合操作</li>
+</ol>
+</li>
+<li><p>order by 与sort by对比</p>
+<ol>
+<li>order by 是全局排序</li>
+<li>sort by只是确保每个reduce上输出数据有序 只有一个reduce时 和order by作用一样</li>
+</ol>
+</li>
+<li><p>应用场景</p>
+<ol>
+<li>map输出的文件大小不均</li>
+<li>reduce输出文件大小不均</li>
+<li>小文件过多</li>
+<li>文件超大<h4 id="cluster-by"><a href="#cluster-by" class="headerlink" title="cluster by"></a>cluster by</h4></li>
+</ol>
+</li>
+<li><p>把有相同值的数据聚集到一起并排序</p>
+</li>
+<li><p>cluster by</p>
+</li>
+<li><p>distribute by col order by col</p>
+<h4 id="union-all"><a href="#union-all" class="headerlink" title="union all"></a>union all</h4></li>
+<li><p>hive不支持union</p>
+</li>
+<li><p>select col form (select a as col from t1 union all select b as col from t2) tmp</p>
+</li>
+<li><p>要求</p>
+<ol>
+<li>字段名字一样</li>
+<li>字段类型一样</li>
+<li>字段个数一样</li>
+<li>子表不能有别名</li>
+<li>如果需要从合并之后的表中查询数据 那么合并的表必须要有别名</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive函数"><a href="#Hive函数" class="headerlink" title="Hive函数"></a>Hive函数</h3><h4 id="函数分类"><a href="#函数分类" class="headerlink" title="函数分类"></a>函数分类</h4><h4 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h4><ul>
+<li>简单函数 map阶段</li>
+<li>聚合函数 reduce阶段</li>
+<li>集合函数 map阶段</li>
+<li>特殊函数<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><h4 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h4></li>
+<li>UDF map阶段</li>
+<li>UDAF reduce阶段<h4 id="cli命令"><a href="#cli命令" class="headerlink" title="cli命令"></a>cli命令</h4></li>
+<li>show functions;</li>
+<li>desc FUNCTION EXTENDED concat;<h4 id="简单函数"><a href="#简单函数" class="headerlink" title="简单函数"></a>简单函数</h4></li>
+<li>函数的计算粒度-单条记录</li>
+<li>关系运算</li>
+<li>数学运算</li>
+<li>逻辑运算</li>
+<li>数组计算</li>
+<li>类型转换</li>
+<li>日期函数</li>
+<li>条件函数</li>
+<li>字符串函数</li>
+<li>统计函数<h4 id="窗口函数"><a href="#窗口函数" class="headerlink" title="窗口函数"></a>窗口函数</h4></li>
+<li>应用场景<ol>
+<li>用于分区排序</li>
+<li>动态group by</li>
+<li>Top N</li>
+<li>累计计算</li>
+<li>层次查询</li>
+</ol>
+</li>
+<li>windowing functions<ol>
+<li>lead </li>
+<li>lag</li>
+<li>first_value</li>
+<li>last_value<h4 id="分析函数"><a href="#分析函数" class="headerlink" title="分析函数"></a>分析函数</h4></li>
+</ol>
+</li>
+<li>the over clause<ol>
+<li>count</li>
+<li>sum</li>
+<li>min</li>
+<li>max</li>
+<li>avg</li>
+</ol>
+</li>
+<li>analytics functions<ol>
+<li>rank</li>
+<li>row_number</li>
+<li>dense_rank</li>
+<li>cume_dist</li>
+<li>percent_rank</li>
+<li>ntile<h4 id="混合函数"><a href="#混合函数" class="headerlink" title="混合函数"></a>混合函数</h4></li>
+<li>java_method(class, method[arg1[, arg2…]])</li>
+<li>reflect(class, method[arg1[, arg2…]])</li>
+<li>hash(a1[, a2…])<h4 id="UDTF"><a href="#UDTF" class="headerlink" title="UDTF"></a>UDTF</h4></li>
+</ol>
+</li>
+<li>表函数</li>
+<li>e.g. explode函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">           a 1</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">a 1,2,3 -&gt; a 2</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">           a 3</span></pre></td></tr></table></figure>
+
+<h4 id="and-or-优先级"><a href="#and-or-优先级" class="headerlink" title="and or 优先级"></a>and or 优先级</h4><ul>
+<li>and 优先级高于or<h3 id="Hive函数实际操作"><a href="#Hive函数实际操作" class="headerlink" title="Hive函数实际操作"></a>Hive函数实际操作</h3></li>
+<li>cast(1.5 as bigint)</li>
+<li>select if(2&gt;1, v1, v2) from table</li>
+<li>case when condition then … when condition then … else … end</li>
+<li>select get_json_object(‘{“name”:”jack”, “age”:”20”}’, ‘$.name’) from table limit 1;</li>
+<li>select parse_url(“<a href="http://baidu.com/path1/&quot;" target="_blank" rel="noopener">http://baidu.com/path1/&quot;</a>, ‘HOST’) from table limit 1;</li>
+<li>select concat(col, ‘123’) from table;</li>
+<li>select concat_ws(“,”, “adc”, “def”) from table limit 1;</li>
+<li>select collect_set(col) from table;</li>
+<li>collect_list()</li>
+<li>sum(money)</li>
+<li>count(*)</li>
+<li>first_value(money) over (partition by id order by money rows between 1 preceding and 1 following)  // 当前行前后两行 取值</li>
+<li>lead(money, 2) over (order by money)</li>
+<li>lag(money, 2) over (order by money)</li>
+<li>rank()</li>
+<li>select col, dense_rank() over(partition by id order by money) from table;</li>
+<li>precetn_rank() // (相同值最小行号-1)/(行数-1)</li>
+<li>cume_dist() </li>
+<li>ntile(2)  // 分片</li>
+<li>java_method(“java.lang.Math”, “sqrt”, cast(id as double))</li>
+<li>select id, adid from tablename lateral view explode(split(type, ‘B’)) tt as adid</li>
+<li>select 1 from dual where ‘footbar’ rlike ^f.*r$;</li>
+<li>regexp_replace(string a, string b, string c)<br>select regexp_replace(‘footbar’, ‘oo|ar’, “”) from dual;</li>
+<li>regexp_extract(string subject, string pattern, int index)<br>select regexp_extract(‘footbar’, ‘foo(.*?)(bar)’, 1) from dual;</li>
+</ul>
+<h4 id="自定义函数-1"><a href="#自定义函数-1" class="headerlink" title="自定义函数"></a>自定义函数</h4><h5 id="UDF"><a href="#UDF" class="headerlink" title="UDF"></a>UDF</h5><ul>
+<li>用户自定义函数 user defined function</li>
+<li>针对单条记录</li>
+<li>创建函数<ol>
+<li>自定义一个java类</li>
+<li>继承UDF类</li>
+<li>重写evaluate方法</li>
+<li>打jar包</li>
+<li>hive执行add jar</li>
+<li>hive执行创建模板函数</li>
+<li>hql中使用<h6 id="实现UDF"><a href="#实现UDF" class="headerlink" title="实现UDF"></a>实现UDF</h6></li>
+<li>extends UDF</li>
+<li>实现evaluate</li>
+<li>add jar path</li>
+<li>create tempporary function bigthan as ‘com.xx.udf.udftest’</li>
+<li>select name, addr, bigthan(addr, 80) from tablename;</li>
+<li>函数走map 没有走reduce<h4 id="UDAF"><a href="#UDAF" class="headerlink" title="UDAF"></a>UDAF</h4></li>
+</ol>
+</li>
+<li>用户自定义聚合函数</li>
+<li>user defined aggregation function</li>
+<li>针对记录集合<h6 id="实现UDAF"><a href="#实现UDAF" class="headerlink" title="实现UDAF"></a>实现UDAF</h6></li>
+<li>类实现resolver extends abstractGenericUDAFResolver</li>
+<li>重写 getEvaluator -&gt; 类型检查</li>
+<li>方法实现eveluator</li>
+<li>extends GenericUDAFEvaluator</li>
+<li>init 方法 -&gt; Mode</li>
+<li>mode -&gt; partial1 partial2 final complete<h4 id="永久函数"><a href="#永久函数" class="headerlink" title="永久函数"></a>永久函数</h4></li>
+<li>functionRegistry.java 注册 然后重新编译hive</li>
+<li>hql文件 hive -i file</li>
+<li>新建hivec文件<ol>
+<li>jar包放到安装目录或者指定目录</li>
+<li>$HOME/.hivec</li>
+<li>把初始化语句加载到文件中</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-SQL优化"><a href="#Hive-SQL优化" class="headerlink" title="Hive SQL优化"></a>Hive SQL优化</h3><ul>
+<li>hive查询操作优化</li>
+<li>join优化<ol>
+<li>hive.optimize.skewjoin=true join过程出现倾斜</li>
+<li>set hive.skewjoin.key=100000 join键对应的记录条数超过这个值会进行优化</li>
+<li>mapjoin<br> set hive.auto.convert.join = true<br> hive.mapjoin.smalltable.filesize 默认25mb<br> select /<em>+mapjoin(A)</em>/ f.a,f.b from A t join B f on (f.a=t.a)</li>
+<li>mapjoin使用场景<br>关联操作中有一张表非常小<br>不等值的链接操作</li>
+<li>bucket join<br>两个表已相同方式划分桶<br>两个表的桶个数是倍数的关系<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">create table order(cid int, prive float) clustered by(cid) into 32 buckets;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">create table customer(id int, first string) clustered by(id) into 32 buckets;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">select price form order t join customer s on t.cid&#x3D;s.id;</span></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>注意where条件位置 在map阶段减少数据量 减少reduce端数据量</li>
+<li>group by优化<ol>
+<li>hive.groupby.skewindata=true</li>
+<li>set hive.groupby.mapaggr.checkinterval=100000 //group的键对应的记录条数超过这个值则会进行优化</li>
+</ol>
+</li>
+<li>count distinct优化<ol>
+<li>优化前 select count(distinct id) from tablename;</li>
+<li>优化后 select count(1) from (select distinct id from tablename) tmp</li>
+<li>优化后 select count(1) from (select id form tablename group by id) tmp</li>
+</ol>
+</li>
+<li>sql优化<ol>
+<li>select a,sum(b), count(distinct c), count(distinct d) from test group by a //优化前</li>
+<li>select a,sum(b) as b, count(c) as c, count(d) as d from (select a, o as b, c, null as d from test group by a,c union all select a, o as b, null as c,d from test group by a,d union all select a,b,null as c,null as d from test) tmp1 group by a; //优化后</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive优化目标"><a href="#Hive优化目标" class="headerlink" title="Hive优化目标"></a>Hive优化目标</h3><ul>
+<li>在有限的资源下 执行效率高</li>
+<li>常见问题<ol>
+<li>数据倾斜</li>
+<li>Map数设置</li>
+<li>Reduce数设置</li>
+<li>其他</li>
+</ol>
+</li>
+<li>Hive执行: HQL-&gt;Job -&gt;Map/Reduce<h3 id="执行计划"><a href="#执行计划" class="headerlink" title="执行计划"></a>执行计划</h3></li>
+<li>查看执行计划<ol>
+<li>explain [extended] hql<h3 id="Hive执行过程"><a href="#Hive执行过程" class="headerlink" title="Hive执行过程"></a>Hive执行过程</h3></li>
+<li>cli</li>
+<li>compile</li>
+<li>metastore</li>
+<li>driver</li>
+<li>execute</li>
+<li>jobTracker</li>
+<li>map </li>
+<li>reduce</li>
+<li>datanode</li>
+<li>nameNode<h3 id="Hive表优化"><a href="#Hive表优化" class="headerlink" title="Hive表优化"></a>Hive表优化</h3></li>
+</ol>
+</li>
+<li>分区<ol>
+<li>静态分区</li>
+<li>动态分区<ol>
+<li>set hive.exec.dynamic.partition=true</li>
+<li>set hive.exec.dynamic.partition.mode=nonstrict</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>分桶<ol>
+<li>set hive.enforce.bucketing=true</li>
+<li>set hive.enforce.sorting=true</li>
+</ol>
+</li>
+<li>数据<ol>
+<li>相同数据尽量聚集在一起</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-Job优化"><a href="#Hive-Job优化" class="headerlink" title="Hive Job优化"></a>Hive Job优化</h3><ul>
+<li>并行化执行<ol>
+<li>每个查询被hive转化成多个阶段 有些阶段关联性不大 可以并行化执行 减少执行时间</li>
+<li>set hive.exec.parallel=true</li>
+<li>set hive.exec.parallel.thread.number = 8</li>
+</ol>
+</li>
+<li>本地化执行<ol>
+<li>set hive.exec.model.loacl.auto=true</li>
+<li>当一个job满足如下条件才能真正使用本地模式(job的输入数据大小必须小于参数hive.exec.mode.local.auto.inputbytes.max 默认128MB)(job的map数必须小于参数 hive.exec.model.local.auto.tasks.max 默认4)(job 的reduce数必须为0或者1)</li>
+</ol>
+</li>
+<li>Job合并输入小文件<ol>
+<li>set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat</li>
+<li>合并文件数由mapred.man.split.size限制的大小决定</li>
+</ol>
+</li>
+<li>job合并输出小文件<ol>
+<li>set hive.merge.smallfiles.avgsize=256000000 当输出文件平均大小小于该值 启动新job合并文件</li>
+<li>set hive.merge.size.per.task=64000000 合并之后的文件大小</li>
+</ol>
+</li>
+<li>jvm重利用<ol>
+<li>set mapred.job.reuse.jvm.num.tasks=20;</li>
+<li>jvm重利用可以使job长时间保留slot 直到作业结束 这对又较多任务和较小文件有意义 不能设置过大有些作业会有reduce任务 reduce任务没有完成 map任务占用slot不能释放 其他作业可能需要等待</li>
+</ol>
+</li>
+<li>压缩数据</li>
+<li>中间压缩就是处理hive查询的多个job之间的数据 对于中间压缩 最好选择一个节省cpu耗时的压缩方式<ol>
+<li>set hive.exec.compress.intermediate = true;</li>
+<li>set hive.intermediate.compression.codec = org.apache.hadoop.io.compress.SnappyCodec;</li>
+<li>set hive.intermediate.compression.type = BLOCK;</li>
+</ol>
+</li>
+<li>hive查询最终的输出也可以压缩<ol>
+<li>set hive.exec.compress.output = true;</li>
+<li>set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;</li>
+<li>set mapred.output.compression.type = BLOCK;<h3 id="Hive-Map-Reduce优化"><a href="#Hive-Map-Reduce优化" class="headerlink" title="Hive Map/Reduce优化"></a>Hive Map/Reduce优化</h3></li>
+</ol>
+</li>
+<li>map task(input split -&gt; map -&gt; buffer in memory -&gt; patition sort and aplit to disk -&gt; fetch -&gt; reduce task(merge -&gt; merge -&gt; reduce -&gt; output))<h3 id="Hive-Map优化"><a href="#Hive-Map优化" class="headerlink" title="Hive Map优化"></a>Hive Map优化</h3></li>
+<li>set mapred.map.tasks=10 无效<ol>
+<li>默认map个数: default_num = total_size/block_size;</li>
+<li>期望大小: goal_num = mapred.map.tasks;</li>
+<li>设置处理的文件大小: split_size = max(mapred.min.split.size, block_size); split_num = total_size/split_size;</li>
+<li>计算的map个数:<br>compute_map_num = min(split_num, max(default_num, goal_num));</li>
+</ol>
+</li>
+<li>map优化总结<ol>
+<li>增加map数 设置mapred.map.tasks 较大值</li>
+<li>减小map数 设置mapred.min.split.size为较大的值</li>
+<li>输入文件size大不是小文件 增大mapred.min.plit.size值</li>
+<li>输入文件巨大 都是小文件 单个文件size小于blocksize 增大mapred.min.split.size不可行 需要使用combineFileImputFormat将多个input path 合并成一个InputSplit送给mapper处理 减少mapper数量</li>
+</ol>
+</li>
+<li>map端聚合<ol>
+<li>set hive.map.aggr= true;</li>
+</ol>
+</li>
+<li>推测执行<ol>
+<li>mapred.map.tasks.specelative.execution<h3 id="Hive-shuffle优化"><a href="#Hive-shuffle优化" class="headerlink" title="Hive shuffle优化"></a>Hive shuffle优化</h3></li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Map端</th>
+<th>reduce端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>io.sort.mb</td>
+<td>mapred.reduce.parallel.copies</td>
+</tr>
+<tr>
+<td>io.sort.spill.percent</td>
+<td>mapred.reduce.copy.backoff</td>
+</tr>
+<tr>
+<td>min.num.spill.for.combine</td>
+<td>io.sort.factor</td>
+</tr>
+<tr>
+<td>io.sort.factor</td>
+<td>mapred.job.shuffle.input.buffer.percent</td>
+</tr>
+<tr>
+<td>io.sort.record.percent</td>
+<td>mapred.jon.reduce.input.buffer.percent</td>
+</tr>
+</tbody></table>
+<h3 id="Hive-reduce优化"><a href="#Hive-reduce优化" class="headerlink" title="Hive reduce优化"></a>Hive reduce优化</h3><ul>
+<li>需要reduce操作的查询<ol>
+<li>聚合查询 (sum count distinct…)</li>
+<li>高级查询 (group by | join | distribute by | cluster by…) order by (只需要一个reduce)</li>
+</ol>
+</li>
+<li>推测执行<ol>
+<li>mapred.reduce.tasks.speculative.exection</li>
+<li>hive.mapred.reduce.tasks.speculative.execution</li>
+</ol>
+</li>
+<li>reduce优化</li>
+<li>set mapred.reduce.tasks = 10 //直接设置<ol>
+<li>hive.exec.reducers.max 默认999</li>
+<li>hive.exec.reducers.bytes.per.reducer 默认1G</li>
+</ol>
+</li>
+<li>计算公式<ol>
+<li>numRTasks = min[maxReducers.input.size/perReducer]</li>
+<li>maxReducers = hive.exec.reducers.max</li>
+<li>perReducer = hive.exec.reducers.bytes.per.reducer</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-案例实战"><a href="#Hive-案例实战" class="headerlink" title="Hive 案例实战"></a>Hive 案例实战</h3><h4 id="日志处理流程"><a href="#日志处理流程" class="headerlink" title="日志处理流程"></a>日志处理流程</h4><ul>
+<li>数据收集 - 数据清洗 - 数据存储与管理 - 数据分析 - 数据展示</li>
+<li>日志分析系统<ol>
+<li>flume日志收集工具</li>
+<li>hdfs | kafka</li>
+<li>mapreduce | spark/storm</li>
+<li>Hbase/Hive | 最终结果保存文件系统数据库</li>
+<li>sqoop</li>
+<li>zookeeper 分布协调服务</li>
+</ol>
+</li>
+<li>Flume-ng<ol>
+<li>cloudera 提供 高可用高可靠 分布式</li>
+<li>定制数据发送方</li>
+<li>简单处理数据 可定制数据接受方</li>
+<li>flume 0.9X - Flume-og  Flume.X版本 - Flume-ng</li>
+<li>主要元素</li>
+<li>agent source channel sink</li>
+<li>agent使用jvm运行flume 每台机器运行一个agent 一个agent包含多个sources和sinks</li>
+<li>clinet生产数据 运行在一个独立的线程</li>
+<li>source从client收集数据 传递给channel</li>
+<li>sink从channel收集 运行在一个独立线程</li>
+<li>channel链接sources和sinks</li>
+<li>events可以是日志记录 avro对象等</li>
+<li><a href="http://cwiki.apache.org/confluence/display/FLUME/Getting_Started" target="_blank" rel="noopener">http://cwiki.apache.org/confluence/display/FLUME/Getting_Started</a></li>
+</ol>
+<ul>
+<li>flume架构</li>
+</ul>
+<ol>
+<li>web server -&gt; source(agent) -&gt; channel(agent) -&gt; sink(agent) -&gt; hdfs </li>
+<li>多个agent 下一个agent的source由上一个agent的sink中获取</li>
+</ol>
+<ul>
+<li>flume安装</li>
+</ul>
+<ol>
+<li>安装包</li>
+<li>tar -zxf flume.tar.gz</li>
+<li>export flume_hme = …/bin</li>
+<li>export flume_conf_dir = …/conf</li>
+<li>exprot path = $PATH:$FLUME_HOME/bin</li>
+<li>修改flume配置文件</li>
+<li>启动flume</li>
+</ol>
+<ul>
+<li>kafka安装</li>
+</ul>
+<ol>
+<li>kafka是高吞吐量日志处理的分布式消息队列</li>
+<li>kafka(broker producer consumer topic partition)</li>
+</ol>
+<ul>
+<li>produce -&gt; kafka cluster -&gt; consumer</li>
+<li>anatomy of a topic (partition  offset)</li>
+<li><a href="http://kafka.apache.org/07/quickstart.html" target="_blank" rel="noopener">http://kafka.apache.org/07/quickstart.html</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="日志收集"><a href="#日志收集" class="headerlink" title="日志收集"></a>日志收集</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">                        - MR</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">                 - hdfs</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">                        - Hive </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">日志文件 - flume            </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">                         - storm</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">                 - kafka</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">                         - spark</span></pre></td></tr></table></figure>
+
+<h4 id="flume"><a href="#flume" class="headerlink" title="flume"></a>flume</h4><ul>
+<li><p>主要配置flume</p>
+<ol>
+<li>同个source多个sink</li>
+<li>hdfs</li>
+<li>kafka</li>
+</ol>
+</li>
+<li><p>注意问题</p>
+<ol>
+<li>jdk版本</li>
+<li>hadoop jar包版本</li>
+<li>hdfs端口问题<h4 id="hive数据仓库"><a href="#hive数据仓库" class="headerlink" title="hive数据仓库"></a>hive数据仓库</h4></li>
+<li>不同格式数据源处理</li>
+<li>不同数据格式统一格式</li>
+<li>不同来源数据统一字段</li>
+<li>非统一字段使用集合</li>
+<li>来自不同来源使用分区</li>
+</ol>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/03/09/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="Hbase学习笔记">
+                <i class="fa fa-chevron-left"></i> Hbase学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/03/09/dameng/" rel="prev" title="dameng">
+                dameng <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzNi8yODQxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="TANAGELEE" />
+            
+              <p class="site-author-name" itemprop="name">TANAGELEE</p>
+              <p class="site-description motion-element" itemprop="description">世上所有的相遇都是久别重逢</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TANAGELEEE" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Hive-create-table"><span class="nav-number">1.</span> <span class="nav-text">1.Hive create table</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#e-g"><span class="nav-number">1.1.</span> <span class="nav-text">e.g.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HQL"><span class="nav-number">1.2.</span> <span class="nav-text">HQL</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#diff"><span class="nav-number">2.</span> <span class="nav-text">diff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive使用SerDe"><span class="nav-number">3.</span> <span class="nav-text">Hive使用SerDe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive分区表"><span class="nav-number">4.</span> <span class="nav-text">Hive分区表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive分桶"><span class="nav-number">5.</span> <span class="nav-text">Hive分桶</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据操作"><span class="nav-number">6.</span> <span class="nav-text">Hive数据操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据操作-变量"><span class="nav-number">7.</span> <span class="nav-text">Hive数据操作-变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据加载"><span class="nav-number">8.</span> <span class="nav-text">Hive数据加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive分区表数据加载"><span class="nav-number">9.</span> <span class="nav-text">Hive分区表数据加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive加载注意问题"><span class="nav-number">10.</span> <span class="nav-text">Hive加载注意问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive数据导出"><span class="nav-number">11.</span> <span class="nav-text">Hive数据导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive动态分区"><span class="nav-number">12.</span> <span class="nav-text">Hive动态分区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#表属性操作"><span class="nav-number">13.</span> <span class="nav-text">表属性操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive高级查询"><span class="nav-number">14.</span> <span class="nav-text">Hive高级查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#order-by"><span class="nav-number">14.1.</span> <span class="nav-text">order by</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#group-by"><span class="nav-number">14.2.</span> <span class="nav-text">group by</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#join"><span class="nav-number">14.3.</span> <span class="nav-text">join</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#mapjoin"><span class="nav-number">14.3.1.</span> <span class="nav-text">mapjoin</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hive分桶-1"><span class="nav-number">14.4.</span> <span class="nav-text">Hive分桶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#distribute-by和sort-by"><span class="nav-number">14.5.</span> <span class="nav-text">distribute by和sort by</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cluster-by"><span class="nav-number">14.6.</span> <span class="nav-text">cluster by</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#union-all"><span class="nav-number">14.7.</span> <span class="nav-text">union all</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive函数"><span class="nav-number">15.</span> <span class="nav-text">Hive函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数分类"><span class="nav-number">15.1.</span> <span class="nav-text">函数分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#内置函数"><span class="nav-number">15.2.</span> <span class="nav-text">内置函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#正则表达式"><span class="nav-number">15.3.</span> <span class="nav-text">正则表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义函数"><span class="nav-number">15.4.</span> <span class="nav-text">自定义函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cli命令"><span class="nav-number">15.5.</span> <span class="nav-text">cli命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#简单函数"><span class="nav-number">15.6.</span> <span class="nav-text">简单函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#窗口函数"><span class="nav-number">15.7.</span> <span class="nav-text">窗口函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分析函数"><span class="nav-number">15.8.</span> <span class="nav-text">分析函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#混合函数"><span class="nav-number">15.9.</span> <span class="nav-text">混合函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDTF"><span class="nav-number">15.10.</span> <span class="nav-text">UDTF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#and-or-优先级"><span class="nav-number">15.11.</span> <span class="nav-text">and or 优先级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive函数实际操作"><span class="nav-number">16.</span> <span class="nav-text">Hive函数实际操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义函数-1"><span class="nav-number">16.1.</span> <span class="nav-text">自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#UDF"><span class="nav-number">16.1.1.</span> <span class="nav-text">UDF</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#实现UDF"><span class="nav-number">16.1.1.1.</span> <span class="nav-text">实现UDF</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UDAF"><span class="nav-number">16.2.</span> <span class="nav-text">UDAF</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#实现UDAF"><span class="nav-number">16.2.0.1.</span> <span class="nav-text">实现UDAF</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#永久函数"><span class="nav-number">16.3.</span> <span class="nav-text">永久函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-SQL优化"><span class="nav-number">17.</span> <span class="nav-text">Hive SQL优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive优化目标"><span class="nav-number">18.</span> <span class="nav-text">Hive优化目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行计划"><span class="nav-number">19.</span> <span class="nav-text">执行计划</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive执行过程"><span class="nav-number">20.</span> <span class="nav-text">Hive执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive表优化"><span class="nav-number">21.</span> <span class="nav-text">Hive表优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-Job优化"><span class="nav-number">22.</span> <span class="nav-text">Hive Job优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-Map-Reduce优化"><span class="nav-number">23.</span> <span class="nav-text">Hive Map/Reduce优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-Map优化"><span class="nav-number">24.</span> <span class="nav-text">Hive Map优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-shuffle优化"><span class="nav-number">25.</span> <span class="nav-text">Hive shuffle优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-reduce优化"><span class="nav-number">26.</span> <span class="nav-text">Hive reduce优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hive-案例实战"><span class="nav-number">27.</span> <span class="nav-text">Hive 案例实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#日志处理流程"><span class="nav-number">27.1.</span> <span class="nav-text">日志处理流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日志收集"><span class="nav-number">28.</span> <span class="nav-text">日志收集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#flume"><span class="nav-number">28.1.</span> <span class="nav-text">flume</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hive数据仓库"><span class="nav-number">28.2.</span> <span class="nav-text">hive数据仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">28.3.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TANAGELEE</span>
+
+  
+</div>
+
+<!-- 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共16.9k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

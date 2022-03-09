@@ -1,13 +1,1439 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>dameng</title>
+    <url>/2022/03/09/dameng/</url>
+    <content><![CDATA[<h2 id="dameng"><a href="#dameng" class="headerlink" title="dameng"></a>dameng</h2><p>check backupset ‘/home/dmserver_bak’;</p>
+<p>./dmrman CTLSTMT=”RESTORE dmserver ‘/opt/dm/dmdbms/bin/dm.ini’ FROM BACKUPSET ‘/home/dmserver_bak’”;</p>
+<p>./dmrman CTLSTMT=”Recover DATABASE ‘/opt/dm/dmdbms/bin/dm.ini’ FROM BACKUPSET ‘/home/dmserver_bak’”;</p>
+<p>./dmserver /opt/dm/dmdbms/data/dmserver/dm.ini;</p>
+<p>7f53b83f4f08eb355721d3e319501e41</p>
+<p>29fab0eb73528c86f3c0bad37e14d66a  dameng_bak_1.tar.gz</p>
+<p>b5e65308d08d3060d889e460c1296a73  dameng_bak_2.tar.gz</p>
+<p>df481b16000667dd05dace6b77ad3334  dameng_bak_3.tar.gz</p>
+<p>9fe3cf2540a3621ef01b423334af590c  dameng_bak_4.tar.gz</p>
+<p>check backupset ‘/home/dmserver_bak’;</p>
+<p>RESTORE DATABASE dmserver ‘/opt/dm/dmdbms/data/dmserver/dm.ini’ FROM BACKUPSET ‘/home/dmserver_bak’;</p>
+<p>RECOVER DATABASE dmserver ‘/opt/dm/dmdbms/data/dmserver/dm.ini’ FROM BACKUPSET ‘/home/dmserver_bak’;</p>
+<p>./dmrestore INI_PATH=/opt/dmdbms/data/dmserver/dm.ini FILE=/home/dmserver_bak/  ARCHIVE_DIR=/opt/dmdbms/data/dmserver/arch</p>
+<p>./dminit path=/opt/dmdbms/data page_size=16  CASE_SENSITIVE=0 UNICODE_FLAG=1</p>
+<p>./dmserver /opt/dmdbms/data/dmserver/dm.ini</p>
+<p>chown dmdba:dinstall /dm7/data/DM01/MAIN.DBF</p>
+<p>./dmrestore INI_PATH=/opt/dmdbms/data/dmserver/dm.ini FILE=/home/dmserver_bak</p>
+<p>RESTORE DATABASE ‘/opt/dmdata/fjtgj_RT/DAMENG/dm.ini’ FROM BACKUPSET ‘/home/dmserver_bak’;</p>
+<p>RESTORE DATABASE ‘/opt/dmdata/fjtgj_RT/DAMENG/dm.ini’ FROM BACKUPSET ‘/opt/dmdata/xxx/DAMENG/bak’;</p>
+<p>select arch_mode from v$database;</p>
+<p>select arch_name,arch_type,arch_dest,arch_file_size,arch_space_limit from v$dm_arch_ini;</p>
+<p>BACKUP TABLESPACE JEESITE BACKUPSET ‘C:\Users\Administrator\Downloads&#39;;</p>
+<p>alter database mount;</p>
+<p>alter database add archivelog ‘type=local,dest=C:\dmdbms\data\DAMENG\bak,file_size=64,space_limit=0’;</p>
+<p>alter database open;</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hive学习笔记</title>
+    <url>/2022/03/09/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="1-Hive-create-table"><a href="#1-Hive-create-table" class="headerlink" title="1.Hive create table"></a>1.Hive create table</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create [external] table [if not exists] [db_name.]table_name [partitioned by(col_name data_type)] [clustered by(col_name, col_name,...)][sorted by(col_name [asc|desc])] into n num_buckets BUCKETS]</span></pre></td></tr><tr><td class="code"><pre><span class="line">[row format row_format][stored as file_format]</span></pre></td></tr><tr><td class="code"><pre><span class="line">[location hdfs_path]</span></pre></td></tr><tr><td class="code"><pre><span class="line">[talproperties(property_name&#x3D;property_value, ...)]</span></pre></td></tr><tr><td class="code"><pre><span class="line">[as select_statement]</span></pre></td></tr></table></figure>
+<h4 id="e-g"><a href="#e-g" class="headerlink" title="e.g."></a>e.g.</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create [external] table temp(</span></pre></td></tr><tr><td class="code"><pre><span class="line">    name string comment &#39;value&#39;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    salary float comment &#39;value&#39;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    subordinates array&lt;string&gt; comment &#39;value&#39;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    deductions map&lt;string, float&gt; comment &#39;value&#39;,</span></pre></td></tr><tr><td class="code"><pre><span class="line">    address struct&lt;street:string, city:string, state:string, zip:int&gt; comment &#39;value&#39;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    )</span></pre></td></tr><tr><td class="code"><pre><span class="line">    row format delimited fields terminated by &#39;\t&#39; lines</span></pre></td></tr><tr><td class="code"><pre><span class="line">    terminated by &#39;\n&#39; stored as textfile;</span></pre></td></tr></table></figure>
+<h4 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h4><ol>
+<li>desc extended table_name;</li>
+<li>desc fomatted table_name;</li>
+<li>load data local inpath ‘/home/data’ overwrite into table table_name;</li>
+<li>show create table table_name;</li>
+<li>show tables;</li>
+<li>create table table_name2 like table_name; (只复制表结构)</li>
+<li>create table table_name3 as select name, addr from table_name4;</li>
+<li>add jar path; (copy jar 到hive lib目录)</li>
+</ol>
+<h3 id="diff"><a href="#diff" class="headerlink" title="diff"></a>diff</h3><ul>
+<li><p>table type : managed_table vs external_table</p>
+</li>
+<li><p>内部表: drop table table_name -&gt; 数据也会一起删除<br>外部表: 只删除元数据信息</p>
+</li>
+<li><p>select subordinates[1] from temp;</p>
+</li>
+<li><p>select deductions[“key”] from temp;</p>
+</li>
+<li><p>select address.city from temp;</p>
+</li>
+<li><p>select * from table_name  | limit x  不走mapreduce job</p>
+</li>
+<li><p>stored as textfile(hadoop fs -text)</p>
+</li>
+<li><p>stored as sequencefile</p>
+</li>
+<li><p>stored as rcfile (hive -service rcfilecat path)</p>
+</li>
+<li><p>stored as inputformat ‘class’ outformat ‘class’</p>
+</li>
+</ul>
+<h3 id="Hive使用SerDe"><a href="#Hive使用SerDe" class="headerlink" title="Hive使用SerDe"></a>Hive使用SerDe</h3><ul>
+<li>serializer和Deserializer</li>
+<li>自定义SerDe -&gt; 实现SerDe</li>
+<li>RegexSerDe  -&gt; hive自带</li>
+<li>row format serde ‘org.apache.hadoop.hive.serde2.RegexSerDe’ with serdeproperties(“input.regex” = “”)</li>
+</ul>
+<h3 id="Hive分区表"><a href="#Hive分区表" class="headerlink" title="Hive分区表"></a>Hive分区表</h3><ul>
+<li>分区表指创建表时指定partition的分区空间</li>
+<li>分区语法<br>partitioned by (key type, …)<br>partition infomation</li>
+<li>查看分区信息:show partitions table_name;</li>
+<li>增加分区<br>alter table table_name add if not exists partition(dt=’xxx’)</li>
+<li>删除分区<br>alter table table_name drop if exists partition(dt=’xxx’)</li>
+</ul>
+<h3 id="Hive分桶"><a href="#Hive分桶" class="headerlink" title="Hive分桶"></a>Hive分桶</h3><ul>
+<li>对于表或者分区 可以进一步组织成桶 细粒度更高</li>
+<li>Hive是针对某一列进行分桶</li>
+<li>对列值哈希 除以桶个数求余决定记录存放桶位置</li>
+<li>好处<br>获得更高的查询处理效率<br>是取样更高效</li>
+<li>分桶语法<br>clustered by (id) sorted by(name) into 4 buckets</li>
+<li>Set hive.enforce.bucketing=true; (默认分桶不开启)</li>
+</ul>
+<h3 id="Hive数据操作"><a href="#Hive数据操作" class="headerlink" title="Hive数据操作"></a>Hive数据操作</h3><ul>
+<li>Hive执行命令方式<br>cli、jdbc、 hwi、beeline</li>
+<li>cli shell<br>hive -help<br>hive –help<br>list, source</li>
+<li>hive –service rcfilecat //</li>
+<li>hive -e “hql”</li>
+<li>hive -f filename</li>
+<li>hive -i filename 初始化hive 在-f之前执行</li>
+<li>hive -S, –silent</li>
+<li>hive -v, –verbose</li>
+<li>list jar;</li>
+<li>source path;</li>
+</ul>
+<h3 id="Hive数据操作-变量"><a href="#Hive数据操作-变量" class="headerlink" title="Hive数据操作-变量"></a>Hive数据操作-变量</h3><ul>
+<li>set val = xxx;</li>
+<li>set val;</li>
+<li>select * from table_name where col = ${hiveconf:val};</li>
+<li>env;</li>
+</ul>
+<h3 id="Hive数据加载"><a href="#Hive数据加载" class="headerlink" title="Hive数据加载"></a>Hive数据加载</h3><ul>
+<li><p>加载本地数据<br>load data local inpath ‘localpath’ [overwrite] into table tablename</p>
+</li>
+<li><p>加载hdfs数据<br>load data inpath ‘hafspath’ [overwrite] into table tablename</p>
+</li>
+<li><p>使用hadoop命令拷贝数据到指定位置<br>hadoop fs -cp<br>hadoop fs -copyFromLocal originalpath targetpath (多次copy重命名)<br>dfs -copyFromLocal path targetpath (hive命令行)<br>hiveCli执行linux命令 !ls path</p>
+</li>
+<li><p>由查询语句加载数据<br>insert [overwrite|into] table tablename select col, … from tablename2 where where_expr;</p>
+<p>from tablename2<br>insert [overwrite|into] table tablename<br>select col, …<br>where where_expr;</p>
+<p>select col, …<br>from tablename2<br>where where_expr<br>insert overwrite table tablename;</p>
+<h3 id="Hive分区表数据加载"><a href="#Hive分区表数据加载" class="headerlink" title="Hive分区表数据加载"></a>Hive分区表数据加载</h3><ul>
+<li>内部分区表加载方式类似于内表</li>
+<li>外部分区表加载方式类似于外表</li>
+<li>加载数据指定目标表的同时 需要指定分区</li>
+</ul>
+<h3 id="Hive加载注意问题"><a href="#Hive加载注意问题" class="headerlink" title="Hive加载注意问题"></a>Hive加载注意问题</h3></li>
+<li><p>分隔符单字符</p>
+</li>
+<li><p>数据类型对应问题</p>
+</li>
+<li><p>select 查询插入数据和顺序有关 名称可不一致</p>
+</li>
+<li><p>hive在数据加载时不做检查 查询时检查</p>
+</li>
+<li><p>外部分区表需要添加分区才能看到数据</p>
+</li>
+<li><p>hive 字段null值 底层存储 \N</p>
+</li>
+</ul>
+<h3 id="Hive数据导出"><a href="#Hive数据导出" class="headerlink" title="Hive数据导出"></a>Hive数据导出</h3><ul>
+<li>hadoop命令方式<br>get<br>text</li>
+<li>insert…directory方式<br>insert overwrite [local] directory path [row format delimited fields terminated by ‘\t’] select col, … from tablename;</li>
+<li>shell命令管道<br>hive -f/e|sed/grep/awk &gt; file</li>
+<li>第三方工具 sqoop</li>
+</ul>
+<h3 id="Hive动态分区"><a href="#Hive动态分区" class="headerlink" title="Hive动态分区"></a>Hive动态分区</h3><ul>
+<li><p>不需要为不同的分区添加不同的插入语句</p>
+</li>
+<li><p>分区不确定 需要从数据中获取</p>
+</li>
+<li><p>set hive.exec.dynamic.partition=true 使用动态分区</p>
+</li>
+<li><p>set.exec.dynamic.partition.mode=nosntrick; 无限制模式</p>
+</li>
+<li><p>set hive.exec.max.dynamic.partitions.pernode=10000; 每个节点生成动态分区最大个数</p>
+</li>
+<li><p>set hive.exec.max.dynamic.partitions=10000; 生成动态分区的最大个数</p>
+</li>
+<li><p>set hive.exec.max.created.files=150000; 一个任务最多可以创建的文件数目</p>
+</li>
+<li><p>set dfs.datanode.max.xcievers=8192 限定一次最多打开的文件数</p>
+</li>
+<li><p>insert overwrite table tablename partition(value) select col as value from tablename2</p>
+</li>
+</ul>
+<h3 id="表属性操作"><a href="#表属性操作" class="headerlink" title="表属性操作"></a>表属性操作</h3><ul>
+<li>修改表名:alter table table_name rename to new_table_name;</li>
+<li>修改列名:alter table tablename change c1 c2 int comment ‘xxx’ after severity //或者使用’first’ 放在第一位</li>
+<li>alter table tablename add columns(cl string comment ‘xxx’, c2 long comment ‘yyyy’)</li>
+<li>alter table tablename set tblproperties(‘comment’=’xxxx’)</li>
+<li>修改字段分隔符(无分区表): alter table table_name set serdeproperties(‘field.delim’ = ‘\t’) //有分区的使用则已存在的分区不能应用新的分隔符</li>
+<li>修改字段分隔符(有分区表): alter table table_name partition(dt=’xxxx’) set serdeproperties(‘field.delim’ = ‘\t’)  </li>
+<li>修改location: alter table table_name [partition()] set location ‘path’</li>
+<li>alter table table_name set TBLPROPERTIES(‘EXTERNAL’ = ‘TRUE’) //内部表转外部表</li>
+<li>alter table table_name set TBLPROPERTIES(‘EXTERNAL’ = ‘FALSE’) //外部表转内部表</li>
+<li>alter tableproperties</li>
+<li>alter serde properties</li>
+<li>alter table/partirion file format</li>
+<li>alter table storage properties</li>
+<li>alter table rename partition</li>
+<li>alter table set location</li>
+</ul>
+<h3 id="Hive高级查询"><a href="#Hive高级查询" class="headerlink" title="Hive高级查询"></a>Hive高级查询</h3><ul>
+<li>group by 、order by 、join、distribute by、sort by、cluster by 、union all</li>
+<li>底层实现: mapreduce</li>
+<li>count计数 count(*) count(1) count(col)</li>
+<li>sum求和 返回bigint<br>sum(col) + cast(1 as bigint)</li>
+<li>avg求平均值 返回double</li>
+<li>distinct不同值个数 count(distinct col)</li>
+</ul>
+<h4 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h4><ul>
+<li>select col,… from table where condition order by col1, col2 [asc|desc]</li>
+<li>全局排序</li>
+<li>order by需要reduce 只有一个reduce 与配置无关<h4 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h4></li>
+<li>select col,… count(1), sel_expr(聚合操作) from table where condition group by col1,… [having]</li>
+<li>select 非聚合的列必须出现在group by中</li>
+<li>除了普通列就是聚合操作</li>
+<li>group by后面可以跟表达式 e.g. substr(col)</li>
+<li>mapred.reduce.tasks (设置reduce数量)</li>
+<li>输出文件数与reduce数相同</li>
+<li>网络负载过重 数据倾斜(优化参数hive.groupby.skewindata)</li>
+<li>set mapred.reduce.tasks=x (对于order by无效) group by: number of reduces:x</li>
+<li>set hive.groupby.skewindata = true;<br>group by: 按col列分组 把col列的内容作为key 其他列作为value 传到reduce 在reduce端执行聚合操作和having过滤<h4 id="join"><a href="#join" class="headerlink" title="join"></a>join</h4></li>
+<li>join等值连接</li>
+<li>left outer join 左外连接</li>
+<li>right outer join 右外连接</li>
+<li>left semi join 类似 exists</li>
+<li>mapjoin map端完成join操作 不需要reduce 基于内存做join 属于优化操作</li>
+<li>set hive.optimize.skewjoin = true;<h5 id="mapjoin"><a href="#mapjoin" class="headerlink" title="mapjoin"></a>mapjoin</h5></li>
+<li>mapjoin优缺点</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不消耗集群的reduce资源</td>
+<td>占用部分内存 表不能太大</td>
+</tr>
+<tr>
+<td>减少reduce操作 加快程序执行</td>
+<td>每个计算节点都会加载一次</td>
+</tr>
+<tr>
+<td>减低网络负载</td>
+<td>生成较多的小文件</td>
+</tr>
+</tbody></table>
+<ul>
+<li>hive根据sql选择使用common join 或者map join<br>set hive.auto.convert.join = true;<br>hive.mapjoin.smalltable.filesize默认值是25mb</li>
+<li>手动指定<br>select /<em>+mapjoin(n)</em>/ col,… from …</li>
+<li>使用场景<ol>
+<li>关联操作中有小表</li>
+<li>不等值的连接操作</li>
+</ol>
+</li>
+</ul>
+<h4 id="Hive分桶-1"><a href="#Hive分桶-1" class="headerlink" title="Hive分桶"></a>Hive分桶</h4><ul>
+<li>分桶的使用<br>select * from bucketed_user tablesample(bucket 1 out of 2 on id)</li>
+<li>bucket join<br>set hive.optimize.bucketmapjoin = true;<br>set hive.optimize.bucketmapjoin.sortedmerge = true;<br>set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveImputFormat;</li>
+</ul>
+<h4 id="distribute-by和sort-by"><a href="#distribute-by和sort-by" class="headerlink" title="distribute by和sort by"></a>distribute by和sort by</h4><ul>
+<li><p>distribute 分散数据<br>按照col列把数据分散到不同的reduce</p>
+</li>
+<li><p>sort 排序<br>按照col列把数据排序</p>
+</li>
+<li><p>distribute by与group by对比</p>
+<ol>
+<li>都是按key值划分数据</li>
+<li>都使用reduce操作</li>
+<li>distribute by单纯分散数据 group by把相同key数据聚集到一起 后续必须是聚合操作</li>
+</ol>
+</li>
+<li><p>order by 与sort by对比</p>
+<ol>
+<li>order by 是全局排序</li>
+<li>sort by只是确保每个reduce上输出数据有序 只有一个reduce时 和order by作用一样</li>
+</ol>
+</li>
+<li><p>应用场景</p>
+<ol>
+<li>map输出的文件大小不均</li>
+<li>reduce输出文件大小不均</li>
+<li>小文件过多</li>
+<li>文件超大<h4 id="cluster-by"><a href="#cluster-by" class="headerlink" title="cluster by"></a>cluster by</h4></li>
+</ol>
+</li>
+<li><p>把有相同值的数据聚集到一起并排序</p>
+</li>
+<li><p>cluster by</p>
+</li>
+<li><p>distribute by col order by col</p>
+<h4 id="union-all"><a href="#union-all" class="headerlink" title="union all"></a>union all</h4></li>
+<li><p>hive不支持union</p>
+</li>
+<li><p>select col form (select a as col from t1 union all select b as col from t2) tmp</p>
+</li>
+<li><p>要求</p>
+<ol>
+<li>字段名字一样</li>
+<li>字段类型一样</li>
+<li>字段个数一样</li>
+<li>子表不能有别名</li>
+<li>如果需要从合并之后的表中查询数据 那么合并的表必须要有别名</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive函数"><a href="#Hive函数" class="headerlink" title="Hive函数"></a>Hive函数</h3><h4 id="函数分类"><a href="#函数分类" class="headerlink" title="函数分类"></a>函数分类</h4><h4 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h4><ul>
+<li>简单函数 map阶段</li>
+<li>聚合函数 reduce阶段</li>
+<li>集合函数 map阶段</li>
+<li>特殊函数<h4 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h4><h4 id="自定义函数"><a href="#自定义函数" class="headerlink" title="自定义函数"></a>自定义函数</h4></li>
+<li>UDF map阶段</li>
+<li>UDAF reduce阶段<h4 id="cli命令"><a href="#cli命令" class="headerlink" title="cli命令"></a>cli命令</h4></li>
+<li>show functions;</li>
+<li>desc FUNCTION EXTENDED concat;<h4 id="简单函数"><a href="#简单函数" class="headerlink" title="简单函数"></a>简单函数</h4></li>
+<li>函数的计算粒度-单条记录</li>
+<li>关系运算</li>
+<li>数学运算</li>
+<li>逻辑运算</li>
+<li>数组计算</li>
+<li>类型转换</li>
+<li>日期函数</li>
+<li>条件函数</li>
+<li>字符串函数</li>
+<li>统计函数<h4 id="窗口函数"><a href="#窗口函数" class="headerlink" title="窗口函数"></a>窗口函数</h4></li>
+<li>应用场景<ol>
+<li>用于分区排序</li>
+<li>动态group by</li>
+<li>Top N</li>
+<li>累计计算</li>
+<li>层次查询</li>
+</ol>
+</li>
+<li>windowing functions<ol>
+<li>lead </li>
+<li>lag</li>
+<li>first_value</li>
+<li>last_value<h4 id="分析函数"><a href="#分析函数" class="headerlink" title="分析函数"></a>分析函数</h4></li>
+</ol>
+</li>
+<li>the over clause<ol>
+<li>count</li>
+<li>sum</li>
+<li>min</li>
+<li>max</li>
+<li>avg</li>
+</ol>
+</li>
+<li>analytics functions<ol>
+<li>rank</li>
+<li>row_number</li>
+<li>dense_rank</li>
+<li>cume_dist</li>
+<li>percent_rank</li>
+<li>ntile<h4 id="混合函数"><a href="#混合函数" class="headerlink" title="混合函数"></a>混合函数</h4></li>
+<li>java_method(class, method[arg1[, arg2…]])</li>
+<li>reflect(class, method[arg1[, arg2…]])</li>
+<li>hash(a1[, a2…])<h4 id="UDTF"><a href="#UDTF" class="headerlink" title="UDTF"></a>UDTF</h4></li>
+</ol>
+</li>
+<li>表函数</li>
+<li>e.g. explode函数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">           a 1</span></pre></td></tr><tr><td class="code"><pre><span class="line">a 1,2,3 -&gt; a 2</span></pre></td></tr><tr><td class="code"><pre><span class="line">           a 3</span></pre></td></tr></table></figure>
+
+<h4 id="and-or-优先级"><a href="#and-or-优先级" class="headerlink" title="and or 优先级"></a>and or 优先级</h4><ul>
+<li>and 优先级高于or<h3 id="Hive函数实际操作"><a href="#Hive函数实际操作" class="headerlink" title="Hive函数实际操作"></a>Hive函数实际操作</h3></li>
+<li>cast(1.5 as bigint)</li>
+<li>select if(2&gt;1, v1, v2) from table</li>
+<li>case when condition then … when condition then … else … end</li>
+<li>select get_json_object(‘{“name”:”jack”, “age”:”20”}’, ‘$.name’) from table limit 1;</li>
+<li>select parse_url(“<a href="http://baidu.com/path1/&quot;" target="_blank" rel="noopener">http://baidu.com/path1/&quot;</a>, ‘HOST’) from table limit 1;</li>
+<li>select concat(col, ‘123’) from table;</li>
+<li>select concat_ws(“,”, “adc”, “def”) from table limit 1;</li>
+<li>select collect_set(col) from table;</li>
+<li>collect_list()</li>
+<li>sum(money)</li>
+<li>count(*)</li>
+<li>first_value(money) over (partition by id order by money rows between 1 preceding and 1 following)  // 当前行前后两行 取值</li>
+<li>lead(money, 2) over (order by money)</li>
+<li>lag(money, 2) over (order by money)</li>
+<li>rank()</li>
+<li>select col, dense_rank() over(partition by id order by money) from table;</li>
+<li>precetn_rank() // (相同值最小行号-1)/(行数-1)</li>
+<li>cume_dist() </li>
+<li>ntile(2)  // 分片</li>
+<li>java_method(“java.lang.Math”, “sqrt”, cast(id as double))</li>
+<li>select id, adid from tablename lateral view explode(split(type, ‘B’)) tt as adid</li>
+<li>select 1 from dual where ‘footbar’ rlike ^f.*r$;</li>
+<li>regexp_replace(string a, string b, string c)<br>select regexp_replace(‘footbar’, ‘oo|ar’, “”) from dual;</li>
+<li>regexp_extract(string subject, string pattern, int index)<br>select regexp_extract(‘footbar’, ‘foo(.*?)(bar)’, 1) from dual;</li>
+</ul>
+<h4 id="自定义函数-1"><a href="#自定义函数-1" class="headerlink" title="自定义函数"></a>自定义函数</h4><h5 id="UDF"><a href="#UDF" class="headerlink" title="UDF"></a>UDF</h5><ul>
+<li>用户自定义函数 user defined function</li>
+<li>针对单条记录</li>
+<li>创建函数<ol>
+<li>自定义一个java类</li>
+<li>继承UDF类</li>
+<li>重写evaluate方法</li>
+<li>打jar包</li>
+<li>hive执行add jar</li>
+<li>hive执行创建模板函数</li>
+<li>hql中使用<h6 id="实现UDF"><a href="#实现UDF" class="headerlink" title="实现UDF"></a>实现UDF</h6></li>
+<li>extends UDF</li>
+<li>实现evaluate</li>
+<li>add jar path</li>
+<li>create tempporary function bigthan as ‘com.xx.udf.udftest’</li>
+<li>select name, addr, bigthan(addr, 80) from tablename;</li>
+<li>函数走map 没有走reduce<h4 id="UDAF"><a href="#UDAF" class="headerlink" title="UDAF"></a>UDAF</h4></li>
+</ol>
+</li>
+<li>用户自定义聚合函数</li>
+<li>user defined aggregation function</li>
+<li>针对记录集合<h6 id="实现UDAF"><a href="#实现UDAF" class="headerlink" title="实现UDAF"></a>实现UDAF</h6></li>
+<li>类实现resolver extends abstractGenericUDAFResolver</li>
+<li>重写 getEvaluator -&gt; 类型检查</li>
+<li>方法实现eveluator</li>
+<li>extends GenericUDAFEvaluator</li>
+<li>init 方法 -&gt; Mode</li>
+<li>mode -&gt; partial1 partial2 final complete<h4 id="永久函数"><a href="#永久函数" class="headerlink" title="永久函数"></a>永久函数</h4></li>
+<li>functionRegistry.java 注册 然后重新编译hive</li>
+<li>hql文件 hive -i file</li>
+<li>新建hivec文件<ol>
+<li>jar包放到安装目录或者指定目录</li>
+<li>$HOME/.hivec</li>
+<li>把初始化语句加载到文件中</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-SQL优化"><a href="#Hive-SQL优化" class="headerlink" title="Hive SQL优化"></a>Hive SQL优化</h3><ul>
+<li>hive查询操作优化</li>
+<li>join优化<ol>
+<li>hive.optimize.skewjoin=true join过程出现倾斜</li>
+<li>set hive.skewjoin.key=100000 join键对应的记录条数超过这个值会进行优化</li>
+<li>mapjoin<br> set hive.auto.convert.join = true<br> hive.mapjoin.smalltable.filesize 默认25mb<br> select /<em>+mapjoin(A)</em>/ f.a,f.b from A t join B f on (f.a=t.a)</li>
+<li>mapjoin使用场景<br>关联操作中有一张表非常小<br>不等值的链接操作</li>
+<li>bucket join<br>两个表已相同方式划分桶<br>两个表的桶个数是倍数的关系<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">create table order(cid int, prive float) clustered by(cid) into 32 buckets;</span></pre></td></tr><tr><td class="code"><pre><span class="line">create table customer(id int, first string) clustered by(id) into 32 buckets;</span></pre></td></tr><tr><td class="code"><pre><span class="line">select price form order t join customer s on t.cid&#x3D;s.id;</span></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>注意where条件位置 在map阶段减少数据量 减少reduce端数据量</li>
+<li>group by优化<ol>
+<li>hive.groupby.skewindata=true</li>
+<li>set hive.groupby.mapaggr.checkinterval=100000 //group的键对应的记录条数超过这个值则会进行优化</li>
+</ol>
+</li>
+<li>count distinct优化<ol>
+<li>优化前 select count(distinct id) from tablename;</li>
+<li>优化后 select count(1) from (select distinct id from tablename) tmp</li>
+<li>优化后 select count(1) from (select id form tablename group by id) tmp</li>
+</ol>
+</li>
+<li>sql优化<ol>
+<li>select a,sum(b), count(distinct c), count(distinct d) from test group by a //优化前</li>
+<li>select a,sum(b) as b, count(c) as c, count(d) as d from (select a, o as b, c, null as d from test group by a,c union all select a, o as b, null as c,d from test group by a,d union all select a,b,null as c,null as d from test) tmp1 group by a; //优化后</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive优化目标"><a href="#Hive优化目标" class="headerlink" title="Hive优化目标"></a>Hive优化目标</h3><ul>
+<li>在有限的资源下 执行效率高</li>
+<li>常见问题<ol>
+<li>数据倾斜</li>
+<li>Map数设置</li>
+<li>Reduce数设置</li>
+<li>其他</li>
+</ol>
+</li>
+<li>Hive执行: HQL-&gt;Job -&gt;Map/Reduce<h3 id="执行计划"><a href="#执行计划" class="headerlink" title="执行计划"></a>执行计划</h3></li>
+<li>查看执行计划<ol>
+<li>explain [extended] hql<h3 id="Hive执行过程"><a href="#Hive执行过程" class="headerlink" title="Hive执行过程"></a>Hive执行过程</h3></li>
+<li>cli</li>
+<li>compile</li>
+<li>metastore</li>
+<li>driver</li>
+<li>execute</li>
+<li>jobTracker</li>
+<li>map </li>
+<li>reduce</li>
+<li>datanode</li>
+<li>nameNode<h3 id="Hive表优化"><a href="#Hive表优化" class="headerlink" title="Hive表优化"></a>Hive表优化</h3></li>
+</ol>
+</li>
+<li>分区<ol>
+<li>静态分区</li>
+<li>动态分区<ol>
+<li>set hive.exec.dynamic.partition=true</li>
+<li>set hive.exec.dynamic.partition.mode=nonstrict</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>分桶<ol>
+<li>set hive.enforce.bucketing=true</li>
+<li>set hive.enforce.sorting=true</li>
+</ol>
+</li>
+<li>数据<ol>
+<li>相同数据尽量聚集在一起</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-Job优化"><a href="#Hive-Job优化" class="headerlink" title="Hive Job优化"></a>Hive Job优化</h3><ul>
+<li>并行化执行<ol>
+<li>每个查询被hive转化成多个阶段 有些阶段关联性不大 可以并行化执行 减少执行时间</li>
+<li>set hive.exec.parallel=true</li>
+<li>set hive.exec.parallel.thread.number = 8</li>
+</ol>
+</li>
+<li>本地化执行<ol>
+<li>set hive.exec.model.loacl.auto=true</li>
+<li>当一个job满足如下条件才能真正使用本地模式(job的输入数据大小必须小于参数hive.exec.mode.local.auto.inputbytes.max 默认128MB)(job的map数必须小于参数 hive.exec.model.local.auto.tasks.max 默认4)(job 的reduce数必须为0或者1)</li>
+</ol>
+</li>
+<li>Job合并输入小文件<ol>
+<li>set hive.input.format=org.apache.hadoop.hive.ql.io.CombineHiveInputFormat</li>
+<li>合并文件数由mapred.man.split.size限制的大小决定</li>
+</ol>
+</li>
+<li>job合并输出小文件<ol>
+<li>set hive.merge.smallfiles.avgsize=256000000 当输出文件平均大小小于该值 启动新job合并文件</li>
+<li>set hive.merge.size.per.task=64000000 合并之后的文件大小</li>
+</ol>
+</li>
+<li>jvm重利用<ol>
+<li>set mapred.job.reuse.jvm.num.tasks=20;</li>
+<li>jvm重利用可以使job长时间保留slot 直到作业结束 这对又较多任务和较小文件有意义 不能设置过大有些作业会有reduce任务 reduce任务没有完成 map任务占用slot不能释放 其他作业可能需要等待</li>
+</ol>
+</li>
+<li>压缩数据</li>
+<li>中间压缩就是处理hive查询的多个job之间的数据 对于中间压缩 最好选择一个节省cpu耗时的压缩方式<ol>
+<li>set hive.exec.compress.intermediate = true;</li>
+<li>set hive.intermediate.compression.codec = org.apache.hadoop.io.compress.SnappyCodec;</li>
+<li>set hive.intermediate.compression.type = BLOCK;</li>
+</ol>
+</li>
+<li>hive查询最终的输出也可以压缩<ol>
+<li>set hive.exec.compress.output = true;</li>
+<li>set mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec;</li>
+<li>set mapred.output.compression.type = BLOCK;<h3 id="Hive-Map-Reduce优化"><a href="#Hive-Map-Reduce优化" class="headerlink" title="Hive Map/Reduce优化"></a>Hive Map/Reduce优化</h3></li>
+</ol>
+</li>
+<li>map task(input split -&gt; map -&gt; buffer in memory -&gt; patition sort and aplit to disk -&gt; fetch -&gt; reduce task(merge -&gt; merge -&gt; reduce -&gt; output))<h3 id="Hive-Map优化"><a href="#Hive-Map优化" class="headerlink" title="Hive Map优化"></a>Hive Map优化</h3></li>
+<li>set mapred.map.tasks=10 无效<ol>
+<li>默认map个数: default_num = total_size/block_size;</li>
+<li>期望大小: goal_num = mapred.map.tasks;</li>
+<li>设置处理的文件大小: split_size = max(mapred.min.split.size, block_size); split_num = total_size/split_size;</li>
+<li>计算的map个数:<br>compute_map_num = min(split_num, max(default_num, goal_num));</li>
+</ol>
+</li>
+<li>map优化总结<ol>
+<li>增加map数 设置mapred.map.tasks 较大值</li>
+<li>减小map数 设置mapred.min.split.size为较大的值</li>
+<li>输入文件size大不是小文件 增大mapred.min.plit.size值</li>
+<li>输入文件巨大 都是小文件 单个文件size小于blocksize 增大mapred.min.split.size不可行 需要使用combineFileImputFormat将多个input path 合并成一个InputSplit送给mapper处理 减少mapper数量</li>
+</ol>
+</li>
+<li>map端聚合<ol>
+<li>set hive.map.aggr= true;</li>
+</ol>
+</li>
+<li>推测执行<ol>
+<li>mapred.map.tasks.specelative.execution<h3 id="Hive-shuffle优化"><a href="#Hive-shuffle优化" class="headerlink" title="Hive shuffle优化"></a>Hive shuffle优化</h3></li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Map端</th>
+<th>reduce端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>io.sort.mb</td>
+<td>mapred.reduce.parallel.copies</td>
+</tr>
+<tr>
+<td>io.sort.spill.percent</td>
+<td>mapred.reduce.copy.backoff</td>
+</tr>
+<tr>
+<td>min.num.spill.for.combine</td>
+<td>io.sort.factor</td>
+</tr>
+<tr>
+<td>io.sort.factor</td>
+<td>mapred.job.shuffle.input.buffer.percent</td>
+</tr>
+<tr>
+<td>io.sort.record.percent</td>
+<td>mapred.jon.reduce.input.buffer.percent</td>
+</tr>
+</tbody></table>
+<h3 id="Hive-reduce优化"><a href="#Hive-reduce优化" class="headerlink" title="Hive reduce优化"></a>Hive reduce优化</h3><ul>
+<li>需要reduce操作的查询<ol>
+<li>聚合查询 (sum count distinct…)</li>
+<li>高级查询 (group by | join | distribute by | cluster by…) order by (只需要一个reduce)</li>
+</ol>
+</li>
+<li>推测执行<ol>
+<li>mapred.reduce.tasks.speculative.exection</li>
+<li>hive.mapred.reduce.tasks.speculative.execution</li>
+</ol>
+</li>
+<li>reduce优化</li>
+<li>set mapred.reduce.tasks = 10 //直接设置<ol>
+<li>hive.exec.reducers.max 默认999</li>
+<li>hive.exec.reducers.bytes.per.reducer 默认1G</li>
+</ol>
+</li>
+<li>计算公式<ol>
+<li>numRTasks = min[maxReducers.input.size/perReducer]</li>
+<li>maxReducers = hive.exec.reducers.max</li>
+<li>perReducer = hive.exec.reducers.bytes.per.reducer</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hive-案例实战"><a href="#Hive-案例实战" class="headerlink" title="Hive 案例实战"></a>Hive 案例实战</h3><h4 id="日志处理流程"><a href="#日志处理流程" class="headerlink" title="日志处理流程"></a>日志处理流程</h4><ul>
+<li>数据收集 - 数据清洗 - 数据存储与管理 - 数据分析 - 数据展示</li>
+<li>日志分析系统<ol>
+<li>flume日志收集工具</li>
+<li>hdfs | kafka</li>
+<li>mapreduce | spark/storm</li>
+<li>Hbase/Hive | 最终结果保存文件系统数据库</li>
+<li>sqoop</li>
+<li>zookeeper 分布协调服务</li>
+</ol>
+</li>
+<li>Flume-ng<ol>
+<li>cloudera 提供 高可用高可靠 分布式</li>
+<li>定制数据发送方</li>
+<li>简单处理数据 可定制数据接受方</li>
+<li>flume 0.9X - Flume-og  Flume.X版本 - Flume-ng</li>
+<li>主要元素</li>
+<li>agent source channel sink</li>
+<li>agent使用jvm运行flume 每台机器运行一个agent 一个agent包含多个sources和sinks</li>
+<li>clinet生产数据 运行在一个独立的线程</li>
+<li>source从client收集数据 传递给channel</li>
+<li>sink从channel收集 运行在一个独立线程</li>
+<li>channel链接sources和sinks</li>
+<li>events可以是日志记录 avro对象等</li>
+<li><a href="http://cwiki.apache.org/confluence/display/FLUME/Getting_Started" target="_blank" rel="noopener">http://cwiki.apache.org/confluence/display/FLUME/Getting_Started</a></li>
+</ol>
+<ul>
+<li>flume架构</li>
+</ul>
+<ol>
+<li>web server -&gt; source(agent) -&gt; channel(agent) -&gt; sink(agent) -&gt; hdfs </li>
+<li>多个agent 下一个agent的source由上一个agent的sink中获取</li>
+</ol>
+<ul>
+<li>flume安装</li>
+</ul>
+<ol>
+<li>安装包</li>
+<li>tar -zxf flume.tar.gz</li>
+<li>export flume_hme = …/bin</li>
+<li>export flume_conf_dir = …/conf</li>
+<li>exprot path = $PATH:$FLUME_HOME/bin</li>
+<li>修改flume配置文件</li>
+<li>启动flume</li>
+</ol>
+<ul>
+<li>kafka安装</li>
+</ul>
+<ol>
+<li>kafka是高吞吐量日志处理的分布式消息队列</li>
+<li>kafka(broker producer consumer topic partition)</li>
+</ol>
+<ul>
+<li>produce -&gt; kafka cluster -&gt; consumer</li>
+<li>anatomy of a topic (partition  offset)</li>
+<li><a href="http://kafka.apache.org/07/quickstart.html" target="_blank" rel="noopener">http://kafka.apache.org/07/quickstart.html</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="日志收集"><a href="#日志收集" class="headerlink" title="日志收集"></a>日志收集</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">                        - MR</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 - hdfs</span></pre></td></tr><tr><td class="code"><pre><span class="line">                        - Hive </span></pre></td></tr><tr><td class="code"><pre><span class="line">日志文件 - flume            </span></pre></td></tr><tr><td class="code"><pre><span class="line">                         - storm</span></pre></td></tr><tr><td class="code"><pre><span class="line">                 - kafka</span></pre></td></tr><tr><td class="code"><pre><span class="line">                         - spark</span></pre></td></tr></table></figure>
+
+<h4 id="flume"><a href="#flume" class="headerlink" title="flume"></a>flume</h4><ul>
+<li><p>主要配置flume</p>
+<ol>
+<li>同个source多个sink</li>
+<li>hdfs</li>
+<li>kafka</li>
+</ol>
+</li>
+<li><p>注意问题</p>
+<ol>
+<li>jdk版本</li>
+<li>hadoop jar包版本</li>
+<li>hdfs端口问题<h4 id="hive数据仓库"><a href="#hive数据仓库" class="headerlink" title="hive数据仓库"></a>hive数据仓库</h4></li>
+<li>不同格式数据源处理</li>
+<li>不同数据格式统一格式</li>
+<li>不同来源数据统一字段</li>
+<li>非统一字段使用集合</li>
+<li>来自不同来源使用分区</li>
+</ol>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>Hbase学习笔记</title>
+    <url>/2022/03/09/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>Hbase分布式 多版本 面向列</li>
+<li>Hbase利用hdfs作为其文件存储系统 提供高可靠性 高性能 列存储 可伸缩 实时读写 适用于非结构化数据存储的数据库</li>
+<li>Hbase利用mr来处理Hbase中的海量数据</li>
+<li>Hbase利用zookeeper作为分布式协同服务<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3></li>
+<li>数据量大：一个表可以有上亿行上百万列 列多时 插入变慢</li>
+<li>面向列 面向列(族)的存储和权限控制 列族独立检索</li>
+<li>稀疏 对于空(null)的列 并不占用存储空间 表设计非常稀疏</li>
+<li>多版本 每个cell中的数据可以有多个版本 默认情况下版本号自动分配 单元格插入时的时间戳</li>
+<li>无类型 HBase中的数据都是字符串 没有类型</li>
+<li>强一致性 同一行数据的读写只在同一台region server上</li>
+<li>有限的查询方式 仅支持三种查询方式 单个rowkey查询 /通过rowkey的range查询/全表扫描</li>
+<li>高性能随机读写<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3></li>
+<li>行同一个key对应的所有数据</li>
+<li>列族 相似的列数据通常被划分成一个列族 建表时确定</li>
+<li>列 列名在写入时确定</li>
+<li>cell及时间戳</li>
+<li>三维有序<br>sortedMap(rowKey, list(sortedMap(column, List(value, TimeStamp))))<br>rowkey(asc) + columnLabel(asc) + version(desc) -&gt; value</li>
+<li>面向列的存储</li>
+<li>一张表可以被分成若干个region</li>
+<li>行按照rowkey进行字典排序</li>
+<li>支持随机续写</li>
+<li>region时负载均衡调度的最小单位<h3 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h3></li>
+<li>client zookeeper Hmaster HregionServer hregion Hlog store memstore storefile HFile dfsclient namenode</li>
+<li>client：包含hbase接口维护cache加快对hbase的访问</li>
+<li>zookeeper: 保证mater唯一 region寻址入口 维护regionserver上下线信息 存储hbase的schema和table元数据</li>
+<li>master: 为regionserver分配region 负责regionserver的均衡负载 管理用户对table的增删改查操作</li>
+<li>region server: 维护region 处理region I/O请求  负责切分运行中变得过大的region</li>
+<li>root表: 记录meta表中每个region的位置 root表最多一个region zookeeper中记录了root表的location</li>
+<li>meta表： 记录各个表中每个region所在的region server,meta表可能包含多个region<h3 id="hbase操作"><a href="#hbase操作" class="headerlink" title="hbase操作"></a>hbase操作</h3></li>
+<li>flush <ol>
+<li>内存容量有限,需要定期将内存中的数据flush到磁盘</li>
+<li>每次flush 每个region的每个column family都会产生一个HFile</li>
+<li>读取操作 region server会把多个HFile数据归并到一起</li>
+</ol>
+</li>
+<li>compaction<ol>
+<li>flush操作产生的HFile会越来越低 需要归并减少HFile的数量</li>
+<li>旧数据会被清理</li>
+</ol>
+</li>
+<li>split<ol>
+<li>hfile大小到某个阈值 就会split region split成两个region</li>
+<li>这两个region被分到其他不同的region server上</li>
+</ol>
+</li>
+<li>scan<ol>
+<li>hbase原生提供的方法, 顺序扫库，可以使用mapreduce并发扫库的方法</li>
+</ol>
+</li>
+<li>bulk load<ol>
+<li>快速导入大批量数据的方法</li>
+</ol>
+</li>
+</ul>
+<h3 id="存储模型"><a href="#存储模型" class="headerlink" title="存储模型"></a>存储模型</h3><ul>
+<li>一个table的一个region会被随机分配给一个region server</li>
+<li>region是分布式存储和负载均衡的最小单元</li>
+<li>table一开始只有一个region put数据 拆分 -&gt; 多个region server<h3 id="region定位"><a href="#region定位" class="headerlink" title="region定位"></a>region定位</h3></li>
+<li>root表 -&gt; meta表-&gt;region<h3 id="HFile"><a href="#HFile" class="headerlink" title="HFile"></a>HFile</h3></li>
+<li>基于block的存储结构</li>
+<li>block的索引驻留内存</li>
+</ul>
+<h3 id="hbase操作-1"><a href="#hbase操作-1" class="headerlink" title="hbase操作"></a>hbase操作</h3><ul>
+<li>create ‘test’, ‘info’</li>
+<li>scan ‘test’</li>
+<li>put ‘test’,’row1’,’info:A’,’1’</li>
+<li>put ‘test’,’row1’,’info:B’,’1’</li>
+<li>put ‘test’,’row1’,’info:B’,’2’</li>
+<li>disable ‘test’</li>
+<li>drop ‘test’</li>
+<li>list<h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hbase-site.xml</span></pre></td></tr><tr><td class="code"><pre><span class="line">configuration conf &#x3D; new Configuration();</span></pre></td></tr><tr><td class="code"><pre><span class="line">HBaseConfiguration hbaseconf &#x3D; new HBaseConfiguration(conf);</span></pre></td></tr><tr><td class="code"><pre><span class="line">HBaseAdmin admin &#x3D; new HBaseAdmin(hbaseconf);</span></pre></td></tr><tr><td class="code"><pre><span class="line">HTableDescriptor tableDesc &#x3D; new HTableDescriptor(&quot;test&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line">tableDesc.addFamily(new HColumnDescriptor(&quot;info&quot;));</span></pre></td></tr><tr><td class="code"><pre><span class="line">admin.createTable(tableDesc);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(hbaseconf, &quot;test&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line">Put put &#x3D; new Put(&quot;row1&quot;.getBytes());</span></pre></td></tr><tr><td class="code"><pre><span class="line">put.add(&quot;info&quot;, &quot;A&quot;.getBytes(), &quot;1&quot;.getBytes());</span></pre></td></tr><tr><td class="code"><pre><span class="line">table.put(put);</span></pre></td></tr><tr><td class="code"><pre><span class="line">table.flushCommits();</span></pre></td></tr><tr><td class="code"><pre><span class="line">table.close();</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">Scan scan &#x3D; new Scan();</span></pre></td></tr><tr><td class="code"><pre><span class="line">ResultScanner res &#x3D; table.getScanner(scan);</span></pre></td></tr><tr><td class="code"><pre><span class="line">for(Result r: res) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    system.out.println(&quot;rowkey&#x3D;&gt;&quot; + new String(r.getRow()));</span></pre></td></tr><tr><td class="code"><pre><span class="line">   </span></pre></td></tr><tr><td class="code"><pre><span class="line">    for(KeyValue kv: r.raw()) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        system.out.println(new String(kv.getFamily()));</span></pre></td></tr><tr><td class="code"><pre><span class="line">        system.out.println(new String(kv.getQualifier()));</span></pre></td></tr><tr><td class="code"><pre><span class="line">        system.out.println(kv.getTimestamp());</span></pre></td></tr><tr><td class="code"><pre><span class="line">        system.out.println(new String(kv.getValue()));</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="hbase集群部署"><a href="#hbase集群部署" class="headerlink" title="hbase集群部署"></a>hbase集群部署</h3><ul>
+<li><p>社区版注意jar包替换</p>
+</li>
+<li><p>master: ative namenode,Hmaster,resourceManager,HQuorumpeer</p>
+</li>
+<li><p>slave: standby namenode,hregionserver,journalnode, nodemanager</p>
+</li>
+<li><p>slave2:</p>
+</li>
+<li><p>slave3:</p>
+<h3 id="2-0部署"><a href="#2-0部署" class="headerlink" title="2.0部署"></a>2.0部署</h3></li>
+<li><p>配置hosts</p>
+</li>
+<li><p>编辑hadoop-env.sh,mapred-env.sh,yarn-env.sh</p>
+</li>
+<li><p>编辑core-site.xml,hdfs-site.xml,yarn-site.xml</p>
+</li>
+<li><p>编辑slaves文件</p>
+</li>
+<li><p>把hadoop复制到其他节点</p>
+</li>
+<li><p>启动hadoop</p>
+</li>
+<li><p>验证启动</p>
+<h3 id="HA部署"><a href="#HA部署" class="headerlink" title="HA部署"></a>HA部署</h3></li>
+<li><p>nn Active &lt;- shared NN state with dingle writer(fenced) -&gt; nn standby</p>
+</li>
+<li><p>failovercontroller:监控namenode</p>
+</li>
+<li><p>ZK:heartbeat</p>
+</li>
+<li><p>with QJM (vs)  with NFS</p>
+<h3 id="QJM方案"><a href="#QJM方案" class="headerlink" title="QJM方案"></a>QJM方案</h3><h3 id="HA特点"><a href="#HA特点" class="headerlink" title="HA特点"></a>HA特点</h3></li>
+<li><p>共享存储</p>
+<ol>
+<li>解决单点故障问题</li>
+<li>利用NFS或QJM保存editlog</li>
+<li>保证数据的一致性</li>
+</ol>
+</li>
+<li><p>failovercontroller</p>
+<ol>
+<li>独立短小的watchdog</li>
+<li>避免NN GC时的心跳暂停</li>
+<li>ZKFC控制</li>
+</ol>
+</li>
+<li><p>Fencing</p>
+<ol>
+<li>防止脑裂<h3 id="HA-QJM"><a href="#HA-QJM" class="headerlink" title="HA -QJM"></a>HA -QJM</h3></li>
+</ol>
+</li>
+<li><p>启动JN</p>
+</li>
+<li><p>启动active NN</p>
+</li>
+<li><p>启动standby NN</p>
+</li>
+<li><p>启动automatic failover</p>
+</li>
+<li><p>hdfs haadmin -getServiceState nn1</p>
+</li>
+<li><p>hdfs haadmin -failover nn1 nn2</p>
+<h3 id="hbase部署"><a href="#hbase部署" class="headerlink" title="hbase部署"></a>hbase部署</h3></li>
+<li><p>./start-hbase.sh</p>
+</li>
+<li><p>hbase zkcli</p>
+</li>
+<li><p>hdfs re-format后 zk中信息不一致 -&gt; rmr /hbase</p>
+<h3 id="Hbase-shell操作"><a href="#Hbase-shell操作" class="headerlink" title="Hbase shell操作"></a>Hbase shell操作</h3></li>
+<li><p>hbase shell</p>
+</li>
+<li><p>list</p>
+</li>
+<li><p>create ‘scores’,’grade’,’course’</p>
+</li>
+<li><p>describe ‘scores’</p>
+</li>
+<li><p>put ‘scores’,’Tom’,’grade:’,’5’</p>
+</li>
+<li><p>put ‘scores’,’Tom’,’course:math’,’95’</p>
+</li>
+<li><p>scan ‘scores’</p>
+</li>
+<li><p>get ‘scores’,’Tom’</p>
+</li>
+<li><p>get ‘scores’,’Tom’,{COLUMN=&gt;’course:math’, VERSIONS=&gt;3}</p>
+</li>
+<li><p>alter ‘scores’,{NAME =&gt; ‘course’, VERSION =&gt; 3}</p>
+</li>
+<li><p>count ‘scores’</p>
+</li>
+<li><p>协同处理器count </p>
+</li>
+<li><p>disable ‘scores’ //修改region offline</p>
+</li>
+<li><p>drop ‘scores’</p>
+</li>
+<li><p>truncate ‘scores’</p>
+</li>
+<li><p>count 使用mapreduce统计</p>
+<ol>
+<li>count ‘t1’</li>
+<li>count ‘t1’, INTERVAL =&gt; 100000</li>
+<li>count ‘t1’, CACHE =&gt; 1000</li>
+<li>count ‘t1’, INTERVAL =&gt; 10, CACHE =&gt; 1000</li>
+</ol>
+</li>
+<li><p>delete ‘scores’, ‘Tom’, ‘grade’</p>
+<h3 id="java类与数据模型"><a href="#java类与数据模型" class="headerlink" title="java类与数据模型"></a>java类与数据模型</h3></li>
+<li><p>数据库database: HbaseAdmin HBaseConfiguration</p>
+</li>
+<li><p>表table: HTable</p>
+</li>
+<li><p>列族Column Family: HTableDescriptor</p>
+</li>
+<li><p>列修饰符Column Qualifier: Put Get Scanner</p>
+<h3 id="HBaseConfiguration"><a href="#HBaseConfiguration" class="headerlink" title="HBaseConfiguration"></a>HBaseConfiguration</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HBaseConfiguration hconfig &#x3D; new HBaseConfiguration();</span></pre></td></tr><tr><td class="code"><pre><span class="line">hconfig.set(&quot;hbase.zookeeper.property.clientPort&quot;,&quot;2181&quot;);</span></pre></td></tr></table></figure>
+<h3 id="HBaseAdmin"><a href="#HBaseAdmin" class="headerlink" title="HBaseAdmin"></a>HBaseAdmin</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HBaseAdmin admin &#x3D; new HBaseAdmin(config);</span></pre></td></tr><tr><td class="code"><pre><span class="line">admin.disableTable(&quot;tablename&quot;);</span></pre></td></tr></table></figure>
+<h3 id="HTableDescriptor"><a href="#HTableDescriptor" class="headerlink" title="HTableDescriptor"></a>HTableDescriptor</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(table);</span></pre></td></tr><tr><td class="code"><pre><span class="line">htd.addFamily(new HcolumnDescriptor(&quot;family&quot;));</span></pre></td></tr></table></figure>
+<h3 id="HColumnDescriptor"><a href="#HColumnDescriptor" class="headerlink" title="HColumnDescriptor"></a>HColumnDescriptor</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(tablename);</span></pre></td></tr><tr><td class="code"><pre><span class="line">HColumnDescriptor col &#x3D; new HColumnDescriptor(&quot;content:&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line">htd.addFamily(col);</span></pre></td></tr></table></figure>
+<h3 id="HTable"><a href="#HTable" class="headerlink" title="HTable"></a>HTable</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(conf,Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="code"><pre><span class="line">ResultScanner scanner &#x3D; table.getScanner(family);</span></pre></td></tr></table></figure>
+<h3 id="HTablePool"><a href="#HTablePool" class="headerlink" title="HTablePool"></a>HTablePool</h3></li>
+<li><p>解决HTable线程不安全问题 维护固定数量的HTable对象 可以复用HTable资源对象</p>
+</li>
+<li><p>公用configuration 减少网络开销</p>
+</li>
+<li><p>使用简单 getTable -&gt; put/get/scan/delete -&gt; putTable-&gt;HTablePool中</p>
+</li>
+<li><p>HConectionManager</p>
+<h3 id="Put"><a href="#Put" class="headerlink" title="Put"></a>Put</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(conf, Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="code"><pre><span class="line">Put p &#x3D; new Put(brow); &#x2F;&#x2F; brow-&gt;rowkey</span></pre></td></tr><tr><td class="code"><pre><span class="line">p.add(family, qualifier, value);</span></pre></td></tr><tr><td class="code"><pre><span class="line">table.put(p);</span></pre></td></tr></table></figure>
+<h3 id="Get"><a href="#Get" class="headerlink" title="Get"></a>Get</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTable  table &#x3D; new HTable(conf, Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="code"><pre><span class="line">Get g &#x3D; new Get(Bytes.toBytes(row));</span></pre></td></tr><tr><td class="code"><pre><span class="line">table.get(g);</span></pre></td></tr></table></figure>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3></li>
+<li><p>存储Get或者Scan操作后获取表的单行值 Map结构</p>
+<h3 id="ResultScanner"><a href="#ResultScanner" class="headerlink" title="ResultScanner"></a>ResultScanner</h3></li>
+<li><p>next()</p>
+<h3 id="Scanner扫描器缓存"><a href="#Scanner扫描器缓存" class="headerlink" title="Scanner扫描器缓存"></a>Scanner扫描器缓存</h3></li>
+<li><p>hbase.clinet.scanner.caching 配置项可以设置HBase scanner一次从服务端抓取的数据条数 默认情况下一次一条 </p>
+</li>
+<li><p>三个地方可以配置</p>
+<ol>
+<li>在HBase的conf配置文件中进行配置</li>
+<li>通过调用HTable.setScannerCaching 进行配置</li>
+<li>通过调用Scan.setCaching(int caching)进行配置 三者的优先级越来越高<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3></li>
+</ol>
+</li>
+<li><p>使用过滤器可以操作表的效率 Hbase中两种数据读取函数get()和scan()都支持过滤器 支持直接访问和通过指定起止行键来访问 但是缺少细粒度的筛选功能 如基于正则表达式对行键或值进行筛选的功能</p>
+</li>
+<li><p>可以使用预定义好的过滤器或者是实现自定义过滤器</p>
+</li>
+<li><p>过滤器在客户端创建 通过RPC传送到服务器端 在服务器端执行过滤操作 把数据返回给客户端</p>
+</li>
+<li><p>sacn ‘student’, {STARTROW=&gt;’J’, ENDROW=&gt;’K’}</p>
+<h3 id="过滤器-1"><a href="#过滤器-1" class="headerlink" title="过滤器"></a>过滤器</h3></li>
+<li><p>comparision Filters 比较过滤器</p>
+<ol>
+<li>rowFilter</li>
+<li>familyFilter</li>
+<li>qualifierFiler</li>
+<li>valueFiler</li>
+<li>DependentColumnFiler</li>
+</ol>
+</li>
+<li><p>dedicated Filters 专用过滤器</p>
+<ol>
+<li>singleColumnValueFilter</li>
+<li>singleColumnValueExcludeFilter</li>
+<li>prefixFilter</li>
+<li>pageFilter</li>
+<li>keyOnlyFilter</li>
+<li>firstkeyOnlyFilter</li>
+<li>timestampsFilter</li>
+<li>RandomRowFilter</li>
+</ol>
+</li>
+<li><p>decorating Filter 附加过滤器</p>
+<ol>
+<li>skipFilter</li>
+<li>whileMatchFilter<h3 id="协处理器"><a href="#协处理器" class="headerlink" title="协处理器"></a>协处理器</h3></li>
+</ol>
+</li>
+<li><p>问题：无法轻易建立二级索引 难以执行求和、计数、排序等操作</p>
+</li>
+<li><p>HBase 0.92之后引入了协处理器 coprecessors ：能够轻易建立二次索引、复杂过滤器（谓词下推）以及访问控制等</p>
+</li>
+<li><p>特性</p>
+<ol>
+<li>每个表服务器的任意子表都可以运行代码</li>
+<li>客户端的高层调用接口-客户端直接访问表行地址 多行读写自动分片成多个并行的RPC调用</li>
+<li>提供一个非常灵活、可用于建立分布式服务的数据模型</li>
+<li>能够自动化扩展、负载均衡、应用请求路由</li>
+<li>灵感来自于bigtable 使代码能够在hbase region server 和master上处理</li>
+</ol>
+</li>
+<li><p>两种类型:系统协处理器 表协处理器</p>
+<ol>
+<li>系统协处理器可以导入region server 上的所有数据表</li>
+<li>表协处理器即是用户可以指定一个表使用协处理器</li>
+</ol>
+</li>
+<li><p>协处理器框架为了更好支持其行为的灵活性 提供了两个不同方面的插件。一个是观察者，类似于关系数据库的触发器。另一个是终端，动态的终端有点像存储过程</p>
+<h3 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h3></li>
+<li><p>charity代码来重载协处理器框架的upcall方法 具体的时间出发的callback方法由hbase的核心代码来执行</p>
+</li>
+<li><p>三种观察者接口</p>
+<ol>
+<li>regionObserver 提供客户端的数据操纵事件钩子：get、put、delte、scan等</li>
+<li>WALObserver 提供wal相关操作钩子</li>
+<li>masterObserver 提供ddl类型操作钩子 如创建、删除</li>
+<li>修改数据表等</li>
+</ol>
+</li>
+<li><p>这些接口可以同时使用在同个地方，按照不同优先级顺序执行，用户可以任意基于协处理器实现复杂的hbase功能层。hbase有很多种事件可以触发观察者方法，这些事件与方法从0.92版本起 都会继承在hbase api中。不过这些api可能会由于各种原因有所改动，不同版本的接口改动比较大。</p>
+<h3 id="endpoint"><a href="#endpoint" class="headerlink" title="endpoint"></a>endpoint</h3></li>
+<li><p>终端是动态RPC插件的接口 实现代码在服务器端 通过hbase rpc唤醒。客户端类库提供方法调用动态接口。</p>
+<ol>
+<li>定义一个新的protocol接口 必须继承coprecessorProtocol</li>
+<li>实现终端接口 实现会被导入region环境执行</li>
+<li>继承抽象类baseendpointCooprocessor</li>
+<li>在客户端 终端可以被两个新的hbase client api调用。coprocessorProxy &amp; coprocessorExec</li>
+</ol>
+</li>
+<li><p>三个方法对endpoint进行设置</p>
+<ol>
+<li>启动全局aggregation 修改hbase-site.xml -hbase.coprocessor.user.region.classes</li>
+<li>启动表aggregation,特定表生效。hbase shell<ol>
+<li>disable指定表 disable ‘mytable’</li>
+<li>添加aggregation alter ‘mytable’,METHOD=&gt;’table_att’,’coprocessor’=&gt;’|org.apache.hadoop.hbase.coprocessor.RowCountRndpoint||’</li>
+<li>重启指定表 enable ‘mytable’</li>
+</ol>
+</li>
+<li>api调用<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(&quot;testTable&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line">htd.setValue(&quot;CORPROCESSOR$1&quot;,path.toString + &quot;|&quot; + RowCountEndpoint.class.getCanonicalName() + &quot;|&quot; + Coprocessor.Priority.USER);</span></pre></td></tr></table></figure>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3></li>
+</ol>
+</li>
+<li><p>协处理器配置的加载顺序 先加载配置文件中定义的协处理器 后加载表描述符中的协处理器</p>
+</li>
+<li><p>coprocessor$<number>中的number定义了加载的顺序</p>
+</li>
+<li><p>协处理器配置格式</p>
+<h2 id="mapreduce-on-hbase"><a href="#mapreduce-on-hbase" class="headerlink" title="mapreduce on hbase"></a>mapreduce on hbase</h2></li>
+<li><p>可以使用，mapredece的方法操作hbase数据库</p>
+</li>
+<li><p>hadoop mapreduce提供相关api可以与hbase数据库无缝连接</p>
+</li>
+<li><p>api link: <a href="http://hbase.apache.org/devapidocs/index.html" target="_blank" rel="noopener">http://hbase.apache.org/devapidocs/index.html</a></p>
+</li>
+</ul>
+<h3 id="HBaseMR"><a href="#HBaseMR" class="headerlink" title="HBaseMR"></a>HBaseMR</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">class MyMapper extends TableMapper&lt;Text, Text&gt;&#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="code"><pre><span class="line">    protected void map(xx key, xx value, xx context) throws xx &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Text k &#x3D; new Text(Bytes.toString(key.get()));</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Text v &#x3D; new Text(xx)</span></pre></td></tr><tr><td class="code"><pre><span class="line">        context.write(v, k);</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">public MyReduer extends TableReducer&lt;Text, Text, ImmutableBytesWritable&gt; &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="code"><pre><span class="line">    protected void reduce(Text key, Iterable&lt;Text&gt; values, Context context) throws xx &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        Put put &#x3D; new Put(Bytes.toBytes(key.toString));</span></pre></td></tr><tr><td class="code"><pre><span class="line">        for(Text value: values) &#123;</span></pre></td></tr><tr><td class="code"><pre><span class="line">            put.add(Bytes.toBytes(&quot;f1&quot;), Bytes.toBytes(value.toString), Bytes.toBytes(value.toString));</span></pre></td></tr><tr><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">        context.write(null, put);</span></pre></td></tr><tr><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="code"><pre><span class="line">main:</span></pre></td></tr><tr><td class="code"><pre><span class="line">Job job &#x3D; new Job(conf, &quot;mapreduce on hbase&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line">job.setJarByClass(HBaseMR.class);</span></pre></td></tr><tr><td class="code"><pre><span class="line">Scan scan &#x3D; new Scan();</span></pre></td></tr><tr><td class="code"><pre><span class="line">scan.setCacheing(1000);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">TableMapReduceUtil.initTableMapperJob(&quot;tableName&quot;, scan, MyMapper.class, Text.class, Text.calss, job);</span></pre></td></tr><tr><td class="code"><pre><span class="line">TableMapReduceUtil.initTableReduceJob(&quot;tableName2&quot;, MyReducer.class, job);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">job.waitForCompletion(true);</span></pre></td></tr></table></figure>
+<h3 id="数据存储格式"><a href="#数据存储格式" class="headerlink" title="数据存储格式"></a>数据存储格式</h3><ul>
+<li><p>B+树</p>
+<ol>
+<li>有n棵子树的节点中含有n个关键字 每个关键字不保存数据 只用来索引 所有数据都保存再叶子节点</li>
+<li>所有的叶子节点中包含了全部关键字的信息 及指向包含这些关键字记录的指针，且叶子节点本身依关键字的大小自小而大顺序链接</li>
+<li>所有的非终端节点可以看成是索引部分 节点中仅含有其子树(根节点)中的最大(或最小)关键字</li>
+</ol>
+</li>
+<li><p>LSM树</p>
+<ol>
+<li>c0 Tree -&gt; c1 Tree -&gt; c… Tree -&gt; cX Tree</li>
+<li>in memory -&gt; merge -&gt; on disk</li>
+</ol>
+</li>
+<li><p>HFile格式</p>
+<ol>
+<li>Data Meta FileInfo DataIndex Trailer</li>
+<li>Data -&gt; Magic keyValue…</li>
+<li>数据块-保存表中的数据 块大小64K</li>
+<li>元数据块-保存用户自定义的kv对,可压缩</li>
+<li>File Info-Hfile的元信息,不被压缩,用户也可以在这部分添加自己的元信息</li>
+<li>数据索引块-DataBLock的索引,每条索引的key是被索引的block的第一条记录的key（格式为:头信息,数据块offset数据块大小第一个记录的key,…）</li>
+</ol>
+</li>
+<li><p>storeFile格式</p>
+<ol>
+<li>storeFile(datablocks -metaBlocks-fileInfo- dataIndex - metaBlock -trailer)</li>
+<li>dataBlocks (dataBlock-dataBlock-…)</li>
+<li>dataBlock(Data block magic- key value)</li>
+</ol>
+</li>
+<li><p>KeyValue对象格式</p>
+<ol>
+<li>key length - Key(Row length-row-Column family-column qualifier-time stamp-key type)-value</li>
+</ol>
+</li>
+</ul>
+<h3 id="WAL机制"><a href="#WAL机制" class="headerlink" title="WAL机制"></a>WAL机制</h3><h4 id="WAL预写日志"><a href="#WAL预写日志" class="headerlink" title="WAL预写日志"></a>WAL预写日志</h4><ul>
+<li>client向RegionServer端提交数据的时候，会优先写wal日志（HLog），只有当wal日志写成功以后，client才会被告诉提交数据成功，如果写wal日志失败会告知客户端提交失败</li>
+<li>一个regionServer上所有的region都共享一个HLog，一次数据的提交是先写wal，再写memstore<h4 id="HLog类"><a href="#HLog类" class="headerlink" title="HLog类"></a>HLog类</h4></li>
+<li>实现了wal的类叫做HLog.当hregion收到更新操作时，它可以直接把数据保存到一个共享的wal实例中去。<h4 id="HLogKey类"><a href="#HLogKey类" class="headerlink" title="HLogKey类"></a>HLogKey类</h4></li>
+<li>当前的wal使用的是hadoop的sequenceFile格式，其key是HLogKey实例。hlogkey中记录了写入数据的归属信息，除了table和region名字外，同时还包括sequence number和timestamp,timestamp是写入时间，sequence number 的起始值为0，或者是最近一次存入文件系统中sequence number.</li>
+<li>HLog sequence File的value是hbase的keyvalue对象， 即对应HFile中的KeyValue</li>
+</ul>
+<h4 id="WALEdit类"><a href="#WALEdit类" class="headerlink" title="WALEdit类"></a>WALEdit类</h4><ul>
+<li>客户端发送的每个修改都会封装成waledit类 一个waledit类就是一个原子操作<h4 id="WAL实现类位置"><a href="#WAL实现类位置" class="headerlink" title="WAL实现类位置"></a>WAL实现类位置</h4></li>
+<li>…/hbase/regionServer/xxx<h4 id="LogSyncer类"><a href="#LogSyncer类" class="headerlink" title="LogSyncer类"></a>LogSyncer类</h4></li>
+<li>Table设置每次不同步，则写操作会被regionServer缓存，并启动一个LogSyner线程来定时同步日志，定时时间默认是一秒也可由hbase.regionserver.optionallogflushinterval设置<h4 id="LogRoller类"><a href="#LogRoller类" class="headerlink" title="LogRoller类"></a>LogRoller类</h4></li>
+<li>日志写入的大小是有限制的。LogRoller类会作为一个后台线程运行，在特定的事件间隔内滚动日志。通过hbase.regionserver.logroll.priod属性控制,默认一小时<h4 id="HBase容错处理"><a href="#HBase容错处理" class="headerlink" title="HBase容错处理"></a>HBase容错处理</h4></li>
+<li>splitlog -&gt; 另外的regionServer</li>
+</ul>
+<h3 id="HBase在线数据备份"><a href="#HBase在线数据备份" class="headerlink" title="HBase在线数据备份"></a>HBase在线数据备份</h3><h4 id="Hbase-Replication"><a href="#Hbase-Replication" class="headerlink" title="Hbase Replication"></a>Hbase Replication</h4><ul>
+<li>hbase复制是一种在不同hbase部署中复制数据的方法。可以作为一种故障恢复的方法 高可用性</li>
+<li>最基本的架构模式是主推送 master-push,每个region server都有自己的wal（或者hlog）。一个主集群可以将数据复制到任意数据的从集群，每个region server都会参与复制自己的修改。</li>
+<li>region server从它需要的最老的日志开始复制，同时在zookeeper中保存当前恢复的位置来简化错误恢复。</li>
+<li>参与复制的集群的规模可以不对等。主集群会通过随机分配尽量均衡从集群的负载。</li>
+<li>解决问题:<ol>
+<li>数据管理人员的失误，不可逆的DDl操作</li>
+<li>底层HDFS文件BLOCK块corruption</li>
+<li>短时间过度的读数据对集群造成的压力，增加服务器应对这种情况比较浪费资源</li>
+<li>系统升级，维护。诊断问题会造成集群不可用时间增长</li>
+<li>双写的原子性难以保证</li>
+<li>不可预计的一些原因</li>
+<li>离线应用的MR计算对在线读写造成的较大的延迟影响</li>
+</ol>
+</li>
+</ul>
+<h4 id="在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）"><a href="#在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）" class="headerlink" title="在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）"></a>在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）</h4><ul>
+<li>简单备份模式通过定时不定时的Dump出集群数据保证数据的安全性，通常可以通过snapshot或设置时间戳来dump数据来实现这种方案。</li>
+<li>主从模式（master-slave），可以通过最终一致性保证数据的一直，数据从主集群到备集群延时较低，异步写入不会对主集群带来性能压力。构造较好的Log系统加上check point来实现，可以实现读写分离，主集群可以担当读写服务，但备集群一般只承担读服务。</li>
+<li>主主模式：不同的是2个集群可以互相承担写的分离，都可承担读写服务</li>
+<li>2阶段提交这种方案保证了强一致性和事务，服务器返回给客户端成功则表明数据一定已经成功备份，不会造成任何数据丢失。每台服务器都可承担读写服务。但缺点是造成集群延迟较高，总体吞吐下降。</li>
+<li>paxos算法基于Paxos算法的实现的强一致性方案，同一客户端连接的server能保证数据的一致性。缺点是实现复杂，集群延迟和吞吐随着集群服务器增加而变差。<h4 id="Hbase-replication"><a href="#Hbase-replication" class="headerlink" title="Hbase replication"></a>Hbase replication</h4></li>
+<li>HRegionServer -&gt; sync call -&gt; slave cluster</li>
+<li>replication工作流程<h4 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h4></li>
+<li>编辑hbase-site.xml文件，增加hbase.replication = true，重启hbase集群</li>
+<li>add peer ‘ID’ ‘CLUSTER_KEY’</li>
+<li>start_replication </li>
+<li>hbase-0.96和hbase-0.98已经没有start_replication命令和stop_replication命令。hbase-0.98相较hbase-0.96,新增了set_perr_tableCfs、show_peer_tableCFs命令。在设定复制时，hbase-0.98需要使用set_peer_tableCFs设置。具体的有对应的帮助命令可供参考。ID必须是一个短整数，CLUSTER_KEY的内容请参考一下模板<ol>
+<li>habse.zookeeper.quorum:hbase.zookeeper.property.clientPort:zookeeper.znode.parent</li>
+<li>比如zk.server.com:2181:/hbase</li>
+<li>注意：如果两个集群使用相同的zookeeper集群，你不得不使用不同的zookeeper.znode.parent,因为他们不能写入相同的文件夹中。</li>
+</ol>
+</li>
+<li>一旦你有一个对等从集群，你需要在你的列族上使复制可用，想达到这样的效果，可以 在HBase shell中执行命令<ol>
+<li>disable ‘your table’</li>
+<li>alter ‘your table’, {NAME =&gt; ‘family_name’, REPLICATION_SCOPE =&gt; ‘1’}</li>
+<li>enable ‘your table’</li>
+<li>scope值为0（默认值）意味着它不会被复制，而scope值为1意味着它将被复制。</li>
+</ol>
+</li>
+<li>之前设置为不可用的对等（从）集群可用：enable peer ‘ID’</li>
+<li>移除一个从集群： 1. shop_replication 2.remove_peer ‘ID’<h3 id="集群数据迁移方案"><a href="#集群数据迁移方案" class="headerlink" title="集群数据迁移方案"></a>集群数据迁移方案</h3></li>
+<li>静态迁移方案 hadoop distcp</li>
+<li>动态迁移方案<ol>
+<li>replication备份方案</li>
+<li>copyTable方案</li>
+<li>export and import方案</li>
+</ol>
+</li>
+<li>手动方式</li>
+</ul>
+<h4 id="静态迁移方案"><a href="#静态迁移方案" class="headerlink" title="静态迁移方案"></a>静态迁移方案</h4><ul>
+<li>在hbase停止的状态下进行数据的迁移</li>
+<li>distcp + add_table.rb<h4 id="动态迁移方案"><a href="#动态迁移方案" class="headerlink" title="动态迁移方案"></a>动态迁移方案</h4></li>
+<li>replication备份方案</li>
+<li>copyTable方案<ol>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.CopyTable –peer.adr=new cluster ip:2181:/hbase_table</li>
+<li>拷贝完成，不需要重启机器，在new cluster中可以看到该表</li>
+<li>稳定性还需要考虑</li>
+</ol>
+</li>
+<li>export and import方案<ol>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.Export test hdfs://new  cluster ip:9000/xx</li>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.Import test hdfs://new cluster ip:9000/xxx</li>
+<li>一定要写全路径，不能写相对路径</li>
+<li>在import前，需要将表事先在new cluster中建好。<h4 id="手动方式"><a href="#手动方式" class="headerlink" title="手动方式"></a>手动方式</h4></li>
+</ol>
+</li>
+<li>hadoop fs -get /xxx</li>
+<li>hadoop fs -put xxx /hbase/data/default</li>
+<li>修复.MEETA表:hbase hbck -fixMeta</li>
+<li>重新分配数据到regionServer：hbase hbck -fixAssignments</li>
+</ul>
+<h3 id="Hbase数据导入"><a href="#Hbase数据导入" class="headerlink" title="Hbase数据导入"></a>Hbase数据导入</h3><ul>
+<li>利用importTsv将csv文件导入hbase</li>
+<li>利用completebulkload将数据导入到hbase</li>
+<li>利用import将数据导入到hbase<h4 id="importTsv"><a href="#importTsv" class="headerlink" title="importTsv"></a>importTsv</h4></li>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=”,” -Dimporttsv.column=HBASE_ROW_KEY.cf hbase-tbl-001 /simple.csv<h4 id="completebulkload"><a href="#completebulkload" class="headerlink" title="completebulkload"></a>completebulkload</h4></li>
+<li>使用先生成HFile<ol>
+<li>消除对HBase集群的插入压力</li>
+<li>提高了Job的运行速度，降低了Job的执行时间</li>
+</ol>
+</li>
+<li>先通过ImportTsv生成HFile<ol>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=”,” -Dimporttsv.bulkoutput=/hfile_tmp  -Dimporttsv.bulk.out=HBASE_ROW_KEY.cf hbase-tbl-001 /simple.csv</li>
+<li>通过completebulkload将数据导入表hbase-tbl-002</li>
+<li>命令: hadoop jar lib/hbase-server-0.96.0.jar completebulkload /hfile_tmp hbase-tbl.002<h4 id="import将数据导入到hbase"><a href="#import将数据导入到hbase" class="headerlink" title="import将数据导入到hbase"></a>import将数据导入到hbase</h4></li>
+</ol>
+</li>
+<li>hbase export导出sequence file</li>
+<li>bin/hbase org.apache.hadoop.hbase.mmapreduce.Export hbase-tbl-002 /test-output</li>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.Import hbase-tbl-003 /test-output</li>
+</ul>
+<h3 id="二级索引方案"><a href="#二级索引方案" class="headerlink" title="二级索引方案"></a>二级索引方案</h3><ul>
+<li>Mapreduce方案</li>
+<li>ITHBASE方案</li>
+<li>IHBASE方案</li>
+<li>Coprocessor方案</li>
+<li>Solr+hbase方案<h4 id="mr方案"><a href="#mr方案" class="headerlink" title="mr方案"></a>mr方案</h4></li>
+<li>优点 并发批量构建Index</li>
+<li>缺点 不能实时构建Index</li>
+<li>反向索引</li>
+<li></li>
+</ul>
+<h4 id="IHBASE方案"><a href="#IHBASE方案" class="headerlink" title="IHBASE方案"></a>IHBASE方案</h4><ul>
+<li>优点 indexed HBase是hbase的一个扩展，用于支持更快的扫描</li>
+<li>缺点 需要重构hbase</li>
+<li>原理 在memstore满了以后刷磁盘时 Ihbase会进行拦截请求并为这个memstore的数据构建索引，索引另一个CF的方式存储在表内。scan的时候，IHbase会结合索引中的标记，来加速scan.</li>
+</ul>
+<h4 id="coprocessor方案"><a href="#coprocessor方案" class="headerlink" title="coprocessor方案"></a>coprocessor方案</h4><ul>
+<li>HIndex 华为</li>
+<li>具有代码侵入性</li>
+</ul>
+<h4 id="solr方案"><a href="#solr方案" class="headerlink" title="solr方案"></a>solr方案</h4><ul>
+<li>solr是高性能，采用java5开发，基于lucene的全文搜索服务器，同时<br>实现了可配置，可扩展并对查询性能进行了优化</li>
+<li>hbase本身对rowkey支持毫秒级的快速检索</li>
+<li>hbase表中涉及条件过滤字段的rowkey在solr中建立索引</li>
+</ul>
+<h3 id="snapshot-快照"><a href="#snapshot-快照" class="headerlink" title="snapshot(快照)"></a>snapshot(快照)</h3><ul>
+<li>快照就是一份元信息的合集， 允许管理员恢复到表的先前状态。快照不是表的复制而是一个文件名称列表，不会复制数据。</li>
+<li>作用 hbase快照允许管理员不拷贝数据直接克隆一张表，这对域服务器产生的影响最小。将快照导出其他集群不会直接影响到任何域服务器；导出只是带有一些额外逻辑的群间数据同步。</li>
+<li>使用场景<ol>
+<li>用户/应用异常中还原</li>
+<li>从一个已知的安全状态恢复/还原</li>
+<li>查看之前的快照并有选择的合并写入产品环境</li>
+<li>当主应用程序升级或改版时保存快照</li>
+<li>在指定时间审查和报告数据</li>
+<li>按照规定捕获月度数据</li>
+<li>生成日终、月末、季末报告</li>
+<li>应用测试</li>
+<li>通过快照模拟生产环境结构或应用发生的变化</li>
+<li>减少工作压力</li>
+<li>生成快照，导入到其他集群，然后运行mapreduce jobs.导出快照时hdfs级别，所以不会像复制表那样降低hbase主集群的效率。</li>
+</ol>
+</li>
+<li>快照操作<ol>
+<li>生成快照</li>
+<li>克隆快照</li>
+<li>还原快照</li>
+<li>删除快照</li>
+<li>导出快照</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hbase-bloomFilter"><a href="#Hbase-bloomFilter" class="headerlink" title="Hbase bloomFilter"></a>Hbase bloomFilter</h3><ul>
+<li>hbase利用bloomfilter来提高随机读的性能，对于顺序读scan而言，bloomfilter是没有作用的</li>
+<li>开销：hbase生成storeFile时包含一份bloomfilter结构的数据metaBlock。metablock与datablock一起由LRUBlockCache维护。开启bloomfilter会有一定的存储及内存cache开销。</li>
+<li>rowcol 和row<h3 id="实时查询方案"><a href="#实时查询方案" class="headerlink" title="实时查询方案"></a>实时查询方案</h3></li>
+<li>hbase + solr + hbase indexer<ol>
+<li>hbase提供海量数据存储</li>
+<li>solr提供索引构建与查询</li>
+<li>hbase indexer提供自动化索引构建(从hbase到solr)<h4 id="configure-hbase-indexer"><a href="#configure-hbase-indexer" class="headerlink" title="configure hbase indexer"></a>configure hbase indexer</h4></li>
+</ol>
+</li>
+<li>hbase -&gt; hbase indexer -&gt; solr<h4 id="configure-hbase"><a href="#configure-hbase" class="headerlink" title="configure  hbase"></a>configure  hbase</h4></li>
+<li>replication must be enabled in hbase.<h4 id="add-ubdexer-jars-to-hbase"><a href="#add-ubdexer-jars-to-hbase" class="headerlink" title="add ubdexer jars to hbase"></a>add ubdexer jars to hbase</h4><h4 id="start-solr"><a href="#start-solr" class="headerlink" title="start solr"></a>start solr</h4></li>
+<li>jetty<h4 id="start-the-hbase-indexer-daemon"><a href="#start-the-hbase-indexer-daemon" class="headerlink" title="start the hbase indexer daemon"></a>start the hbase indexer daemon</h4><h4 id="create-a-table-to-be-indexed-in-hbase"><a href="#create-a-table-to-be-indexed-in-hbase" class="headerlink" title="create a table to be indexed in hbase"></a>create a table to be indexed in hbase</h4><h4 id="add-a-indexer"><a href="#add-a-indexer" class="headerlink" title="add a indexer"></a>add a indexer</h4><h4 id="update-table-content"><a href="#update-table-content" class="headerlink" title="update table content"></a>update table content</h4><h4 id="solr-gt-auto-commit"><a href="#solr-gt-auto-commit" class="headerlink" title="solr -&gt; auto commit"></a>solr -&gt; auto commit</h4></li>
+</ul>
+<h3 id="solr查询"><a href="#solr查询" class="headerlink" title="solr查询"></a>solr查询</h3><ul>
+<li><p>利用solrJ操作 solr api,使用solrJ操作solr会比利用httpClient来操作solr要简单</p>
+</li>
+<li><p>查询使用的类</p>
+<ol>
+<li>httpSolrServer</li>
+<li>SolrQuery</li>
+</ol>
+</li>
+<li><p>http</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HttpSolrServer server &#x3D; new HttpSolrServer(url);</span></pre></td></tr><tr><td class="code"><pre><span class="line">server.setConnectionTimeout(1000);</span></pre></td></tr><tr><td class="code"><pre><span class="line">server.set...</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">SolrQuery query &#x3D; newe SolrQuery();</span></pre></td></tr><tr><td class="code"><pre><span class="line">query.setQuery(&quot;fistName_s:Jim&quot;);</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">QueryResponse resp &#x3D; server.query(query);</span></pre></td></tr><tr><td class="code"><pre><span class="line">List&lt;Item&gt; list &#x3D; resp.getBeans(Item.class);</span></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>spark</title>
+    <url>/2022/03/09/spark/</url>
+    <content><![CDATA[<h3 id="一次性数据计算"><a href="#一次性数据计算" class="headerlink" title="一次性数据计算"></a>一次性数据计算</h3><ul>
+<li>file -&gt;mapper-&gt; data -&gt; reducer -&gt; file</li>
+<li>spark和hadopp的根本差异是多个作业之间的数据通信问题:spark多个通信时基于内存, 而hadoop时基于磁盘</li>
+<li>spark task启动时间快 采用fork线程的方式，hadoop采用创建新的线程的方式</li>
+<li>spark只有在shuffle的时候将数据写入磁盘，hadoop中多个mr作业之间的数据交互都要依赖于磁盘</li>
+<li>spark的缓存机制比hdfs的缓存机制高效。</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>hive乱码处理</title>
+    <url>/2022/03/09/hive%E4%B9%B1%E7%A0%81%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<h2 id="desc-formatted-table-乱码"><a href="#desc-formatted-table-乱码" class="headerlink" title="desc [formatted] table 乱码"></a>desc [formatted] table 乱码</h2><ul>
+<li>metastore数据库执行</li>
+<li>修改字段注释字符集=&gt; alter table COLUMNS_V2 modify column COMMENT varchar(256) character set utf8;</li>
+<li>修改表注释字符集 =&gt; alter table TABLE_PARAMS modify column PARAM_VALUE varchar(4000) character set utf8;</li>
+<li>修改分区注释字符集 <ol>
+<li>=&gt; alter table PARTITION_KEYS modify column PKEY_COMMENT varchar(4000) character set utf8</li>
+<li>=&gt; alter table PARTITION_PARAMS modify column PARAM_VALUE varchar(4000) character set utf8 ;</li>
+</ol>
+</li>
+<li>修改索引注解=&gt; alter table INDEX_PARAMS modify column PARAM_VALUE varchar(4000) character set utf8;</li>
+</ul>
+<h2 id="show-create-table-乱码"><a href="#show-create-table-乱码" class="headerlink" title="show create table 乱码"></a>show create table 乱码</h2><ul>
+<li>下载源码:<a href="https://downloads.apache.org/hive/hive-1.2.2/" target="_blank" rel="noopener">https://downloads.apache.org/hive/hive-1.2.2/</a></li>
+<li>修改源码<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">修改 org.apache.hadoop.hive.ql.exec.DDLTask，</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">outStream.writeBytes(createTab_stmt.toString());</span></pre></td></tr><tr><td class="code"><pre><span class="line">-&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">outStream.write(createTab_stmt.toString().getBytes(&quot;UTF-8&quot;));</span></pre></td></tr><tr><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="code"><pre><span class="line">outStream.writeBytes(createTab_stmt.render());</span></pre></td></tr><tr><td class="code"><pre><span class="line">-&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">outStream.write(createTab_stmt.render().getBytes(&quot;UTF-8&quot;));</span></pre></td></tr></table></figure></li>
+<li>重新编译:mvn clean package -Phadoop-2 -Pdist -DskipTests -Dtar</li>
+<li><a href="https://issues.apache.org/jira/browse/HIVE-5682" target="_blank" rel="noopener">https://issues.apache.org/jira/browse/HIVE-5682</a></li>
+<li><a href="https://www.freesion.com/article/2722755000/" target="_blank" rel="noopener">https://www.freesion.com/article/2722755000/</a></li>
+<li>替换线上../lib/hive-exec-1.2.2.jar</li>
+</ul>
+]]></content>
+  </entry>
+  <entry>
+    <title>nebula Graph</title>
+    <url>/2022/03/09/nebula%20Graph/</url>
+    <content><![CDATA[<h3 id="手册"><a href="#手册" class="headerlink" title="手册"></a>手册</h3><ul>
+<li><a href="https://www.bookstack.cn/read/nebula-graph-1.0/2b6cb659ff42534b.md" target="_blank" rel="noopener">https://www.bookstack.cn/read/nebula-graph-1.0/2b6cb659ff42534b.md</a></li>
+<li><a href="https://docs.nebula-graph.com.cn/2.0.1/nebula-studio/about-studio/st-ug-what-is-graph-studio/" target="_blank" rel="noopener">https://docs.nebula-graph.com.cn/2.0.1/nebula-studio/about-studio/st-ug-what-is-graph-studio/</a></li>
+</ul>
+<h3 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h3><h4 id="create-space"><a href="#create-space" class="headerlink" title="create space"></a>create space</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE SPACE [IF NOT EXISTS] &lt;space_name&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line"> [(partition_num &#x3D; &lt;part_num&gt;, replica_factor &#x3D; &lt;raft_copy&gt;, charset &#x3D; &lt;charset&gt;, collate &#x3D; &lt;collate&gt;)]</span></pre></td></tr></table></figure>
+<ul>
+<li>CREATE SPACE my_space(partition_num=10, replica_factor=1);</li>
+</ul>
+<h4 id="partition-重分布"><a href="#partition-重分布" class="headerlink" title="partition 重分布"></a>partition 重分布</h4><ul>
+<li>show hosts;</li>
+<li>BALANCE LEADER;</li>
+</ul>
+<h4 id="CREATE-EDGE-语法"><a href="#CREATE-EDGE-语法" class="headerlink" title="CREATE EDGE 语法"></a>CREATE EDGE 语法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    CREATE EDGE [IF NOT EXISTS] &lt;edge_name&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ([&lt;create_definition&gt;, ...])</span></pre></td></tr><tr><td class="code"><pre><span class="line">    [edge_options]</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;create_definition&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &lt;prop_name&gt; &lt;data_type&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;edge_options&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &lt;option&gt; [, &lt;option&gt; ...]</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;option&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    TTL_DURATION [&#x3D;] &lt;ttl_duration&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    | TTL_COL [&#x3D;] &lt;prop_name&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    | DEFAULT &lt;default_value&gt;</span></pre></td></tr></table></figure>
+<ul>
+<li>实例<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nebula&gt; CREATE EDGE follow(start_time timestamp, grade double);</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE EDGE noedge();  -- 属性为空</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG player_with_default(name string, age int DEFAULT 20);  -- 默认年龄设置为 20 岁</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE EDGE follow_with_default(start_time timestamp DEFAULT 0, grade double DEFAULT 0.0);  -- 默认 start_time 设置为 0，默认 grade 设置为 0.0</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE EDGE marriage(location string, since timestamp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">TTL_DURATION &#x3D; 0, TTL_COL &#x3D; &quot;since&quot;; -- 负值或 0 数据不会失效</span></pre></td></tr></table></figure>
+<h4 id="CREATE-TAG-语法"><a href="#CREATE-TAG-语法" class="headerlink" title="CREATE TAG 语法"></a>CREATE TAG 语法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">    CREATE TAG [IF NOT EXISTS] &lt;tag_name&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    ([&lt;create_definition&gt;, ...])</span></pre></td></tr><tr><td class="code"><pre><span class="line">    [tag_options]</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;create_definition&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &lt;prop_name&gt; &lt;data_type&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;tag_options&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    &lt;option&gt; [, &lt;option&gt; ...]</span></pre></td></tr><tr><td class="code"><pre><span class="line">&lt;option&gt; ::&#x3D;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    TTL_DURATION [&#x3D;] &lt;ttl_duration&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    | TTL_COL [&#x3D;] &lt;prop_name&gt;</span></pre></td></tr><tr><td class="code"><pre><span class="line">    | DEFAULT &lt;default_value&gt;</span></pre></td></tr></table></figure></li>
+<li>实例<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG course(name string, credits int);</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG notag();  -- 属性为空</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG player_with_default(name string, age int DEFAULT 20);  -- 默认年龄设置为 20 岁</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG woman(name string, age int,</span></pre></td></tr><tr><td class="code"><pre><span class="line">   married bool, salary double, create_time timestamp)</span></pre></td></tr><tr><td class="code"><pre><span class="line">   TTL_DURATION &#x3D; 100, TTL_COL &#x3D; &quot;create_time&quot;; -- 时间间隔是 100s，从 create_time 字段的值开始</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG icecream(made timestamp, temperature int)</span></pre></td></tr><tr><td class="code"><pre><span class="line">   TTL_DURATION &#x3D; 100, TTL_COL &#x3D; &quot;made&quot;;</span></pre></td></tr><tr><td class="code"><pre><span class="line">   --  超过 TTL_DURATION 数据即失效</span></pre></td></tr></table></figure>
+<h4 id="DROP-EDGE-语法"><a href="#DROP-EDGE-语法" class="headerlink" title="DROP EDGE 语法"></a>DROP EDGE 语法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP EDGE [IF EXISTS] &lt;edge_type_name&gt;</span></pre></td></tr></table></figure>
+<h4 id="DROP-TAG-语法"><a href="#DROP-TAG-语法" class="headerlink" title="DROP TAG 语法"></a>DROP TAG 语法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP TAG [IF EXISTS] &lt;tag_name&gt;</span></pre></td></tr></table></figure>
+<h4 id="DROP-SPACE-语法"><a href="#DROP-SPACE-语法" class="headerlink" title="DROP SPACE 语法"></a>DROP SPACE 语法</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP SPACE [IF EXISTS] &lt;space_name&gt;</span></pre></td></tr></table></figure>
+<h4 id="Schema-索引"><a href="#Schema-索引" class="headerlink" title="Schema 索引"></a>Schema 索引</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">CREATE &#123;TAG | EDGE&#125; INDEX [IF NOT EXISTS] &lt;index_name&gt; ON &#123;&lt;tag_name&gt; | &lt;edge_name&gt;&#125; (prop_name_list)</span></pre></td></tr></table></figure></li>
+<li>创建单属性索引<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG INDEX player_index_0 on player(name);</span></pre></td></tr><tr><td class="code"><pre><span class="line">nebula&gt; CREATE EDGE INDEX follow_index_0 on follow(degree);</span></pre></td></tr></table></figure></li>
+<li>创建组合索引<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nebula&gt; CREATE TAG INDEX player_index_1 on player(name,age);</span></pre></td></tr></table></figure></li>
+<li>列出索引<ol>
+<li>SHOW TAG INDEXES;</li>
+<li>SHOW EDGE INDEXES;<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">SHOW &#123;TAG | EDGE&#125; INDEXES</span></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li>返回索引信息<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DESCRIBE &#123;TAG | EDGE&#125; INDEX &lt;index_name&gt;</span></pre></td></tr></table></figure></li>
+<li>删除索引</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">DROP &#123;TAG | EDGE&#125; INDEX [IF EXISTS] &lt;index_name&gt;</span></pre></td></tr></table></figure>
+<ul>
+<li>重构索引</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">REBUILD &#123;TAG | EDGE&#125; INDEX &lt;index_name&gt; [OFFLINE]</span></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>git</title>
+    <url>/2022/03/09/git/</url>
+    <content><![CDATA[<p>提交并同步代码：<br>git add -A</p>
+<p>git commit -m “xxx”</p>
+<p>git pull</p>
+<p>git push </p>
+<p>切换到master:<br>git checkout master</p>
+<p>合并代码<br>git merge xxx</p>
+<p>推送到master<br>git push origin master</p>
+<p>tag:<br>git tag -a 1.1.0 -m ‘版本1’</p>
+<p>git checkout dev<br>git tag -a 1.2.0 -m “版本2”<br>git push origin 1.2.0</p>
+<p>删除标签：<br>git tag -d 1.0.0<br>git push origin –delete 1.0.0</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>DEDSIGN-PATTERNS</title>
+    <url>/2022/03/09/DEDSIGN-PATTERNS/</url>
+    <content><![CDATA[<h2 id="六大原则"><a href="#六大原则" class="headerlink" title="六大原则"></a>六大原则</h2><ol>
+<li>单一职责原则</li>
+</ol>
+<ul>
+<li>降低类的复杂度，一个类只负责一项职责。</li>
+<li>提高类的可读性，可维护性</li>
+<li>降低变更引起的风险。</li>
+</ul>
+<ol start="2">
+<li>里氏替换原则</li>
+</ol>
+<ul>
+<li>在子类中尽量不要重写和重载父类的方法</li>
+<li>父类和子类都继承一个更通俗的基类，原有的继承关系去掉，采用依赖，聚合，组合等关系代替</li>
+</ul>
+<ol start="3">
+<li>依赖倒转原则</li>
+</ol>
+<ul>
+<li>高层模块不应该依赖低层模块，二者都应该依赖其抽象；</li>
+<li>抽象不应该依赖细节，细节应该依赖抽象。</li>
+</ul>
+<ol start="4">
+<li>接口隔离原则</li>
+</ol>
+<ul>
+<li>客户端不应该依赖它不需要的接口；一个类对另一个类的依赖应该建立在最小的接口上。</li>
+</ul>
+<ol start="5">
+<li>迪米特法则</li>
+</ol>
+<ul>
+<li>一个对象应该对其他对象保持最少的了解</li>
+</ul>
+<ol start="6">
+<li>开闭原则</li>
+</ol>
+<ul>
+<li>一个软件实体如类，模块和函数应该对扩展开放，对修改关闭。用抽象构建框架，用实现扩展细节。</li>
+</ul>
+<h3 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h3><p>单例、原型、工厂方法、抽象工厂、建造者等 5 种创建型模式</p>
+<h3 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h3><p>代理、适配器、桥接、装饰、外观、享元、组合等 7 种结构型模式</p>
+<h3 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h3><p>模板方法、策略、命令、职责链、状态、观察者、中介者、迭代器、访问者、备忘录、解释器等 11 种行为型模式</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>2022-03-01</title>
+    <url>/2022/03/09/2022-03-01/</url>
+    <content><![CDATA[<h2 id="查看每个ip跟服务器建立的连接数"><a href="#查看每个ip跟服务器建立的连接数" class="headerlink" title="查看每个ip跟服务器建立的连接数"></a>查看每个ip跟服务器建立的连接数</h2><ul>
+<li>netstat -nat|grep “tcp”|awk ‘ {print$5}’|awk -F : ‘{print$1}’|sort|uniq -c|sort -rn</li>
+</ul>
+<h2 id="查看每个ip建立的ESTABLISHED-TIME-OUT状态的连接数"><a href="#查看每个ip建立的ESTABLISHED-TIME-OUT状态的连接数" class="headerlink" title="查看每个ip建立的ESTABLISHED/TIME_OUT状态的连接数"></a>查看每个ip建立的ESTABLISHED/TIME_OUT状态的连接数</h2><ul>
+<li>netstat -nat|grep ESTABLISHED|awk ‘{print$5}’|awk -F : ‘{print$1}’|sort|uniq -c|sort -rn</li>
+</ul>
+<h2 id="查看不同状态的连接数数量"><a href="#查看不同状态的连接数数量" class="headerlink" title="查看不同状态的连接数数量"></a>查看不同状态的连接数数量</h2><ul>
+<li>netstat -an | awk ‘/^tcp/ {++y[$NF]} END {for(w in y) print w, y[w]}’    </li>
+</ul>
+<h2 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h2><ol>
+<li><p>npm install cnpm -g –registry=<a href="https://registry.npm.taobao.org" target="_blank" rel="noopener">https://registry.npm.taobao.org</a></p>
+</li>
+<li><p>安装gulp-sass</p>
+</li>
+</ol>
+<p>语法都是一样的，只是将npm换成cnpm</p>
+<p>cnpm install –save-dev gulp-sass</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>2022-02-22-spark</title>
+    <url>/2022/02/22/2022-02-22-spark/</url>
+    <content><![CDATA[<p>``</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ERROR ApplicationMaster:91 - User class threw exception: java.lang.NoSuchMethodError: org.apache.http.config.ConnectionConfig.getBufferSize()I</span></pre></td></tr><tr><td class="code"><pre><span class="line">java.lang.NoSuchMethodError: org.apache.http.config.ConnectionConfig.getBufferSize()I</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.ManagedHttpClientConnectionFactory.create(ManagedHttpClientConnectionFactory.java:105)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.ManagedHttpClientConnectionFactory.create(ManagedHttpClientConnectionFactory.java:53)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$InternalConnectionFactory.create(PoolingHttpClientConnectionManager.java:511)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$InternalConnectionFactory.create(PoolingHttpClientConnectionManager.java:483)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.pool.AbstractConnPool.getPoolEntryBlocking(AbstractConnPool.java:260)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.pool.AbstractConnPool.access$000(AbstractConnPool.java:63)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.pool.AbstractConnPool$2.getPoolEntry(AbstractConnPool.java:166)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.pool.AbstractConnPool$2.getPoolEntry(AbstractConnPool.java:162)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.pool.PoolEntryFuture.get(PoolEntryFuture.java:100)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection(PoolingHttpClientConnectionManager.java:244)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$1.get(PoolingHttpClientConnectionManager.java:231)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:173)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:195)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:86)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:108)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:184)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:82)</span></pre></td></tr><tr><td class="code"><pre><span class="line">	at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:106)</span></pre></td></tr></table></figure>
+
+<p>``</p>
+<p>jar包冲突， 注释掉spark carbondata配置</p>
+<p>``# Generated by Apache Ambari. Mon Feb 21 23:11:43 2022</p>
+<p>spark.acls.enable=true<br>spark.com.xxx.spark.SparkFilters.param.password=xxx<br>spark.com.xxx.spark.SparkFilters.param.username=admin<br>#spark.driver.extraClassPath=xxx<br>#spark.driver.extraJavaOptions=-Dcarbon.properties.filepath=$SPARK_HOME/conf/carbon.properties<br>spark.driver.memory=5g<br>spark.eventLog.dir=hdfs://xxx/tmp/spark-events<br>spark.eventLog.enabled=true<br>#spark.executor.extraClassPath=/opt/apps/spark/carbonlib/*<br>#spark.executor.extraJavaOptions=-Dcarbon.properties.filepath=$SPARK_HOME/conf/carbon.properties<br>spark.history.fs.logDirectory=hdfs://xxx/tmp/spark-events<br>spark.master=yarn-client<br>spark.master.rest.enabled=false<br>spark.serializer=org.apache.spark.serializer.KryoSerializer<br>spark.ui.filters=com.everdc.spark.SparkFilters<br>spark.yarn.historyServer.address=:``</p>
+<p>提交命令</p>
+<p>envp=[LANG=en_US.UTF-8, YARN_CONF_DIR=/opt/apps/hadoop_everdc/etc/hadoop], dir=null, comm=/opt/apps/spark_everdc/bin/spark-submit –master yarn –deploy-mode cluster –name stand_model_安全事件-明细-挖矿_1601(202202210000) –conf spark.yarn.submit.waitAppCompletion=false  –driver-memory 8g  –conf spark.default.parallelism=120  –num-executors 30  –executor-cores 2  –conf spark.sql.shuffle.partitions=120  –executor-memory 16g –files logs/model_run_1601.json –class com.eversec.everdc.standmodel.engine.spark.Launcher hdfs:///everdc/spark_jars/everdc-stand-model-engine-spark-4.6.0.jar model_run_1601.json file</p>
+<p>envp=[LANG=en_US.UTF-8, YARN_CONF_DIR=/opt/apps/hadoop_everdc/etc/hadoop], dir=null, comm=/opt/apps/spark_everdc/bin/spark-submit –master yarn –deploy-mode cluster –name stand_model_安全事件-明细-预处理-挖矿_1600(202202210000) –conf spark.yarn.submit.waitAppCompletion=false  –driver-memory 8g  –conf spark.default.parallelism=80  –num-executors 20  –executor-cores 2  –conf spark.sql.shuffle.partitions=80  –executor-memory 16g –files logs/model_run_1600.json –class com.eversec.everdc.standmodel.engine.spark.Launcher hdfs:///everdc/spark_jars/everdc-stand-model-engine-spark-4.6.0.jar model_run_1600.json file</p>
+<p>数据倾斜</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1200</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1062</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned shuffle 23</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1207</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1156</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1113</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1190</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1057</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1284</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1053</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1271</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1149</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1169</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1061</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:42:37 INFO ContextCleaner: Cleaned accumulator 1079</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 09:45:39 INFO TaskSetManager: Finished task 87.0 in stage 48.0 (TID 3715) in 839960 ms on node29 (executor 26) (118&#x2F;120)</span></pre></td></tr><tr><td class="code"><pre><span class="line">22&#x2F;02&#x2F;22 11:20:33 INFO TaskSetManager: Finished task 42.0 in stage 48.0 (TID 3675) in 6534915 ms on node29 (executor 14) (119&#x2F;120)</span></pre></td></tr></table></figure>
+
+
+
+
+
+<p>PI</p>
+<p>spark-submit –class org.apache.spark.examples.SparkPi \</p>
+<p>–master yarn \</p>
+<p>–deploy-mode cluster \</p>
+<p>–driver-memory 1g \</p>
+<p>–executor-memory 1g \</p>
+<p>–executor-cores 1 \</p>
+<p>/export/servers/spark/examples/jars/spark-examples_2.11-2.0.2.jar \</p>
+<p>10</p>
+<p># 关闭虚拟机内存检查（避免虚拟机内存不足时，无法运行）</p>
+<property> 
+
+<p>​        <name>yarn.nodemanager.vmem-check-enabled</name> </p>
+<p>​        <value>false</value> </p>
+ </property>]]></content>
+  </entry>
+  <entry>
     <title>racknerd</title>
     <url>/2020/11/08/2020-11-08-daily-notes/</url>
-    <content><![CDATA[<p>细数买过的vps 便宜的都跑路了。（*就是跑路了）</p>
-<p>alpharacks  *</p>
-<p>hostmybytes *</p>
-<p>vultr(按小时的 太贵了 停了)</p>
-<p>racknerd (作死买的（真的便宜）， 和alp一个老板 看看什么时候跑路)</p>
+    <content><![CDATA[<p>alpharacks  </p>
+<p>hostmybytes </p>
+<p>vultr</p>
+<p>racknerd</p>
 <p>racknerd 出现的问题mark:</p>
 <ul>
 <li><p>bbr安装 root后 无法使用访问安装的netdata（需要防火墙开放端口）</p>
@@ -113,7 +1539,6 @@ can we reload 2020?
 有点丧尸片的味道。
 熟悉的朋友最后一张合照都没有找着。
 这个感觉和之前失去亲人有什么差别呢。
-今天永远的24号又被上帝选走了。
 真是让人难过。</code></pre>]]></content>
   </entry>
   <entry>

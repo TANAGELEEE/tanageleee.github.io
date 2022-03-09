@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+<script>
+    (function () {
+        if ('') {
+            if (prompt('请输入文章密码') !== '') {
+                alert('密码错误！');
+                if (history.length === 1) {
+                    location.replace("https://tanageleee.github.io/"); // 这里替换成你的首页
+                } else {
+                    history.back();
+                }
+            }
+        }
+    })();
+</script>
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="TANAGELEE, BLOG" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简介 Hbase分布式 多版本 面向列 Hbase利用hdfs作为其文件存储系统 提供高可靠性 高性能 列存储 可伸缩 实时读写 适用于非结构化数据存储的数据库 Hbase利用mr来处理Hbase中的海量数据 Hbase利用zookeeper作为分布式协同服务特点 数据量大：一个表可以有上亿行上百万列 列多时 插入变慢 面向列 面向列(族)的存储和权限控制 列族独立检索 稀疏 对于空(null)的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hbase学习笔记">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2022&#x2F;03&#x2F;09&#x2F;Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0&#x2F;index.html">
+<meta property="og:site_name" content="TANAGELEE">
+<meta property="og:description" content="简介 Hbase分布式 多版本 面向列 Hbase利用hdfs作为其文件存储系统 提供高可靠性 高性能 列存储 可伸缩 实时读写 适用于非结构化数据存储的数据库 Hbase利用mr来处理Hbase中的海量数据 Hbase利用zookeeper作为分布式协同服务特点 数据量大：一个表可以有上亿行上百万列 列多时 插入变慢 面向列 面向列(族)的存储和权限控制 列族独立检索 稀疏 对于空(null)的">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2022-03-09T02:50:08.989Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2022/03/09/Hbase学习笔记/"/>
+
+
+
+
+
+  <title>Hbase学习笔记 | TANAGELEE</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+	<link rel="stylesheet" href="/dist/APlayer.min.css">
+	<div id="aplayer"></div>
+	<script type="text/javascript" src="/dist/APlayer.min.js"></script>
+	<script type="text/javascript" src="/dist/music.js"></script>
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">TANAGELEE</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-个人简历">
+          <a href="/myjob/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card"></i> <br />
+            
+            个人简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            檢索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2022/03/09/Hbase%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="TANAGELEE">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="TANAGELEE">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hbase学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2022-03-09T10:18:30+08:00">
+                2022-03-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><ul>
+<li>Hbase分布式 多版本 面向列</li>
+<li>Hbase利用hdfs作为其文件存储系统 提供高可靠性 高性能 列存储 可伸缩 实时读写 适用于非结构化数据存储的数据库</li>
+<li>Hbase利用mr来处理Hbase中的海量数据</li>
+<li>Hbase利用zookeeper作为分布式协同服务<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3></li>
+<li>数据量大：一个表可以有上亿行上百万列 列多时 插入变慢</li>
+<li>面向列 面向列(族)的存储和权限控制 列族独立检索</li>
+<li>稀疏 对于空(null)的列 并不占用存储空间 表设计非常稀疏</li>
+<li>多版本 每个cell中的数据可以有多个版本 默认情况下版本号自动分配 单元格插入时的时间戳</li>
+<li>无类型 HBase中的数据都是字符串 没有类型</li>
+<li>强一致性 同一行数据的读写只在同一台region server上</li>
+<li>有限的查询方式 仅支持三种查询方式 单个rowkey查询 /通过rowkey的range查询/全表扫描</li>
+<li>高性能随机读写<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3></li>
+<li>行同一个key对应的所有数据</li>
+<li>列族 相似的列数据通常被划分成一个列族 建表时确定</li>
+<li>列 列名在写入时确定</li>
+<li>cell及时间戳</li>
+<li>三维有序<br>sortedMap(rowKey, list(sortedMap(column, List(value, TimeStamp))))<br>rowkey(asc) + columnLabel(asc) + version(desc) -&gt; value</li>
+<li>面向列的存储</li>
+<li>一张表可以被分成若干个region</li>
+<li>行按照rowkey进行字典排序</li>
+<li>支持随机续写</li>
+<li>region时负载均衡调度的最小单位<h3 id="体系架构"><a href="#体系架构" class="headerlink" title="体系架构"></a>体系架构</h3></li>
+<li>client zookeeper Hmaster HregionServer hregion Hlog store memstore storefile HFile dfsclient namenode</li>
+<li>client：包含hbase接口维护cache加快对hbase的访问</li>
+<li>zookeeper: 保证mater唯一 region寻址入口 维护regionserver上下线信息 存储hbase的schema和table元数据</li>
+<li>master: 为regionserver分配region 负责regionserver的均衡负载 管理用户对table的增删改查操作</li>
+<li>region server: 维护region 处理region I/O请求  负责切分运行中变得过大的region</li>
+<li>root表: 记录meta表中每个region的位置 root表最多一个region zookeeper中记录了root表的location</li>
+<li>meta表： 记录各个表中每个region所在的region server,meta表可能包含多个region<h3 id="hbase操作"><a href="#hbase操作" class="headerlink" title="hbase操作"></a>hbase操作</h3></li>
+<li>flush <ol>
+<li>内存容量有限,需要定期将内存中的数据flush到磁盘</li>
+<li>每次flush 每个region的每个column family都会产生一个HFile</li>
+<li>读取操作 region server会把多个HFile数据归并到一起</li>
+</ol>
+</li>
+<li>compaction<ol>
+<li>flush操作产生的HFile会越来越低 需要归并减少HFile的数量</li>
+<li>旧数据会被清理</li>
+</ol>
+</li>
+<li>split<ol>
+<li>hfile大小到某个阈值 就会split region split成两个region</li>
+<li>这两个region被分到其他不同的region server上</li>
+</ol>
+</li>
+<li>scan<ol>
+<li>hbase原生提供的方法, 顺序扫库，可以使用mapreduce并发扫库的方法</li>
+</ol>
+</li>
+<li>bulk load<ol>
+<li>快速导入大批量数据的方法</li>
+</ol>
+</li>
+</ul>
+<h3 id="存储模型"><a href="#存储模型" class="headerlink" title="存储模型"></a>存储模型</h3><ul>
+<li>一个table的一个region会被随机分配给一个region server</li>
+<li>region是分布式存储和负载均衡的最小单元</li>
+<li>table一开始只有一个region put数据 拆分 -&gt; 多个region server<h3 id="region定位"><a href="#region定位" class="headerlink" title="region定位"></a>region定位</h3></li>
+<li>root表 -&gt; meta表-&gt;region<h3 id="HFile"><a href="#HFile" class="headerlink" title="HFile"></a>HFile</h3></li>
+<li>基于block的存储结构</li>
+<li>block的索引驻留内存</li>
+</ul>
+<h3 id="hbase操作-1"><a href="#hbase操作-1" class="headerlink" title="hbase操作"></a>hbase操作</h3><ul>
+<li>create ‘test’, ‘info’</li>
+<li>scan ‘test’</li>
+<li>put ‘test’,’row1’,’info:A’,’1’</li>
+<li>put ‘test’,’row1’,’info:B’,’1’</li>
+<li>put ‘test’,’row1’,’info:B’,’2’</li>
+<li>disable ‘test’</li>
+<li>drop ‘test’</li>
+<li>list<h3 id="java"><a href="#java" class="headerlink" title="java"></a>java</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">hbase-site.xml</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">configuration conf &#x3D; new Configuration();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">HBaseConfiguration hbaseconf &#x3D; new HBaseConfiguration(conf);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">HBaseAdmin admin &#x3D; new HBaseAdmin(hbaseconf);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">HTableDescriptor tableDesc &#x3D; new HTableDescriptor(&quot;test&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">tableDesc.addFamily(new HColumnDescriptor(&quot;info&quot;));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">admin.createTable(tableDesc);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(hbaseconf, &quot;test&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">Put put &#x3D; new Put(&quot;row1&quot;.getBytes());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">put.add(&quot;info&quot;, &quot;A&quot;.getBytes(), &quot;1&quot;.getBytes());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">table.put(put);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">table.flushCommits();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">table.close();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">Scan scan &#x3D; new Scan();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">ResultScanner res &#x3D; table.getScanner(scan);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">for(Result r: res) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">    system.out.println(&quot;rowkey&#x3D;&gt;&quot; + new String(r.getRow()));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">   </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">    for(KeyValue kv: r.raw()) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">        system.out.println(new String(kv.getFamily()));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">        system.out.println(new String(kv.getQualifier()));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line">        system.out.println(kv.getTimestamp());</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">        system.out.println(new String(kv.getValue()));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="hbase集群部署"><a href="#hbase集群部署" class="headerlink" title="hbase集群部署"></a>hbase集群部署</h3><ul>
+<li><p>社区版注意jar包替换</p>
+</li>
+<li><p>master: ative namenode,Hmaster,resourceManager,HQuorumpeer</p>
+</li>
+<li><p>slave: standby namenode,hregionserver,journalnode, nodemanager</p>
+</li>
+<li><p>slave2:</p>
+</li>
+<li><p>slave3:</p>
+<h3 id="2-0部署"><a href="#2-0部署" class="headerlink" title="2.0部署"></a>2.0部署</h3></li>
+<li><p>配置hosts</p>
+</li>
+<li><p>编辑hadoop-env.sh,mapred-env.sh,yarn-env.sh</p>
+</li>
+<li><p>编辑core-site.xml,hdfs-site.xml,yarn-site.xml</p>
+</li>
+<li><p>编辑slaves文件</p>
+</li>
+<li><p>把hadoop复制到其他节点</p>
+</li>
+<li><p>启动hadoop</p>
+</li>
+<li><p>验证启动</p>
+<h3 id="HA部署"><a href="#HA部署" class="headerlink" title="HA部署"></a>HA部署</h3></li>
+<li><p>nn Active &lt;- shared NN state with dingle writer(fenced) -&gt; nn standby</p>
+</li>
+<li><p>failovercontroller:监控namenode</p>
+</li>
+<li><p>ZK:heartbeat</p>
+</li>
+<li><p>with QJM (vs)  with NFS</p>
+<h3 id="QJM方案"><a href="#QJM方案" class="headerlink" title="QJM方案"></a>QJM方案</h3><h3 id="HA特点"><a href="#HA特点" class="headerlink" title="HA特点"></a>HA特点</h3></li>
+<li><p>共享存储</p>
+<ol>
+<li>解决单点故障问题</li>
+<li>利用NFS或QJM保存editlog</li>
+<li>保证数据的一致性</li>
+</ol>
+</li>
+<li><p>failovercontroller</p>
+<ol>
+<li>独立短小的watchdog</li>
+<li>避免NN GC时的心跳暂停</li>
+<li>ZKFC控制</li>
+</ol>
+</li>
+<li><p>Fencing</p>
+<ol>
+<li>防止脑裂<h3 id="HA-QJM"><a href="#HA-QJM" class="headerlink" title="HA -QJM"></a>HA -QJM</h3></li>
+</ol>
+</li>
+<li><p>启动JN</p>
+</li>
+<li><p>启动active NN</p>
+</li>
+<li><p>启动standby NN</p>
+</li>
+<li><p>启动automatic failover</p>
+</li>
+<li><p>hdfs haadmin -getServiceState nn1</p>
+</li>
+<li><p>hdfs haadmin -failover nn1 nn2</p>
+<h3 id="hbase部署"><a href="#hbase部署" class="headerlink" title="hbase部署"></a>hbase部署</h3></li>
+<li><p>./start-hbase.sh</p>
+</li>
+<li><p>hbase zkcli</p>
+</li>
+<li><p>hdfs re-format后 zk中信息不一致 -&gt; rmr /hbase</p>
+<h3 id="Hbase-shell操作"><a href="#Hbase-shell操作" class="headerlink" title="Hbase shell操作"></a>Hbase shell操作</h3></li>
+<li><p>hbase shell</p>
+</li>
+<li><p>list</p>
+</li>
+<li><p>create ‘scores’,’grade’,’course’</p>
+</li>
+<li><p>describe ‘scores’</p>
+</li>
+<li><p>put ‘scores’,’Tom’,’grade:’,’5’</p>
+</li>
+<li><p>put ‘scores’,’Tom’,’course:math’,’95’</p>
+</li>
+<li><p>scan ‘scores’</p>
+</li>
+<li><p>get ‘scores’,’Tom’</p>
+</li>
+<li><p>get ‘scores’,’Tom’,{COLUMN=&gt;’course:math’, VERSIONS=&gt;3}</p>
+</li>
+<li><p>alter ‘scores’,{NAME =&gt; ‘course’, VERSION =&gt; 3}</p>
+</li>
+<li><p>count ‘scores’</p>
+</li>
+<li><p>协同处理器count </p>
+</li>
+<li><p>disable ‘scores’ //修改region offline</p>
+</li>
+<li><p>drop ‘scores’</p>
+</li>
+<li><p>truncate ‘scores’</p>
+</li>
+<li><p>count 使用mapreduce统计</p>
+<ol>
+<li>count ‘t1’</li>
+<li>count ‘t1’, INTERVAL =&gt; 100000</li>
+<li>count ‘t1’, CACHE =&gt; 1000</li>
+<li>count ‘t1’, INTERVAL =&gt; 10, CACHE =&gt; 1000</li>
+</ol>
+</li>
+<li><p>delete ‘scores’, ‘Tom’, ‘grade’</p>
+<h3 id="java类与数据模型"><a href="#java类与数据模型" class="headerlink" title="java类与数据模型"></a>java类与数据模型</h3></li>
+<li><p>数据库database: HbaseAdmin HBaseConfiguration</p>
+</li>
+<li><p>表table: HTable</p>
+</li>
+<li><p>列族Column Family: HTableDescriptor</p>
+</li>
+<li><p>列修饰符Column Qualifier: Put Get Scanner</p>
+<h3 id="HBaseConfiguration"><a href="#HBaseConfiguration" class="headerlink" title="HBaseConfiguration"></a>HBaseConfiguration</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HBaseConfiguration hconfig &#x3D; new HBaseConfiguration();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">hconfig.set(&quot;hbase.zookeeper.property.clientPort&quot;,&quot;2181&quot;);</span></pre></td></tr></table></figure>
+<h3 id="HBaseAdmin"><a href="#HBaseAdmin" class="headerlink" title="HBaseAdmin"></a>HBaseAdmin</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HBaseAdmin admin &#x3D; new HBaseAdmin(config);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">admin.disableTable(&quot;tablename&quot;);</span></pre></td></tr></table></figure>
+<h3 id="HTableDescriptor"><a href="#HTableDescriptor" class="headerlink" title="HTableDescriptor"></a>HTableDescriptor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(table);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">htd.addFamily(new HcolumnDescriptor(&quot;family&quot;));</span></pre></td></tr></table></figure>
+<h3 id="HColumnDescriptor"><a href="#HColumnDescriptor" class="headerlink" title="HColumnDescriptor"></a>HColumnDescriptor</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(tablename);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">HColumnDescriptor col &#x3D; new HColumnDescriptor(&quot;content:&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">htd.addFamily(col);</span></pre></td></tr></table></figure>
+<h3 id="HTable"><a href="#HTable" class="headerlink" title="HTable"></a>HTable</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(conf,Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">ResultScanner scanner &#x3D; table.getScanner(family);</span></pre></td></tr></table></figure>
+<h3 id="HTablePool"><a href="#HTablePool" class="headerlink" title="HTablePool"></a>HTablePool</h3></li>
+<li><p>解决HTable线程不安全问题 维护固定数量的HTable对象 可以复用HTable资源对象</p>
+</li>
+<li><p>公用configuration 减少网络开销</p>
+</li>
+<li><p>使用简单 getTable -&gt; put/get/scan/delete -&gt; putTable-&gt;HTablePool中</p>
+</li>
+<li><p>HConectionManager</p>
+<h3 id="Put"><a href="#Put" class="headerlink" title="Put"></a>Put</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTable table &#x3D; new HTable(conf, Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Put p &#x3D; new Put(brow); &#x2F;&#x2F; brow-&gt;rowkey</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">p.add(family, qualifier, value);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">table.put(p);</span></pre></td></tr></table></figure>
+<h3 id="Get"><a href="#Get" class="headerlink" title="Get"></a>Get</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTable  table &#x3D; new HTable(conf, Bytes.toBytes(tablename));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">Get g &#x3D; new Get(Bytes.toBytes(row));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">table.get(g);</span></pre></td></tr></table></figure>
+<h3 id="Result"><a href="#Result" class="headerlink" title="Result"></a>Result</h3></li>
+<li><p>存储Get或者Scan操作后获取表的单行值 Map结构</p>
+<h3 id="ResultScanner"><a href="#ResultScanner" class="headerlink" title="ResultScanner"></a>ResultScanner</h3></li>
+<li><p>next()</p>
+<h3 id="Scanner扫描器缓存"><a href="#Scanner扫描器缓存" class="headerlink" title="Scanner扫描器缓存"></a>Scanner扫描器缓存</h3></li>
+<li><p>hbase.clinet.scanner.caching 配置项可以设置HBase scanner一次从服务端抓取的数据条数 默认情况下一次一条 </p>
+</li>
+<li><p>三个地方可以配置</p>
+<ol>
+<li>在HBase的conf配置文件中进行配置</li>
+<li>通过调用HTable.setScannerCaching 进行配置</li>
+<li>通过调用Scan.setCaching(int caching)进行配置 三者的优先级越来越高<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3></li>
+</ol>
+</li>
+<li><p>使用过滤器可以操作表的效率 Hbase中两种数据读取函数get()和scan()都支持过滤器 支持直接访问和通过指定起止行键来访问 但是缺少细粒度的筛选功能 如基于正则表达式对行键或值进行筛选的功能</p>
+</li>
+<li><p>可以使用预定义好的过滤器或者是实现自定义过滤器</p>
+</li>
+<li><p>过滤器在客户端创建 通过RPC传送到服务器端 在服务器端执行过滤操作 把数据返回给客户端</p>
+</li>
+<li><p>sacn ‘student’, {STARTROW=&gt;’J’, ENDROW=&gt;’K’}</p>
+<h3 id="过滤器-1"><a href="#过滤器-1" class="headerlink" title="过滤器"></a>过滤器</h3></li>
+<li><p>comparision Filters 比较过滤器</p>
+<ol>
+<li>rowFilter</li>
+<li>familyFilter</li>
+<li>qualifierFiler</li>
+<li>valueFiler</li>
+<li>DependentColumnFiler</li>
+</ol>
+</li>
+<li><p>dedicated Filters 专用过滤器</p>
+<ol>
+<li>singleColumnValueFilter</li>
+<li>singleColumnValueExcludeFilter</li>
+<li>prefixFilter</li>
+<li>pageFilter</li>
+<li>keyOnlyFilter</li>
+<li>firstkeyOnlyFilter</li>
+<li>timestampsFilter</li>
+<li>RandomRowFilter</li>
+</ol>
+</li>
+<li><p>decorating Filter 附加过滤器</p>
+<ol>
+<li>skipFilter</li>
+<li>whileMatchFilter<h3 id="协处理器"><a href="#协处理器" class="headerlink" title="协处理器"></a>协处理器</h3></li>
+</ol>
+</li>
+<li><p>问题：无法轻易建立二级索引 难以执行求和、计数、排序等操作</p>
+</li>
+<li><p>HBase 0.92之后引入了协处理器 coprecessors ：能够轻易建立二次索引、复杂过滤器（谓词下推）以及访问控制等</p>
+</li>
+<li><p>特性</p>
+<ol>
+<li>每个表服务器的任意子表都可以运行代码</li>
+<li>客户端的高层调用接口-客户端直接访问表行地址 多行读写自动分片成多个并行的RPC调用</li>
+<li>提供一个非常灵活、可用于建立分布式服务的数据模型</li>
+<li>能够自动化扩展、负载均衡、应用请求路由</li>
+<li>灵感来自于bigtable 使代码能够在hbase region server 和master上处理</li>
+</ol>
+</li>
+<li><p>两种类型:系统协处理器 表协处理器</p>
+<ol>
+<li>系统协处理器可以导入region server 上的所有数据表</li>
+<li>表协处理器即是用户可以指定一个表使用协处理器</li>
+</ol>
+</li>
+<li><p>协处理器框架为了更好支持其行为的灵活性 提供了两个不同方面的插件。一个是观察者，类似于关系数据库的触发器。另一个是终端，动态的终端有点像存储过程</p>
+<h3 id="Observer"><a href="#Observer" class="headerlink" title="Observer"></a>Observer</h3></li>
+<li><p>charity代码来重载协处理器框架的upcall方法 具体的时间出发的callback方法由hbase的核心代码来执行</p>
+</li>
+<li><p>三种观察者接口</p>
+<ol>
+<li>regionObserver 提供客户端的数据操纵事件钩子：get、put、delte、scan等</li>
+<li>WALObserver 提供wal相关操作钩子</li>
+<li>masterObserver 提供ddl类型操作钩子 如创建、删除</li>
+<li>修改数据表等</li>
+</ol>
+</li>
+<li><p>这些接口可以同时使用在同个地方，按照不同优先级顺序执行，用户可以任意基于协处理器实现复杂的hbase功能层。hbase有很多种事件可以触发观察者方法，这些事件与方法从0.92版本起 都会继承在hbase api中。不过这些api可能会由于各种原因有所改动，不同版本的接口改动比较大。</p>
+<h3 id="endpoint"><a href="#endpoint" class="headerlink" title="endpoint"></a>endpoint</h3></li>
+<li><p>终端是动态RPC插件的接口 实现代码在服务器端 通过hbase rpc唤醒。客户端类库提供方法调用动态接口。</p>
+<ol>
+<li>定义一个新的protocol接口 必须继承coprecessorProtocol</li>
+<li>实现终端接口 实现会被导入region环境执行</li>
+<li>继承抽象类baseendpointCooprocessor</li>
+<li>在客户端 终端可以被两个新的hbase client api调用。coprocessorProxy &amp; coprocessorExec</li>
+</ol>
+</li>
+<li><p>三个方法对endpoint进行设置</p>
+<ol>
+<li>启动全局aggregation 修改hbase-site.xml -hbase.coprocessor.user.region.classes</li>
+<li>启动表aggregation,特定表生效。hbase shell<ol>
+<li>disable指定表 disable ‘mytable’</li>
+<li>添加aggregation alter ‘mytable’,METHOD=&gt;’table_att’,’coprocessor’=&gt;’|org.apache.hadoop.hbase.coprocessor.RowCountRndpoint||’</li>
+<li>重启指定表 enable ‘mytable’</li>
+</ol>
+</li>
+<li>api调用<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HTableDescriptor htd &#x3D; new HTableDescriptor(&quot;testTable&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">htd.setValue(&quot;CORPROCESSOR$1&quot;,path.toString + &quot;|&quot; + RowCountEndpoint.class.getCanonicalName() + &quot;|&quot; + Coprocessor.Priority.USER);</span></pre></td></tr></table></figure>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3></li>
+</ol>
+</li>
+<li><p>协处理器配置的加载顺序 先加载配置文件中定义的协处理器 后加载表描述符中的协处理器</p>
+</li>
+<li><p>coprocessor$<number>中的number定义了加载的顺序</p>
+</li>
+<li><p>协处理器配置格式</p>
+<h2 id="mapreduce-on-hbase"><a href="#mapreduce-on-hbase" class="headerlink" title="mapreduce on hbase"></a>mapreduce on hbase</h2></li>
+<li><p>可以使用，mapredece的方法操作hbase数据库</p>
+</li>
+<li><p>hadoop mapreduce提供相关api可以与hbase数据库无缝连接</p>
+</li>
+<li><p>api link: <a href="http://hbase.apache.org/devapidocs/index.html" target="_blank" rel="noopener">http://hbase.apache.org/devapidocs/index.html</a></p>
+</li>
+</ul>
+<h3 id="HBaseMR"><a href="#HBaseMR" class="headerlink" title="HBaseMR"></a>HBaseMR</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">class MyMapper extends TableMapper&lt;Text, Text&gt;&#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">    protected void map(xx key, xx value, xx context) throws xx &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line">        Text k &#x3D; new Text(Bytes.toString(key.get()));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">        Text v &#x3D; new Text(xx)</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">        context.write(v, k);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">public MyReduer extends TableReducer&lt;Text, Text, ImmutableBytesWritable&gt; &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">10</span></pre></td><td class="code"><pre><span class="line">    @Override</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">11</span></pre></td><td class="code"><pre><span class="line">    protected void reduce(Text key, Iterable&lt;Text&gt; values, Context context) throws xx &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">12</span></pre></td><td class="code"><pre><span class="line">        Put put &#x3D; new Put(Bytes.toBytes(key.toString));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">13</span></pre></td><td class="code"><pre><span class="line">        for(Text value: values) &#123;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">14</span></pre></td><td class="code"><pre><span class="line">            put.add(Bytes.toBytes(&quot;f1&quot;), Bytes.toBytes(value.toString), Bytes.toBytes(value.toString));</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">15</span></pre></td><td class="code"><pre><span class="line">        &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">16</span></pre></td><td class="code"><pre><span class="line">        context.write(null, put);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">17</span></pre></td><td class="code"><pre><span class="line">        </span></pre></td></tr><tr><td class="gutter"><pre><span class="line">18</span></pre></td><td class="code"><pre><span class="line">    &#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">19</span></pre></td><td class="code"><pre><span class="line">&#125;</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">20</span></pre></td><td class="code"><pre><span class="line">main:</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">21</span></pre></td><td class="code"><pre><span class="line">Job job &#x3D; new Job(conf, &quot;mapreduce on hbase&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">22</span></pre></td><td class="code"><pre><span class="line">job.setJarByClass(HBaseMR.class);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">23</span></pre></td><td class="code"><pre><span class="line">Scan scan &#x3D; new Scan();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">24</span></pre></td><td class="code"><pre><span class="line">scan.setCacheing(1000);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">25</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">26</span></pre></td><td class="code"><pre><span class="line">TableMapReduceUtil.initTableMapperJob(&quot;tableName&quot;, scan, MyMapper.class, Text.class, Text.calss, job);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">27</span></pre></td><td class="code"><pre><span class="line">TableMapReduceUtil.initTableReduceJob(&quot;tableName2&quot;, MyReducer.class, job);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">28</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">29</span></pre></td><td class="code"><pre><span class="line">job.waitForCompletion(true);</span></pre></td></tr></table></figure>
+<h3 id="数据存储格式"><a href="#数据存储格式" class="headerlink" title="数据存储格式"></a>数据存储格式</h3><ul>
+<li><p>B+树</p>
+<ol>
+<li>有n棵子树的节点中含有n个关键字 每个关键字不保存数据 只用来索引 所有数据都保存再叶子节点</li>
+<li>所有的叶子节点中包含了全部关键字的信息 及指向包含这些关键字记录的指针，且叶子节点本身依关键字的大小自小而大顺序链接</li>
+<li>所有的非终端节点可以看成是索引部分 节点中仅含有其子树(根节点)中的最大(或最小)关键字</li>
+</ol>
+</li>
+<li><p>LSM树</p>
+<ol>
+<li>c0 Tree -&gt; c1 Tree -&gt; c… Tree -&gt; cX Tree</li>
+<li>in memory -&gt; merge -&gt; on disk</li>
+</ol>
+</li>
+<li><p>HFile格式</p>
+<ol>
+<li>Data Meta FileInfo DataIndex Trailer</li>
+<li>Data -&gt; Magic keyValue…</li>
+<li>数据块-保存表中的数据 块大小64K</li>
+<li>元数据块-保存用户自定义的kv对,可压缩</li>
+<li>File Info-Hfile的元信息,不被压缩,用户也可以在这部分添加自己的元信息</li>
+<li>数据索引块-DataBLock的索引,每条索引的key是被索引的block的第一条记录的key（格式为:头信息,数据块offset数据块大小第一个记录的key,…）</li>
+</ol>
+</li>
+<li><p>storeFile格式</p>
+<ol>
+<li>storeFile(datablocks -metaBlocks-fileInfo- dataIndex - metaBlock -trailer)</li>
+<li>dataBlocks (dataBlock-dataBlock-…)</li>
+<li>dataBlock(Data block magic- key value)</li>
+</ol>
+</li>
+<li><p>KeyValue对象格式</p>
+<ol>
+<li>key length - Key(Row length-row-Column family-column qualifier-time stamp-key type)-value</li>
+</ol>
+</li>
+</ul>
+<h3 id="WAL机制"><a href="#WAL机制" class="headerlink" title="WAL机制"></a>WAL机制</h3><h4 id="WAL预写日志"><a href="#WAL预写日志" class="headerlink" title="WAL预写日志"></a>WAL预写日志</h4><ul>
+<li>client向RegionServer端提交数据的时候，会优先写wal日志（HLog），只有当wal日志写成功以后，client才会被告诉提交数据成功，如果写wal日志失败会告知客户端提交失败</li>
+<li>一个regionServer上所有的region都共享一个HLog，一次数据的提交是先写wal，再写memstore<h4 id="HLog类"><a href="#HLog类" class="headerlink" title="HLog类"></a>HLog类</h4></li>
+<li>实现了wal的类叫做HLog.当hregion收到更新操作时，它可以直接把数据保存到一个共享的wal实例中去。<h4 id="HLogKey类"><a href="#HLogKey类" class="headerlink" title="HLogKey类"></a>HLogKey类</h4></li>
+<li>当前的wal使用的是hadoop的sequenceFile格式，其key是HLogKey实例。hlogkey中记录了写入数据的归属信息，除了table和region名字外，同时还包括sequence number和timestamp,timestamp是写入时间，sequence number 的起始值为0，或者是最近一次存入文件系统中sequence number.</li>
+<li>HLog sequence File的value是hbase的keyvalue对象， 即对应HFile中的KeyValue</li>
+</ul>
+<h4 id="WALEdit类"><a href="#WALEdit类" class="headerlink" title="WALEdit类"></a>WALEdit类</h4><ul>
+<li>客户端发送的每个修改都会封装成waledit类 一个waledit类就是一个原子操作<h4 id="WAL实现类位置"><a href="#WAL实现类位置" class="headerlink" title="WAL实现类位置"></a>WAL实现类位置</h4></li>
+<li>…/hbase/regionServer/xxx<h4 id="LogSyncer类"><a href="#LogSyncer类" class="headerlink" title="LogSyncer类"></a>LogSyncer类</h4></li>
+<li>Table设置每次不同步，则写操作会被regionServer缓存，并启动一个LogSyner线程来定时同步日志，定时时间默认是一秒也可由hbase.regionserver.optionallogflushinterval设置<h4 id="LogRoller类"><a href="#LogRoller类" class="headerlink" title="LogRoller类"></a>LogRoller类</h4></li>
+<li>日志写入的大小是有限制的。LogRoller类会作为一个后台线程运行，在特定的事件间隔内滚动日志。通过hbase.regionserver.logroll.priod属性控制,默认一小时<h4 id="HBase容错处理"><a href="#HBase容错处理" class="headerlink" title="HBase容错处理"></a>HBase容错处理</h4></li>
+<li>splitlog -&gt; 另外的regionServer</li>
+</ul>
+<h3 id="HBase在线数据备份"><a href="#HBase在线数据备份" class="headerlink" title="HBase在线数据备份"></a>HBase在线数据备份</h3><h4 id="Hbase-Replication"><a href="#Hbase-Replication" class="headerlink" title="Hbase Replication"></a>Hbase Replication</h4><ul>
+<li>hbase复制是一种在不同hbase部署中复制数据的方法。可以作为一种故障恢复的方法 高可用性</li>
+<li>最基本的架构模式是主推送 master-push,每个region server都有自己的wal（或者hlog）。一个主集群可以将数据复制到任意数据的从集群，每个region server都会参与复制自己的修改。</li>
+<li>region server从它需要的最老的日志开始复制，同时在zookeeper中保存当前恢复的位置来简化错误恢复。</li>
+<li>参与复制的集群的规模可以不对等。主集群会通过随机分配尽量均衡从集群的负载。</li>
+<li>解决问题:<ol>
+<li>数据管理人员的失误，不可逆的DDl操作</li>
+<li>底层HDFS文件BLOCK块corruption</li>
+<li>短时间过度的读数据对集群造成的压力，增加服务器应对这种情况比较浪费资源</li>
+<li>系统升级，维护。诊断问题会造成集群不可用时间增长</li>
+<li>双写的原子性难以保证</li>
+<li>不可预计的一些原因</li>
+<li>离线应用的MR计算对在线读写造成的较大的延迟影响</li>
+</ol>
+</li>
+</ul>
+<h4 id="在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）"><a href="#在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）" class="headerlink" title="在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）"></a>在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）</h4><ul>
+<li>简单备份模式通过定时不定时的Dump出集群数据保证数据的安全性，通常可以通过snapshot或设置时间戳来dump数据来实现这种方案。</li>
+<li>主从模式（master-slave），可以通过最终一致性保证数据的一直，数据从主集群到备集群延时较低，异步写入不会对主集群带来性能压力。构造较好的Log系统加上check point来实现，可以实现读写分离，主集群可以担当读写服务，但备集群一般只承担读服务。</li>
+<li>主主模式：不同的是2个集群可以互相承担写的分离，都可承担读写服务</li>
+<li>2阶段提交这种方案保证了强一致性和事务，服务器返回给客户端成功则表明数据一定已经成功备份，不会造成任何数据丢失。每台服务器都可承担读写服务。但缺点是造成集群延迟较高，总体吞吐下降。</li>
+<li>paxos算法基于Paxos算法的实现的强一致性方案，同一客户端连接的server能保证数据的一致性。缺点是实现复杂，集群延迟和吞吐随着集群服务器增加而变差。<h4 id="Hbase-replication"><a href="#Hbase-replication" class="headerlink" title="Hbase replication"></a>Hbase replication</h4></li>
+<li>HRegionServer -&gt; sync call -&gt; slave cluster</li>
+<li>replication工作流程<h4 id="部署步骤"><a href="#部署步骤" class="headerlink" title="部署步骤"></a>部署步骤</h4></li>
+<li>编辑hbase-site.xml文件，增加hbase.replication = true，重启hbase集群</li>
+<li>add peer ‘ID’ ‘CLUSTER_KEY’</li>
+<li>start_replication </li>
+<li>hbase-0.96和hbase-0.98已经没有start_replication命令和stop_replication命令。hbase-0.98相较hbase-0.96,新增了set_perr_tableCfs、show_peer_tableCFs命令。在设定复制时，hbase-0.98需要使用set_peer_tableCFs设置。具体的有对应的帮助命令可供参考。ID必须是一个短整数，CLUSTER_KEY的内容请参考一下模板<ol>
+<li>habse.zookeeper.quorum:hbase.zookeeper.property.clientPort:zookeeper.znode.parent</li>
+<li>比如zk.server.com:2181:/hbase</li>
+<li>注意：如果两个集群使用相同的zookeeper集群，你不得不使用不同的zookeeper.znode.parent,因为他们不能写入相同的文件夹中。</li>
+</ol>
+</li>
+<li>一旦你有一个对等从集群，你需要在你的列族上使复制可用，想达到这样的效果，可以 在HBase shell中执行命令<ol>
+<li>disable ‘your table’</li>
+<li>alter ‘your table’, {NAME =&gt; ‘family_name’, REPLICATION_SCOPE =&gt; ‘1’}</li>
+<li>enable ‘your table’</li>
+<li>scope值为0（默认值）意味着它不会被复制，而scope值为1意味着它将被复制。</li>
+</ol>
+</li>
+<li>之前设置为不可用的对等（从）集群可用：enable peer ‘ID’</li>
+<li>移除一个从集群： 1. shop_replication 2.remove_peer ‘ID’<h3 id="集群数据迁移方案"><a href="#集群数据迁移方案" class="headerlink" title="集群数据迁移方案"></a>集群数据迁移方案</h3></li>
+<li>静态迁移方案 hadoop distcp</li>
+<li>动态迁移方案<ol>
+<li>replication备份方案</li>
+<li>copyTable方案</li>
+<li>export and import方案</li>
+</ol>
+</li>
+<li>手动方式</li>
+</ul>
+<h4 id="静态迁移方案"><a href="#静态迁移方案" class="headerlink" title="静态迁移方案"></a>静态迁移方案</h4><ul>
+<li>在hbase停止的状态下进行数据的迁移</li>
+<li>distcp + add_table.rb<h4 id="动态迁移方案"><a href="#动态迁移方案" class="headerlink" title="动态迁移方案"></a>动态迁移方案</h4></li>
+<li>replication备份方案</li>
+<li>copyTable方案<ol>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.CopyTable –peer.adr=new cluster ip:2181:/hbase_table</li>
+<li>拷贝完成，不需要重启机器，在new cluster中可以看到该表</li>
+<li>稳定性还需要考虑</li>
+</ol>
+</li>
+<li>export and import方案<ol>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.Export test hdfs://new  cluster ip:9000/xx</li>
+<li>./hbase org.apache.hadoop.hbase.mapreduce.Import test hdfs://new cluster ip:9000/xxx</li>
+<li>一定要写全路径，不能写相对路径</li>
+<li>在import前，需要将表事先在new cluster中建好。<h4 id="手动方式"><a href="#手动方式" class="headerlink" title="手动方式"></a>手动方式</h4></li>
+</ol>
+</li>
+<li>hadoop fs -get /xxx</li>
+<li>hadoop fs -put xxx /hbase/data/default</li>
+<li>修复.MEETA表:hbase hbck -fixMeta</li>
+<li>重新分配数据到regionServer：hbase hbck -fixAssignments</li>
+</ul>
+<h3 id="Hbase数据导入"><a href="#Hbase数据导入" class="headerlink" title="Hbase数据导入"></a>Hbase数据导入</h3><ul>
+<li>利用importTsv将csv文件导入hbase</li>
+<li>利用completebulkload将数据导入到hbase</li>
+<li>利用import将数据导入到hbase<h4 id="importTsv"><a href="#importTsv" class="headerlink" title="importTsv"></a>importTsv</h4></li>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=”,” -Dimporttsv.column=HBASE_ROW_KEY.cf hbase-tbl-001 /simple.csv<h4 id="completebulkload"><a href="#completebulkload" class="headerlink" title="completebulkload"></a>completebulkload</h4></li>
+<li>使用先生成HFile<ol>
+<li>消除对HBase集群的插入压力</li>
+<li>提高了Job的运行速度，降低了Job的执行时间</li>
+</ol>
+</li>
+<li>先通过ImportTsv生成HFile<ol>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator=”,” -Dimporttsv.bulkoutput=/hfile_tmp  -Dimporttsv.bulk.out=HBASE_ROW_KEY.cf hbase-tbl-001 /simple.csv</li>
+<li>通过completebulkload将数据导入表hbase-tbl-002</li>
+<li>命令: hadoop jar lib/hbase-server-0.96.0.jar completebulkload /hfile_tmp hbase-tbl.002<h4 id="import将数据导入到hbase"><a href="#import将数据导入到hbase" class="headerlink" title="import将数据导入到hbase"></a>import将数据导入到hbase</h4></li>
+</ol>
+</li>
+<li>hbase export导出sequence file</li>
+<li>bin/hbase org.apache.hadoop.hbase.mmapreduce.Export hbase-tbl-002 /test-output</li>
+<li>bin/hbase org.apache.hadoop.hbase.mapreduce.Import hbase-tbl-003 /test-output</li>
+</ul>
+<h3 id="二级索引方案"><a href="#二级索引方案" class="headerlink" title="二级索引方案"></a>二级索引方案</h3><ul>
+<li>Mapreduce方案</li>
+<li>ITHBASE方案</li>
+<li>IHBASE方案</li>
+<li>Coprocessor方案</li>
+<li>Solr+hbase方案<h4 id="mr方案"><a href="#mr方案" class="headerlink" title="mr方案"></a>mr方案</h4></li>
+<li>优点 并发批量构建Index</li>
+<li>缺点 不能实时构建Index</li>
+<li>反向索引</li>
+<li></li>
+</ul>
+<h4 id="IHBASE方案"><a href="#IHBASE方案" class="headerlink" title="IHBASE方案"></a>IHBASE方案</h4><ul>
+<li>优点 indexed HBase是hbase的一个扩展，用于支持更快的扫描</li>
+<li>缺点 需要重构hbase</li>
+<li>原理 在memstore满了以后刷磁盘时 Ihbase会进行拦截请求并为这个memstore的数据构建索引，索引另一个CF的方式存储在表内。scan的时候，IHbase会结合索引中的标记，来加速scan.</li>
+</ul>
+<h4 id="coprocessor方案"><a href="#coprocessor方案" class="headerlink" title="coprocessor方案"></a>coprocessor方案</h4><ul>
+<li>HIndex 华为</li>
+<li>具有代码侵入性</li>
+</ul>
+<h4 id="solr方案"><a href="#solr方案" class="headerlink" title="solr方案"></a>solr方案</h4><ul>
+<li>solr是高性能，采用java5开发，基于lucene的全文搜索服务器，同时<br>实现了可配置，可扩展并对查询性能进行了优化</li>
+<li>hbase本身对rowkey支持毫秒级的快速检索</li>
+<li>hbase表中涉及条件过滤字段的rowkey在solr中建立索引</li>
+</ul>
+<h3 id="snapshot-快照"><a href="#snapshot-快照" class="headerlink" title="snapshot(快照)"></a>snapshot(快照)</h3><ul>
+<li>快照就是一份元信息的合集， 允许管理员恢复到表的先前状态。快照不是表的复制而是一个文件名称列表，不会复制数据。</li>
+<li>作用 hbase快照允许管理员不拷贝数据直接克隆一张表，这对域服务器产生的影响最小。将快照导出其他集群不会直接影响到任何域服务器；导出只是带有一些额外逻辑的群间数据同步。</li>
+<li>使用场景<ol>
+<li>用户/应用异常中还原</li>
+<li>从一个已知的安全状态恢复/还原</li>
+<li>查看之前的快照并有选择的合并写入产品环境</li>
+<li>当主应用程序升级或改版时保存快照</li>
+<li>在指定时间审查和报告数据</li>
+<li>按照规定捕获月度数据</li>
+<li>生成日终、月末、季末报告</li>
+<li>应用测试</li>
+<li>通过快照模拟生产环境结构或应用发生的变化</li>
+<li>减少工作压力</li>
+<li>生成快照，导入到其他集群，然后运行mapreduce jobs.导出快照时hdfs级别，所以不会像复制表那样降低hbase主集群的效率。</li>
+</ol>
+</li>
+<li>快照操作<ol>
+<li>生成快照</li>
+<li>克隆快照</li>
+<li>还原快照</li>
+<li>删除快照</li>
+<li>导出快照</li>
+</ol>
+</li>
+</ul>
+<h3 id="Hbase-bloomFilter"><a href="#Hbase-bloomFilter" class="headerlink" title="Hbase bloomFilter"></a>Hbase bloomFilter</h3><ul>
+<li>hbase利用bloomfilter来提高随机读的性能，对于顺序读scan而言，bloomfilter是没有作用的</li>
+<li>开销：hbase生成storeFile时包含一份bloomfilter结构的数据metaBlock。metablock与datablock一起由LRUBlockCache维护。开启bloomfilter会有一定的存储及内存cache开销。</li>
+<li>rowcol 和row<h3 id="实时查询方案"><a href="#实时查询方案" class="headerlink" title="实时查询方案"></a>实时查询方案</h3></li>
+<li>hbase + solr + hbase indexer<ol>
+<li>hbase提供海量数据存储</li>
+<li>solr提供索引构建与查询</li>
+<li>hbase indexer提供自动化索引构建(从hbase到solr)<h4 id="configure-hbase-indexer"><a href="#configure-hbase-indexer" class="headerlink" title="configure hbase indexer"></a>configure hbase indexer</h4></li>
+</ol>
+</li>
+<li>hbase -&gt; hbase indexer -&gt; solr<h4 id="configure-hbase"><a href="#configure-hbase" class="headerlink" title="configure  hbase"></a>configure  hbase</h4></li>
+<li>replication must be enabled in hbase.<h4 id="add-ubdexer-jars-to-hbase"><a href="#add-ubdexer-jars-to-hbase" class="headerlink" title="add ubdexer jars to hbase"></a>add ubdexer jars to hbase</h4><h4 id="start-solr"><a href="#start-solr" class="headerlink" title="start solr"></a>start solr</h4></li>
+<li>jetty<h4 id="start-the-hbase-indexer-daemon"><a href="#start-the-hbase-indexer-daemon" class="headerlink" title="start the hbase indexer daemon"></a>start the hbase indexer daemon</h4><h4 id="create-a-table-to-be-indexed-in-hbase"><a href="#create-a-table-to-be-indexed-in-hbase" class="headerlink" title="create a table to be indexed in hbase"></a>create a table to be indexed in hbase</h4><h4 id="add-a-indexer"><a href="#add-a-indexer" class="headerlink" title="add a indexer"></a>add a indexer</h4><h4 id="update-table-content"><a href="#update-table-content" class="headerlink" title="update table content"></a>update table content</h4><h4 id="solr-gt-auto-commit"><a href="#solr-gt-auto-commit" class="headerlink" title="solr -&gt; auto commit"></a>solr -&gt; auto commit</h4></li>
+</ul>
+<h3 id="solr查询"><a href="#solr查询" class="headerlink" title="solr查询"></a>solr查询</h3><ul>
+<li><p>利用solrJ操作 solr api,使用solrJ操作solr会比利用httpClient来操作solr要简单</p>
+</li>
+<li><p>查询使用的类</p>
+<ol>
+<li>httpSolrServer</li>
+<li>SolrQuery</li>
+</ol>
+</li>
+<li><p>http</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span></pre></td><td class="code"><pre><span class="line">HttpSolrServer server &#x3D; new HttpSolrServer(url);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">2</span></pre></td><td class="code"><pre><span class="line">server.setConnectionTimeout(1000);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">3</span></pre></td><td class="code"><pre><span class="line">server.set...</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">4</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">5</span></pre></td><td class="code"><pre><span class="line">SolrQuery query &#x3D; newe SolrQuery();</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">6</span></pre></td><td class="code"><pre><span class="line">query.setQuery(&quot;fistName_s:Jim&quot;);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">7</span></pre></td><td class="code"><pre><span class="line"></span></pre></td></tr><tr><td class="gutter"><pre><span class="line">8</span></pre></td><td class="code"><pre><span class="line">QueryResponse resp &#x3D; server.query(query);</span></pre></td></tr><tr><td class="gutter"><pre><span class="line">9</span></pre></td><td class="code"><pre><span class="line">List&lt;Item&gt; list &#x3D; resp.getBeans(Item.class);</span></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+      </div>
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/03/09/spark/" rel="next" title="spark">
+                <i class="fa fa-chevron-left"></i> spark
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/03/09/Hive%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="Hive学习笔记">
+                Hive学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC81MTkzNi8yODQxNw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.png"
+                alt="TANAGELEE" />
+            
+              <p class="site-author-name" itemprop="name">TANAGELEE</p>
+              <p class="site-description motion-element" itemprop="description">世上所有的相遇都是久别重逢</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">36</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TANAGELEEE" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特点"><span class="nav-number">2.</span> <span class="nav-text">特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据模型"><span class="nav-number">3.</span> <span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#体系架构"><span class="nav-number">4.</span> <span class="nav-text">体系架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase操作"><span class="nav-number">5.</span> <span class="nav-text">hbase操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存储模型"><span class="nav-number">6.</span> <span class="nav-text">存储模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#region定位"><span class="nav-number">7.</span> <span class="nav-text">region定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HFile"><span class="nav-number">8.</span> <span class="nav-text">HFile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase操作-1"><span class="nav-number">9.</span> <span class="nav-text">hbase操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java"><span class="nav-number">10.</span> <span class="nav-text">java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase集群部署"><span class="nav-number">11.</span> <span class="nav-text">hbase集群部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-0部署"><span class="nav-number">12.</span> <span class="nav-text">2.0部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA部署"><span class="nav-number">13.</span> <span class="nav-text">HA部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QJM方案"><span class="nav-number">14.</span> <span class="nav-text">QJM方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA特点"><span class="nav-number">15.</span> <span class="nav-text">HA特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HA-QJM"><span class="nav-number">16.</span> <span class="nav-text">HA -QJM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hbase部署"><span class="nav-number">17.</span> <span class="nav-text">hbase部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase-shell操作"><span class="nav-number">18.</span> <span class="nav-text">Hbase shell操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java类与数据模型"><span class="nav-number">19.</span> <span class="nav-text">java类与数据模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBaseConfiguration"><span class="nav-number">20.</span> <span class="nav-text">HBaseConfiguration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBaseAdmin"><span class="nav-number">21.</span> <span class="nav-text">HBaseAdmin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTableDescriptor"><span class="nav-number">22.</span> <span class="nav-text">HTableDescriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HColumnDescriptor"><span class="nav-number">23.</span> <span class="nav-text">HColumnDescriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTable"><span class="nav-number">24.</span> <span class="nav-text">HTable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTablePool"><span class="nav-number">25.</span> <span class="nav-text">HTablePool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Put"><span class="nav-number">26.</span> <span class="nav-text">Put</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Get"><span class="nav-number">27.</span> <span class="nav-text">Get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Result"><span class="nav-number">28.</span> <span class="nav-text">Result</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ResultScanner"><span class="nav-number">29.</span> <span class="nav-text">ResultScanner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scanner扫描器缓存"><span class="nav-number">30.</span> <span class="nav-text">Scanner扫描器缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤器"><span class="nav-number">31.</span> <span class="nav-text">过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤器-1"><span class="nav-number">32.</span> <span class="nav-text">过滤器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协处理器"><span class="nav-number">33.</span> <span class="nav-text">协处理器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Observer"><span class="nav-number">34.</span> <span class="nav-text">Observer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#endpoint"><span class="nav-number">35.</span> <span class="nav-text">endpoint</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#说明"><span class="nav-number">36.</span> <span class="nav-text">说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mapreduce-on-hbase"><span class="nav-number"></span> <span class="nav-text">mapreduce on hbase</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HBaseMR"><span class="nav-number">1.</span> <span class="nav-text">HBaseMR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据存储格式"><span class="nav-number">2.</span> <span class="nav-text">数据存储格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WAL机制"><span class="nav-number">3.</span> <span class="nav-text">WAL机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#WAL预写日志"><span class="nav-number">3.1.</span> <span class="nav-text">WAL预写日志</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HLog类"><span class="nav-number">3.2.</span> <span class="nav-text">HLog类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HLogKey类"><span class="nav-number">3.3.</span> <span class="nav-text">HLogKey类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WALEdit类"><span class="nav-number">3.4.</span> <span class="nav-text">WALEdit类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WAL实现类位置"><span class="nav-number">3.5.</span> <span class="nav-text">WAL实现类位置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LogSyncer类"><span class="nav-number">3.6.</span> <span class="nav-text">LogSyncer类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LogRoller类"><span class="nav-number">3.7.</span> <span class="nav-text">LogRoller类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HBase容错处理"><span class="nav-number">3.8.</span> <span class="nav-text">HBase容错处理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HBase在线数据备份"><span class="nav-number">4.</span> <span class="nav-text">HBase在线数据备份</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Hbase-Replication"><span class="nav-number">4.1.</span> <span class="nav-text">Hbase Replication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）"><span class="nav-number">4.2.</span> <span class="nav-text">在线备份方案比较（一致性，事务性，延迟，吞吐量，数据损失，failover）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hbase-replication"><span class="nav-number">4.3.</span> <span class="nav-text">Hbase replication</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署步骤"><span class="nav-number">4.4.</span> <span class="nav-text">部署步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集群数据迁移方案"><span class="nav-number">5.</span> <span class="nav-text">集群数据迁移方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#静态迁移方案"><span class="nav-number">5.1.</span> <span class="nav-text">静态迁移方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动态迁移方案"><span class="nav-number">5.2.</span> <span class="nav-text">动态迁移方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手动方式"><span class="nav-number">5.3.</span> <span class="nav-text">手动方式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase数据导入"><span class="nav-number">6.</span> <span class="nav-text">Hbase数据导入</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#importTsv"><span class="nav-number">6.1.</span> <span class="nav-text">importTsv</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#completebulkload"><span class="nav-number">6.2.</span> <span class="nav-text">completebulkload</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#import将数据导入到hbase"><span class="nav-number">6.3.</span> <span class="nav-text">import将数据导入到hbase</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二级索引方案"><span class="nav-number">7.</span> <span class="nav-text">二级索引方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mr方案"><span class="nav-number">7.1.</span> <span class="nav-text">mr方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IHBASE方案"><span class="nav-number">7.2.</span> <span class="nav-text">IHBASE方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#coprocessor方案"><span class="nav-number">7.3.</span> <span class="nav-text">coprocessor方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#solr方案"><span class="nav-number">7.4.</span> <span class="nav-text">solr方案</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#snapshot-快照"><span class="nav-number">8.</span> <span class="nav-text">snapshot(快照)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hbase-bloomFilter"><span class="nav-number">9.</span> <span class="nav-text">Hbase bloomFilter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时查询方案"><span class="nav-number">10.</span> <span class="nav-text">实时查询方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#configure-hbase-indexer"><span class="nav-number">10.1.</span> <span class="nav-text">configure hbase indexer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#configure-hbase"><span class="nav-number">10.2.</span> <span class="nav-text">configure  hbase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add-ubdexer-jars-to-hbase"><span class="nav-number">10.3.</span> <span class="nav-text">add ubdexer jars to hbase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#start-solr"><span class="nav-number">10.4.</span> <span class="nav-text">start solr</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#start-the-hbase-indexer-daemon"><span class="nav-number">10.5.</span> <span class="nav-text">start the hbase indexer daemon</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#create-a-table-to-be-indexed-in-hbase"><span class="nav-number">10.6.</span> <span class="nav-text">create a table to be indexed in hbase</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#add-a-indexer"><span class="nav-number">10.7.</span> <span class="nav-text">add a indexer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#update-table-content"><span class="nav-number">10.8.</span> <span class="nav-text">update table content</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#solr-gt-auto-commit"><span class="nav-number">10.9.</span> <span class="nav-text">solr -&gt; auto commit</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#solr查询"><span class="nav-number">11.</span> <span class="nav-text">solr查询</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">TANAGELEE</span>
+
+  
+</div>
+
+<!-- 
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+-->
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共16.9k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+<!--崩溃欺骗-->
+<script type="text/javascript" src="/js/src/crash_cheat.js"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
