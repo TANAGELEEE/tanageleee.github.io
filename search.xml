@@ -1267,6 +1267,21 @@
 ]]></content>
   </entry>
   <entry>
+    <title>git</title>
+    <url>/2022/03/09/git/</url>
+    <content><![CDATA[<p>提交并同步代码：<br>git add -A</p>
+<p>git commit -m “xxx”</p>
+<p>git pull</p>
+<p>git push </p>
+<p>切换到master:<br>git checkout master</p>
+<p>合并代码<br>git merge xxx</p>
+<p>推送到master<br>git push origin master</p>
+<p>tag:<br>git tag -a 1.1.0 -m ‘版本1’</p>
+<p>git checkout dev<br>git tag -a 1.2.0 -m “版本2”<br>git push origin 1.2.0</p>
+<p>删除标签：<br>git tag -d 1.0.0<br>git push origin –delete 1.0.0</p>
+]]></content>
+  </entry>
+  <entry>
     <title>nebula Graph</title>
     <url>/2022/03/09/nebula%20Graph/</url>
     <content><![CDATA[<h3 id="手册"><a href="#手册" class="headerlink" title="手册"></a>手册</h3><ul>
@@ -1305,21 +1320,6 @@
 <li>重构索引</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">REBUILD &#123;TAG | EDGE&#125; INDEX &lt;index_name&gt; [OFFLINE]</span></pre></td></tr></table></figure>]]></content>
-  </entry>
-  <entry>
-    <title>git</title>
-    <url>/2022/03/09/git/</url>
-    <content><![CDATA[<p>提交并同步代码：<br>git add -A</p>
-<p>git commit -m “xxx”</p>
-<p>git pull</p>
-<p>git push </p>
-<p>切换到master:<br>git checkout master</p>
-<p>合并代码<br>git merge xxx</p>
-<p>推送到master<br>git push origin master</p>
-<p>tag:<br>git tag -a 1.1.0 -m ‘版本1’</p>
-<p>git checkout dev<br>git tag -a 1.2.0 -m “版本2”<br>git push origin 1.2.0</p>
-<p>删除标签：<br>git tag -d 1.0.0<br>git push origin –delete 1.0.0</p>
-]]></content>
   </entry>
   <entry>
     <title>DEDSIGN-PATTERNS</title>
